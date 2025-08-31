@@ -1,0 +1,28 @@
+[
+  {
+    "ContainingType": "LoccarWebapi.Controllers.LocatarioController",
+    "Method": "CadastrarLocatario",
+    "RelativePath": "api/locatario",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "locatario",
+        "Type": "LoccarDomain.Locatario.Models.Locatario",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LoccarDomain.BaseReturn\u00601[[LoccarDomain.Locatario.Models.Locatario, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]
