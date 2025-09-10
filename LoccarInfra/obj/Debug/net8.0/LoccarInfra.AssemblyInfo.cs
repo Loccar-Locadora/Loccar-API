@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LoccarInfra")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7219eff3b5d741b1a3f362e8fb116e9530a8c71a")]
 [assembly: System.Reflection.AssemblyProductAttribute("LoccarInfra")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LoccarInfra")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

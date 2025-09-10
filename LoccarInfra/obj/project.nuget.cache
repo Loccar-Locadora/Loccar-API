@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "lVFpv2HWfLE=",
+  "dgSpecHash": "oAfQMi4qWJk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\barre\\source\\repos\\LoccarLocadora\\LoccarInfra\\LoccarInfra.csproj",
+  "projectFilePath": "C:\\Users\\barre\\source\\repos\\LoccarLocadora\\Loccar-API\\LoccarInfra\\LoccarInfra.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\barre\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\barre\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",

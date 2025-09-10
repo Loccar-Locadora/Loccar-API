@@ -37,8 +37,8 @@ namespace LoccarApplication
                     Email = locatario.Email,
                     Telefone = locatario.Telefone,
                     Locador = locatario.Locador,
-                    Login = locatario.Login, // usuário de login
-                    Senha = senhaHash    // senha armazenada em hash
+                    Login = locatario.Login,
+                    Senha = senhaHash
                 };
 
                 var tbLocatario = _locatarioRepository.CadastrarLocatario(tabelaLocatario);
@@ -76,8 +76,6 @@ namespace LoccarApplication
 
             return baseReturn;
         }
-
-        // Função auxiliar para gerar hash seguro da senha
         private string HashSenha(string senha)
         {
             using (SHA256 sha256 = SHA256.Create())
