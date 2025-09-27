@@ -19,10 +19,6 @@ public partial class DataBaseContext : DbContext
 
     public virtual DbSet<Motocicletum> Motocicleta { get; set; }
 
-    public virtual DbSet<PessoaFisica> PessoaFisicas { get; set; }
-
-    public virtual DbSet<PessoaJuridica> PessoaJuridicas { get; set; }
-
     public virtual DbSet<Reserva> Reservas { get; set; }
 
     public virtual DbSet<Veiculo> Veiculos { get; set; }
@@ -41,26 +37,21 @@ public partial class DataBaseContext : DbContext
         {
             entity.HasKey(e => e.Idlocatario).HasName("locatario_pkey");
 
-            entity.ToTable("LOCATARIO");
+            entity.ToTable("locatario");
 
-            entity.HasIndex(e => e.Login, "locatario_login_key").IsUnique();
-
-            entity.Property(e => e.Idlocatario)
-                .HasDefaultValueSql("nextval('locatario_idlocatario_seq'::regclass)")
-                .HasColumnName("idlocatario");
+            entity.Property(e => e.Idlocatario).HasColumnName("idlocatario");
+            entity.Property(e => e.Cnh)
+                .HasMaxLength(11)
+                .HasColumnName("cnh");
+            entity.Property(e => e.Created)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created");
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .HasColumnName("email");
-            entity.Property(e => e.Locador).HasColumnName("locador");
-            entity.Property(e => e.Login)
-                .HasMaxLength(100)
-                .HasColumnName("login");
             entity.Property(e => e.Nome)
                 .HasMaxLength(100)
                 .HasColumnName("nome");
-            entity.Property(e => e.Senha)
-                .HasMaxLength(255)
-                .HasColumnName("senha");
             entity.Property(e => e.Telefone)
                 .HasMaxLength(50)
                 .HasColumnName("telefone");
@@ -70,7 +61,7 @@ public partial class DataBaseContext : DbContext
         {
             entity.HasKey(e => e.Idveiculo).HasName("motocicleta_pkey");
 
-            entity.ToTable("MOTOCICLETA");
+            entity.ToTable("motocicleta");
 
             entity.Property(e => e.Idveiculo)
                 .ValueGeneratedNever()
@@ -85,68 +76,24 @@ public partial class DataBaseContext : DbContext
                 .HasConstraintName("motocicleta_idveiculo_fkey");
         });
 
-        modelBuilder.Entity<PessoaFisica>(entity =>
-        {
-            entity.HasKey(e => e.Idlocatario).HasName("pessoa_fisica_pkey");
-
-            entity.ToTable("PESSOA_FISICA");
-
-            entity.HasIndex(e => e.Cpf, "pessoa_fisica_cpf_key").IsUnique();
-
-            entity.Property(e => e.Idlocatario)
-                .ValueGeneratedNever()
-                .HasColumnName("idlocatario");
-            entity.Property(e => e.Contratado).HasColumnName("contratado");
-            entity.Property(e => e.Cpf)
-                .HasMaxLength(11)
-                .IsFixedLength()
-                .HasColumnName("cpf");
-            entity.Property(e => e.EstadoCivil)
-                .HasMaxLength(20)
-                .HasColumnName("estadoCivil");
-
-            entity.HasOne(d => d.IdlocatarioNavigation).WithOne(p => p.PessoaFisica)
-                .HasForeignKey<PessoaFisica>(d => d.Idlocatario)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("pessoa_fisica_idlocatario_fkey");
-        });
-
-        modelBuilder.Entity<PessoaJuridica>(entity =>
-        {
-            entity.HasKey(e => e.Idlocatario).HasName("pessoa_juridica_pkey");
-
-            entity.ToTable("PESSOA_JURIDICA");
-
-            entity.HasIndex(e => e.Cnpj, "pessoa_juridica_cnpj_key").IsUnique();
-
-            entity.Property(e => e.Idlocatario)
-                .ValueGeneratedNever()
-                .HasColumnName("idlocatario");
-            entity.Property(e => e.Cnpj)
-                .HasMaxLength(14)
-                .IsFixedLength()
-                .HasColumnName("cnpj");
-
-            entity.HasOne(d => d.IdlocatarioNavigation).WithOne(p => p.PessoaJuridica)
-                .HasForeignKey<PessoaJuridica>(d => d.Idlocatario)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("pessoa_juridica_idlocatario_fkey");
-        });
-
         modelBuilder.Entity<Reserva>(entity =>
         {
             entity.HasKey(e => e.Numeroreserva).HasName("reserva_pkey");
 
-            entity.ToTable("RESERVA");
+            entity.ToTable("reserva");
 
-            entity.Property(e => e.Numeroreserva)
-                .HasDefaultValueSql("nextval('reserva_numeroreserva_seq'::regclass)")
-                .HasColumnName("numeroreserva");
-            entity.Property(e => e.Dataentrega).HasColumnName("dataentrega");
-            entity.Property(e => e.Datalocacao).HasColumnName("datalocacao");
+            entity.HasIndex(e => e.Idlocatario, "ix_reserva_idlocatario");
+
+            entity.HasIndex(e => e.Idveiculo, "ix_reserva_idveiculo");
+
+            entity.Property(e => e.Numeroreserva).HasColumnName("numeroreserva");
+            entity.Property(e => e.Dataentrega)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("dataentrega");
+            entity.Property(e => e.Datalocacao)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("datalocacao");
             entity.Property(e => e.Diarias).HasColumnName("diarias");
-            entity.Property(e => e.Horaentrega).HasColumnName("horaentrega");
-            entity.Property(e => e.Horalocacao).HasColumnName("horalocacao");
             entity.Property(e => e.Idlocatario).HasColumnName("idlocatario");
             entity.Property(e => e.Idveiculo).HasColumnName("idveiculo");
             entity.Property(e => e.Tipodiaria)
@@ -180,13 +127,11 @@ public partial class DataBaseContext : DbContext
         {
             entity.HasKey(e => e.Idveiculo).HasName("veiculo_pkey");
 
-            entity.ToTable("VEICULO");
+            entity.ToTable("veiculo");
 
             entity.HasIndex(e => e.Renavam, "veiculo_renavam_key").IsUnique();
 
-            entity.Property(e => e.Idveiculo)
-                .HasDefaultValueSql("nextval('veiculo_idveiculo_seq'::regclass)")
-                .HasColumnName("idveiculo");
+            entity.Property(e => e.Idveiculo).HasColumnName("idveiculo");
             entity.Property(e => e.Anofabricacao).HasColumnName("anofabricacao");
             entity.Property(e => e.Anomodelo).HasColumnName("anomodelo");
             entity.Property(e => e.Capacidadetanque).HasColumnName("capacidadetanque");
@@ -198,7 +143,6 @@ public partial class DataBaseContext : DbContext
                 .HasColumnName("modelo");
             entity.Property(e => e.Renavam)
                 .HasMaxLength(11)
-                .IsFixedLength()
                 .HasColumnName("renavam");
             entity.Property(e => e.Valordiaria)
                 .HasPrecision(10, 2)
@@ -218,7 +162,7 @@ public partial class DataBaseContext : DbContext
         {
             entity.HasKey(e => e.Idveiculo).HasName("veiculo_carga_pkey");
 
-            entity.ToTable("VEICULO_CARGA");
+            entity.ToTable("veiculo_carga");
 
             entity.Property(e => e.Idveiculo)
                 .ValueGeneratedNever()
@@ -246,7 +190,7 @@ public partial class DataBaseContext : DbContext
         {
             entity.HasKey(e => e.Idveiculo).HasName("veiculo_passageiro_pkey");
 
-            entity.ToTable("VEICULO_PASSAGEIRO");
+            entity.ToTable("veiculo_passageiro");
 
             entity.Property(e => e.Idveiculo)
                 .ValueGeneratedNever()
@@ -266,7 +210,7 @@ public partial class DataBaseContext : DbContext
         {
             entity.HasKey(e => e.Idveiculo).HasName("veiculo_passeio_pkey");
 
-            entity.ToTable("VEICULO_PASSEIO");
+            entity.ToTable("veiculo_passeio");
 
             entity.Property(e => e.Idveiculo)
                 .ValueGeneratedNever()
@@ -283,6 +227,9 @@ public partial class DataBaseContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("veiculo_passeio_idveiculo_fkey");
         });
+        modelBuilder.HasSequence("locatario_idlocatario_seq");
+        modelBuilder.HasSequence("reserva_numeroreserva_seq");
+        modelBuilder.HasSequence("veiculo_idveiculo_seq");
 
         OnModelCreatingPartial(modelBuilder);
     }

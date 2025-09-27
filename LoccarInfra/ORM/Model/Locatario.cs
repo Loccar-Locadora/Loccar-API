@@ -7,21 +7,15 @@ public partial class Locatario
 {
     public int Idlocatario { get; set; }
 
-    public string Nome { get; set; } = null!;
+    public string? Nome { get; set; }
 
-    public string? Email { get; set; }
+    public string Email { get; set; } = null!;
 
     public string? Telefone { get; set; }
 
-    public bool? Locador { get; set; }
+    public string Cnh { get; set; } = null!;
 
-    public string Login { get; set; } = null!;
-
-    public string Senha { get; set; } = null!;
-
-    public virtual PessoaFisica? PessoaFisica { get; set; }
-
-    public virtual PessoaJuridica? PessoaJuridica { get; set; }
+    public DateTime? Created { get; set; }
 
     public virtual ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
 }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LoccarDomain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7219eff3b5d741b1a3f362e8fb116e9530a8c71a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+694c6c3c9edb54705cf254a80fe8693f07970871")]
 [assembly: System.Reflection.AssemblyProductAttribute("LoccarDomain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LoccarDomain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

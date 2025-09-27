@@ -2,7 +2,7 @@
   {
     "ContainingType": "LoccarWebapi.Controllers.LocatarioController",
     "Method": "CadastrarLocatario",
-    "RelativePath": "api/locatario",
+    "RelativePath": "api/locatario/register",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,

@@ -11,13 +11,9 @@ public partial class Reserva
 
     public int Idveiculo { get; set; }
 
-    public DateOnly Datalocacao { get; set; }
+    public DateTime Datalocacao { get; set; }
 
-    public TimeOnly Horalocacao { get; set; }
-
-    public DateOnly? Dataentrega { get; set; }
-
-    public TimeOnly? Horaentrega { get; set; }
+    public DateTime Dataentrega { get; set; }
 
     public int? Diarias { get; set; }
 

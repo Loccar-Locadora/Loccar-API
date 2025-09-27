@@ -17,54 +17,17 @@ namespace LoccarInfra.Repositories
             _dbContext = dbContext;
         }
 
-        public Locatario CadastrarLocatario(Locatario locatario)
+        public async Task<Locatario> CadastrarLocatario(Locatario locatario)
         {
-            var trackedEntity = _dbContext.ChangeTracker.Entries<Locatario>().FirstOrDefault(e => e.Entity.Idlocatario == locatario.Idlocatario);
-
-            if (trackedEntity != null)
-            {
-                _dbContext.Entry(trackedEntity.Entity).State = EntityState.Detached;
-            }
-
-            _dbContext.Locatarios.Add(locatario);
-            _dbContext.SaveChanges();
+            await _dbContext.Locatarios.AddAsync(locatario);
+            await _dbContext.SaveChangesAsync();
 
             return locatario;
         }
 
-        public Locatario ObterLocatarioPorEmail(string email)
+        public async Task<Locatario> ObterLocatarioPorEmail(string email)
         {
-            return _dbContext.Locatarios.Where(n => n.Email.Equals(email)).FirstOrDefault();
-        }
-
-        public PessoaFisica CadastrarPessoaFisica(PessoaFisica pessoaFisica)
-        {
-            var trackedEntity = _dbContext.ChangeTracker.Entries<PessoaFisica>().FirstOrDefault(e => e.Entity.Idlocatario == pessoaFisica.Idlocatario);
-
-            if (trackedEntity != null)
-            {
-                _dbContext.Entry(trackedEntity.Entity).State = EntityState.Detached;
-            }
-
-            _dbContext.PessoaFisicas.Add(pessoaFisica);
-            _dbContext.SaveChanges();
-
-            return pessoaFisica;
-        }
-
-        public PessoaJuridica CadastrarPessoaJuridica(PessoaJuridica pessoaJuridica)
-        {
-            var trackedEntity = _dbContext.ChangeTracker.Entries<PessoaJuridica>().FirstOrDefault(e => e.Entity.Idlocatario == pessoaJuridica.Idlocatario);
-
-            if (trackedEntity != null)
-            {
-                _dbContext.Entry(trackedEntity.Entity).State = EntityState.Detached;
-            }
-
-            _dbContext.PessoaJuridicas.Add(pessoaJuridica);
-            _dbContext.SaveChanges();
-
-            return pessoaJuridica;
+            return await _dbContext.Locatarios.Where(n => n.Email.Equals(email)).FirstOrDefaultAsync();
         }
     }
 }

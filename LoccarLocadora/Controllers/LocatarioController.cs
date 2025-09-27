@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using LoccarDomain;
 using LoccarApplication.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LoccarWebapi.Controllers
 {
     [Route("api/locatario")]
     [ApiController]
+    [Authorize]
     public class LocatarioController : ControllerBase
     {
         readonly ILocatarioApplication _locatarioApplication;
@@ -14,10 +16,11 @@ namespace LoccarWebapi.Controllers
         {
             _locatarioApplication = locatarioApplication;
         }
-        [HttpPost]
-        public BaseReturn<Locatario> CadastrarLocatario(Locatario locatario)
+        [AllowAnonymous]
+        [HttpPost("register")]
+        public async Task<BaseReturn<Locatario>> CadastrarLocatario(Locatario locatario)
         {
-            return _locatarioApplication.CadastrarLocatario(locatario);
+            return await _locatarioApplication.RegisterLocatario(locatario);
         }
     }   
 }

@@ -11,6 +11,6 @@ namespace LoccarApplication.Interfaces
 {
     public interface ILocatarioApplication
     {
-        BaseReturn<Locatario> CadastrarLocatario(Locatario locatario); 
+        Task<BaseReturn<Locatario>> RegisterLocatario(Locatario locatario);
     }
 }

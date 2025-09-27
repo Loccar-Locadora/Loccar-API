@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/locatario": {
+    "/api/locatario/register": {
       "post": {
         "tags": [
           "Locatario"
@@ -56,44 +56,10 @@
   },
   "components": {
     "schemas": {
-      "Endereco": {
-        "type": "object",
-        "properties": {
-          "rua": {
-            "type": "string",
-            "nullable": true
-          },
-          "complemento": {
-            "type": "string",
-            "nullable": true
-          },
-          "bairro": {
-            "type": "string",
-            "nullable": true
-          },
-          "cidade": {
-            "type": "string",
-            "nullable": true
-          },
-          "estado": {
-            "type": "string",
-            "nullable": true
-          },
-          "numero": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "cep": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "Locatario": {
         "type": "object",
         "properties": {
-          "nome": {
+          "username": {
             "type": "string",
             "nullable": true
           },
@@ -101,35 +67,23 @@
             "type": "string",
             "nullable": true
           },
-          "telefone": {
+          "cellphone": {
             "type": "string",
             "nullable": true
           },
-          "endereco": {
-            "$ref": "#/components/schemas/Endereco"
+          "cnh": {
+            "type": "string",
+            "nullable": true
           },
-          "locador": {
-            "type": "boolean",
+          "created": {
+            "type": "string",
+            "format": "date-time",
             "nullable": true
           },
           "locacoes": {
             "type": "integer",
             "format": "int32",
             "nullable": true
-          },
-          "login": {
-            "type": "string",
-            "nullable": true
-          },
-          "senha": {
-            "type": "string",
-            "nullable": true
-          },
-          "pessoaFisica": {
-            "$ref": "#/components/schemas/PessoaFisica"
-          },
-          "pessoaJuridica": {
-            "$ref": "#/components/schemas/PessoaJuridica"
           }
         },
         "additionalProperties": false
@@ -147,116 +101,6 @@
           },
           "data": {
             "$ref": "#/components/schemas/Locatario"
-          }
-        },
-        "additionalProperties": false
-      },
-      "PessoaFisica": {
-        "type": "object",
-        "properties": {
-          "nome": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "telefone": {
-            "type": "string",
-            "nullable": true
-          },
-          "endereco": {
-            "$ref": "#/components/schemas/Endereco"
-          },
-          "locador": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "locacoes": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "login": {
-            "type": "string",
-            "nullable": true
-          },
-          "senha": {
-            "type": "string",
-            "nullable": true
-          },
-          "pessoaFisica": {
-            "$ref": "#/components/schemas/PessoaFisica"
-          },
-          "pessoaJuridica": {
-            "$ref": "#/components/schemas/PessoaJuridica"
-          },
-          "cpf": {
-            "type": "string",
-            "nullable": true
-          },
-          "estadoCivil": {
-            "type": "string",
-            "nullable": true
-          },
-          "contratada": {
-            "type": "boolean"
-          }
-        },
-        "additionalProperties": false
-      },
-      "PessoaJuridica": {
-        "type": "object",
-        "properties": {
-          "nome": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "telefone": {
-            "type": "string",
-            "nullable": true
-          },
-          "endereco": {
-            "$ref": "#/components/schemas/Endereco"
-          },
-          "locador": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "locacoes": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "login": {
-            "type": "string",
-            "nullable": true
-          },
-          "senha": {
-            "type": "string",
-            "nullable": true
-          },
-          "pessoaFisica": {
-            "$ref": "#/components/schemas/PessoaFisica"
-          },
-          "pessoaJuridica": {
-            "$ref": "#/components/schemas/PessoaJuridica"
-          },
-          "cnpj": {
-            "type": "string",
-            "nullable": true
-          },
-          "funcionarios": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PessoaFisica"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false

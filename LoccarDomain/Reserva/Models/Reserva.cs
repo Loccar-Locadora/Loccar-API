@@ -19,7 +19,5 @@ public class Reserva
     public string HoraLocacao { get; set; }
     public string DataEntrega { get; set; }
     public string HoraEntrega { get; set; }
-    public PessoaFisica Locador { get; set; }
     public VeiculoBase VeiculoLocado { get; set; }
-    public PessoaJuridica Empresa { get; set; }
 }

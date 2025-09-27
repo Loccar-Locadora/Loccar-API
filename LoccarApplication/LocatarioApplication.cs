@@ -15,57 +15,34 @@ namespace LoccarApplication
         {
             _locatarioRepository = locatarioRepository;
         }
-        public BaseReturn<Locatario> CadastrarLocatario(Locatario locatario)
+        public async Task<BaseReturn<Locatario>> RegisterLocatario(Locatario locatario)
         {
             BaseReturn<Locatario> baseReturn = new BaseReturn<Locatario>();
 
             try
             {
-                var locatarioExistente = _locatarioRepository.ObterLocatarioPorEmail(locatario.Email);
-                if (locatarioExistente != null)
-                {
-                    baseReturn.Code = "400";
-                    baseReturn.Message = "E-mail já cadastrado.";
-                    return baseReturn;
-                }
-
-                string senhaHash = HashSenha(locatario.Senha);
-
                 LoccarInfra.ORM.model.Locatario tabelaLocatario = new LoccarInfra.ORM.model.Locatario()
                 {
-                    Nome = locatario.Nome,
+                    Nome = locatario.Username,
                     Email = locatario.Email,
-                    Telefone = locatario.Telefone,
-                    Locador = locatario.Locador,
-                    Login = locatario.Login,
-                    Senha = senhaHash
+                    Telefone = locatario.Cellphone,
+                    Cnh = locatario.Cnh,
+                    Created = DateTime.Now
                 };
 
-                var tbLocatario = _locatarioRepository.CadastrarLocatario(tabelaLocatario);
+                var response = await _locatarioRepository.CadastrarLocatario(tabelaLocatario);
 
-                if(locatario.PessoaFisica != null)
+                Locatario locatarioResponse = new Locatario()
                 {
-                    LoccarInfra.ORM.model.PessoaFisica pessoaFisica = new LoccarInfra.ORM.model.PessoaFisica()
-                    {
-                        Idlocatario = tbLocatario.Idlocatario,
-                        Cpf = locatario.PessoaFisica.Cpf,
-                        EstadoCivil = locatario.PessoaFisica.EstadoCivil
-                        
-                    };
-                    _locatarioRepository.CadastrarPessoaFisica(pessoaFisica);
-                }
-                else if(locatario.PessoaJuridica != null)
-                {
-                    LoccarInfra.ORM.model.PessoaJuridica pessoaJuridica = new LoccarInfra.ORM.model.PessoaJuridica()
-                    {
-                        Idlocatario = tbLocatario.Idlocatario,
-                        Cnpj = locatario.PessoaJuridica.Cnpj
-                    };
-                    _locatarioRepository.CadastrarPessoaJuridica(pessoaJuridica);
-                }
+                    Username = response.Nome,
+                    Email = response.Email,
+                    Cellphone = response.Telefone,
+                    Cnh = response.Cnh,
+                    Created = response.Created
+                };
 
                 baseReturn.Code = "200";
-                baseReturn.Data = locatario;
+                baseReturn.Data = locatarioResponse;
                 baseReturn.Message = "Locatário cadastrado com sucesso.";
             }
             catch (Exception ex)
@@ -76,19 +53,5 @@ namespace LoccarApplication
 
             return baseReturn;
         }
-        private string HashSenha(string senha)
-        {
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(senha));
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    builder.Append(bytes[i].ToString("x2"));
-                }
-                return builder.ToString();
-            }
-        }
-
-}
+    }
 }
