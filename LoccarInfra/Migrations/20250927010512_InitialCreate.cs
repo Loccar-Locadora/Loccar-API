@@ -12,10 +12,10 @@ namespace LoccarInfra.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "LOCATARIO",
+                name: "Customer",
                 columns: table => new
                 {
-                    idlocatario = table.Column<int>(type: "integer", nullable: false, defaultValueSql: "nextval('locatario_idlocatario_seq'::regclass)"),
+                    idCustomer = table.Column<int>(type: "integer", nullable: false, defaultValueSql: "nextval('Customer_idCustomer_seq'::regclass)"),
                     nome = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
                     telefone = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
@@ -25,14 +25,14 @@ namespace LoccarInfra.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("locatario_pkey", x => x.idlocatario);
+                    table.PrimaryKey("Customer_pkey", x => x.idCustomer);
                 });
 
             migrationBuilder.CreateTable(
-                name: "VEICULO",
+                name: "Vehicle",
                 columns: table => new
                 {
-                    idveiculo = table.Column<int>(type: "integer", nullable: false, defaultValueSql: "nextval('veiculo_idveiculo_seq'::regclass)"),
+                    idVehicle = table.Column<int>(type: "integer", nullable: false, defaultValueSql: "nextval('Vehicle_idVehicle_seq'::regclass)"),
                     marca = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     modelo = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     anofabricacao = table.Column<int>(type: "integer", nullable: true),
@@ -46,62 +46,62 @@ namespace LoccarInfra.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("veiculo_pkey", x => x.idveiculo);
+                    table.PrimaryKey("Vehicle_pkey", x => x.idVehicle);
                 });
 
             migrationBuilder.CreateTable(
                 name: "PESSOA_FISICA",
                 columns: table => new
                 {
-                    idlocatario = table.Column<int>(type: "integer", nullable: false),
+                    idCustomer = table.Column<int>(type: "integer", nullable: false),
                     cpf = table.Column<string>(type: "character(11)", fixedLength: true, maxLength: 11, nullable: false),
                     estadoCivil = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
                     contratado = table.Column<bool>(type: "boolean", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pessoa_fisica_pkey", x => x.idlocatario);
+                    table.PrimaryKey("pessoa_fisica_pkey", x => x.idCustomer);
                     table.ForeignKey(
-                        name: "pessoa_fisica_idlocatario_fkey",
-                        column: x => x.idlocatario,
-                        principalTable: "LOCATARIO",
-                        principalColumn: "idlocatario");
+                        name: "pessoa_fisica_idCustomer_fkey",
+                        column: x => x.idCustomer,
+                        principalTable: "Customer",
+                        principalColumn: "idCustomer");
                 });
 
             migrationBuilder.CreateTable(
                 name: "PESSOA_JURIDICA",
                 columns: table => new
                 {
-                    idlocatario = table.Column<int>(type: "integer", nullable: false),
+                    idCustomer = table.Column<int>(type: "integer", nullable: false),
                     cnpj = table.Column<string>(type: "character(14)", fixedLength: true, maxLength: 14, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pessoa_juridica_pkey", x => x.idlocatario);
+                    table.PrimaryKey("pessoa_juridica_pkey", x => x.idCustomer);
                     table.ForeignKey(
-                        name: "pessoa_juridica_idlocatario_fkey",
-                        column: x => x.idlocatario,
-                        principalTable: "LOCATARIO",
-                        principalColumn: "idlocatario");
+                        name: "pessoa_juridica_idCustomer_fkey",
+                        column: x => x.idCustomer,
+                        principalTable: "Customer",
+                        principalColumn: "idCustomer");
                 });
 
             migrationBuilder.CreateTable(
                 name: "MOTOCICLETA",
                 columns: table => new
                 {
-                    idveiculo = table.Column<int>(type: "integer", nullable: false),
+                    idVehicle = table.Column<int>(type: "integer", nullable: false),
                     controletracao = table.Column<bool>(type: "boolean", nullable: true),
                     freioabs = table.Column<bool>(type: "boolean", nullable: true),
                     pilotoautomatico = table.Column<bool>(type: "boolean", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("motocicleta_pkey", x => x.idveiculo);
+                    table.PrimaryKey("motocicleta_pkey", x => x.idVehicle);
                     table.ForeignKey(
-                        name: "motocicleta_idveiculo_fkey",
-                        column: x => x.idveiculo,
-                        principalTable: "VEICULO",
-                        principalColumn: "idveiculo");
+                        name: "motocicleta_idVehicle_fkey",
+                        column: x => x.idVehicle,
+                        principalTable: "Vehicle",
+                        principalColumn: "idVehicle");
                 });
 
             migrationBuilder.CreateTable(
@@ -109,8 +109,8 @@ namespace LoccarInfra.Migrations
                 columns: table => new
                 {
                     numeroreserva = table.Column<int>(type: "integer", nullable: false, defaultValueSql: "nextval('reserva_numeroreserva_seq'::regclass)"),
-                    idlocatario = table.Column<int>(type: "integer", nullable: false),
-                    idveiculo = table.Column<int>(type: "integer", nullable: false),
+                    idCustomer = table.Column<int>(type: "integer", nullable: false),
+                    idVehicle = table.Column<int>(type: "integer", nullable: false),
                     datalocacao = table.Column<DateOnly>(type: "date", nullable: false),
                     horalocacao = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
                     dataentrega = table.Column<DateOnly>(type: "date", nullable: true),
@@ -126,22 +126,22 @@ namespace LoccarInfra.Migrations
                 {
                     table.PrimaryKey("reserva_pkey", x => x.numeroreserva);
                     table.ForeignKey(
-                        name: "reserva_idlocatario_fkey",
-                        column: x => x.idlocatario,
-                        principalTable: "LOCATARIO",
-                        principalColumn: "idlocatario");
+                        name: "reserva_idCustomer_fkey",
+                        column: x => x.idCustomer,
+                        principalTable: "Customer",
+                        principalColumn: "idCustomer");
                     table.ForeignKey(
-                        name: "reserva_idveiculo_fkey",
-                        column: x => x.idveiculo,
-                        principalTable: "VEICULO",
-                        principalColumn: "idveiculo");
+                        name: "reserva_idVehicle_fkey",
+                        column: x => x.idVehicle,
+                        principalTable: "Vehicle",
+                        principalColumn: "idVehicle");
                 });
 
             migrationBuilder.CreateTable(
-                name: "VEICULO_CARGA",
+                name: "Vehicle_CARGA",
                 columns: table => new
                 {
-                    idveiculo = table.Column<int>(type: "integer", nullable: false),
+                    idVehicle = table.Column<int>(type: "integer", nullable: false),
                     capacidadecarga = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: true),
                     tipocarga = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     tara = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: true),
@@ -149,19 +149,19 @@ namespace LoccarInfra.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("veiculo_carga_pkey", x => x.idveiculo);
+                    table.PrimaryKey("Vehicle_carga_pkey", x => x.idVehicle);
                     table.ForeignKey(
-                        name: "veiculo_carga_idveiculo_fkey",
-                        column: x => x.idveiculo,
-                        principalTable: "VEICULO",
-                        principalColumn: "idveiculo");
+                        name: "Vehicle_carga_idVehicle_fkey",
+                        column: x => x.idVehicle,
+                        principalTable: "Vehicle",
+                        principalColumn: "idVehicle");
                 });
 
             migrationBuilder.CreateTable(
-                name: "VEICULO_PASSAGEIRO",
+                name: "Vehicle_PASSAGEIRO",
                 columns: table => new
                 {
-                    idveiculo = table.Column<int>(type: "integer", nullable: false),
+                    idVehicle = table.Column<int>(type: "integer", nullable: false),
                     capacidadepassageiro = table.Column<int>(type: "integer", nullable: true),
                     televisao = table.Column<bool>(type: "boolean", nullable: true),
                     arcondicionado = table.Column<bool>(type: "boolean", nullable: true),
@@ -169,19 +169,19 @@ namespace LoccarInfra.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("veiculo_passageiro_pkey", x => x.idveiculo);
+                    table.PrimaryKey("Vehicle_passageiro_pkey", x => x.idVehicle);
                     table.ForeignKey(
-                        name: "veiculo_passageiro_idveiculo_fkey",
-                        column: x => x.idveiculo,
-                        principalTable: "VEICULO",
-                        principalColumn: "idveiculo");
+                        name: "Vehicle_passageiro_idVehicle_fkey",
+                        column: x => x.idVehicle,
+                        principalTable: "Vehicle",
+                        principalColumn: "idVehicle");
                 });
 
             migrationBuilder.CreateTable(
-                name: "VEICULO_PASSEIO",
+                name: "Vehicle_PASSEIO",
                 columns: table => new
                 {
-                    idveiculo = table.Column<int>(type: "integer", nullable: false),
+                    idVehicle = table.Column<int>(type: "integer", nullable: false),
                     automatico = table.Column<bool>(type: "boolean", nullable: true),
                     direcaohidraulica = table.Column<bool>(type: "boolean", nullable: true),
                     arcondicionado = table.Column<bool>(type: "boolean", nullable: true),
@@ -189,17 +189,17 @@ namespace LoccarInfra.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("veiculo_passeio_pkey", x => x.idveiculo);
+                    table.PrimaryKey("Vehicle_passeio_pkey", x => x.idVehicle);
                     table.ForeignKey(
-                        name: "veiculo_passeio_idveiculo_fkey",
-                        column: x => x.idveiculo,
-                        principalTable: "VEICULO",
-                        principalColumn: "idveiculo");
+                        name: "Vehicle_passeio_idVehicle_fkey",
+                        column: x => x.idVehicle,
+                        principalTable: "Vehicle",
+                        principalColumn: "idVehicle");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "locatario_login_key",
-                table: "LOCATARIO",
+                name: "Customer_login_key",
+                table: "Customer",
                 column: "login",
                 unique: true);
 
@@ -216,18 +216,18 @@ namespace LoccarInfra.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_RESERVA_idlocatario",
+                name: "IX_RESERVA_idCustomer",
                 table: "RESERVA",
-                column: "idlocatario");
+                column: "idCustomer");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RESERVA_idveiculo",
+                name: "IX_RESERVA_idVehicle",
                 table: "RESERVA",
-                column: "idveiculo");
+                column: "idVehicle");
 
             migrationBuilder.CreateIndex(
-                name: "veiculo_renavam_key",
-                table: "VEICULO",
+                name: "Vehicle_renavam_key",
+                table: "Vehicle",
                 column: "renavam",
                 unique: true);
         }
@@ -248,19 +248,19 @@ namespace LoccarInfra.Migrations
                 name: "RESERVA");
 
             migrationBuilder.DropTable(
-                name: "VEICULO_CARGA");
+                name: "Vehicle_CARGA");
 
             migrationBuilder.DropTable(
-                name: "VEICULO_PASSAGEIRO");
+                name: "Vehicle_PASSAGEIRO");
 
             migrationBuilder.DropTable(
-                name: "VEICULO_PASSEIO");
+                name: "Vehicle_PASSEIO");
 
             migrationBuilder.DropTable(
-                name: "LOCATARIO");
+                name: "Customer");
 
             migrationBuilder.DropTable(
-                name: "VEICULO");
+                name: "Vehicle");
         }
     }
 }

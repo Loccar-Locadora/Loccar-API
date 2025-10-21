@@ -1,21 +1,223 @@
 [
   {
-    "ContainingType": "LoccarWebapi.Controllers.LocatarioController",
-    "Method": "CadastrarLocatario",
-    "RelativePath": "api/locatario/register",
-    "HttpMethod": "POST",
+    "ContainingType": "LoccarWebapi.Controllers.LesseeController",
+    "Method": "DeleteCustomer",
+    "RelativePath": "api/Customer/delete/{id}",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "locatario",
-        "Type": "LoccarDomain.Locatario.Models.Locatario",
+        "Name": "id",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "LoccarDomain.BaseReturn\u00601[[LoccarDomain.Locatario.Models.Locatario, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "LoccarDomain.BaseReturn\u00601[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LoccarWebapi.Controllers.LesseeController",
+    "Method": "RegisterCustomer",
+    "RelativePath": "api/Customer/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customer",
+        "Type": "LoccarDomain.Customer.Models.Customer",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LoccarDomain.BaseReturn\u00601[[LoccarDomain.Customer.Models.Customer, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LoccarWebapi.Controllers.LesseeController",
+    "Method": "UpdateCustomer",
+    "RelativePath": "api/Customer/update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customer",
+        "Type": "LoccarDomain.Customer.Models.Customer",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LoccarDomain.BaseReturn\u00601[[LoccarDomain.Customer.Models.Customer, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LoccarWebapi.Controllers.ReservationController",
+    "Method": "CalculateReservationCost",
+    "RelativePath": "api/reservation/calculate-cost/{reservationId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reservationId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LoccarDomain.BaseReturn\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LoccarWebapi.Controllers.ReservationController",
+    "Method": "CancelReservation",
+    "RelativePath": "api/reservation/cancel/{reservationNumber}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reservationNumber",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LoccarDomain.BaseReturn\u00601[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LoccarWebapi.Controllers.ReservationController",
+    "Method": "GetReservationHistory",
+    "RelativePath": "api/reservation/history/{customerId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customerId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LoccarDomain.BaseReturn\u00601[[System.Collections.Generic.List\u00601[[LoccarDomain.Reservation.Models.Reservation, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LoccarWebapi.Controllers.ReservationController",
+    "Method": "RegisterReservation",
+    "RelativePath": "api/reservation/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reservation",
+        "Type": "LoccarDomain.Reservation.Models.Reservation",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LoccarDomain.BaseReturn\u00601[[LoccarDomain.Reservation.Models.Reservation, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LoccarWebapi.Controllers.VehicleController",
+    "Method": "ListAvailableVehicles",
+    "RelativePath": "api/vehicle/list/available",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "LoccarDomain.BaseReturn\u00601[[System.Collections.Generic.List\u00601[[LoccarDomain.Vehicle.Models.Vehicle, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LoccarWebapi.Controllers.VehicleController",
+    "Method": "RegisterVehicle",
+    "RelativePath": "api/vehicle/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Vehicle",
+        "Type": "LoccarDomain.Vehicle.Models.Vehicle",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LoccarDomain.BaseReturn\u00601[[LoccarDomain.Vehicle.Models.Vehicle, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

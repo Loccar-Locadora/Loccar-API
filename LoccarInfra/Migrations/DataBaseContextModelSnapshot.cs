@@ -22,13 +22,13 @@ namespace LoccarInfra.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("LoccarInfra.ORM.model.Locatario", b =>
+            modelBuilder.Entity("LoccarInfra.ORM.model.Customer", b =>
                 {
-                    b.Property<int>("Idlocatario")
+                    b.Property<int>("IdCustomer")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("idlocatario")
-                        .HasDefaultValueSql("nextval('locatario_idlocatario_seq'::regclass)");
+                        .HasColumnName("idCustomer")
+                        .HasDefaultValueSql("nextval('Customer_idCustomer_seq'::regclass)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(255)
@@ -62,20 +62,20 @@ namespace LoccarInfra.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("telefone");
 
-                    b.HasKey("Idlocatario")
-                        .HasName("locatario_pkey");
+                    b.HasKey("IdCustomer")
+                        .HasName("Customer_pkey");
 
-                    b.HasIndex(new[] { "Login" }, "locatario_login_key")
+                    b.HasIndex(new[] { "Login" }, "Customer_login_key")
                         .IsUnique();
 
-                    b.ToTable("LOCATARIO", (string)null);
+                    b.ToTable("Customer", (string)null);
                 });
 
             modelBuilder.Entity("LoccarInfra.ORM.model.Motocicletum", b =>
                 {
-                    b.Property<int>("Idveiculo")
+                    b.Property<int>("IdVehicle")
                         .HasColumnType("integer")
-                        .HasColumnName("idveiculo");
+                        .HasColumnName("idVehicle");
 
                     b.Property<bool?>("Controletracao")
                         .HasColumnType("boolean")
@@ -89,7 +89,7 @@ namespace LoccarInfra.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("pilotoautomatico");
 
-                    b.HasKey("Idveiculo")
+                    b.HasKey("IdVehicle")
                         .HasName("motocicleta_pkey");
 
                     b.ToTable("MOTOCICLETA", (string)null);
@@ -97,9 +97,9 @@ namespace LoccarInfra.Migrations
 
             modelBuilder.Entity("LoccarInfra.ORM.model.PessoaFisica", b =>
                 {
-                    b.Property<int>("Idlocatario")
+                    b.Property<int>("IdCustomer")
                         .HasColumnType("integer")
-                        .HasColumnName("idlocatario");
+                        .HasColumnName("idCustomer");
 
                     b.Property<bool?>("Contratado")
                         .HasColumnType("boolean")
@@ -117,7 +117,7 @@ namespace LoccarInfra.Migrations
                         .HasColumnType("character varying(20)")
                         .HasColumnName("estadoCivil");
 
-                    b.HasKey("Idlocatario")
+                    b.HasKey("IdCustomer")
                         .HasName("pessoa_fisica_pkey");
 
                     b.HasIndex(new[] { "Cpf" }, "pessoa_fisica_cpf_key")
@@ -128,9 +128,9 @@ namespace LoccarInfra.Migrations
 
             modelBuilder.Entity("LoccarInfra.ORM.model.PessoaJuridica", b =>
                 {
-                    b.Property<int>("Idlocatario")
+                    b.Property<int>("IdCustomer")
                         .HasColumnType("integer")
-                        .HasColumnName("idlocatario");
+                        .HasColumnName("idCustomer");
 
                     b.Property<string>("Cnpj")
                         .IsRequired()
@@ -139,7 +139,7 @@ namespace LoccarInfra.Migrations
                         .HasColumnName("cnpj")
                         .IsFixedLength();
 
-                    b.HasKey("Idlocatario")
+                    b.HasKey("IdCustomer")
                         .HasName("pessoa_juridica_pkey");
 
                     b.HasIndex(new[] { "Cnpj" }, "pessoa_juridica_cnpj_key")
@@ -176,13 +176,13 @@ namespace LoccarInfra.Migrations
                         .HasColumnType("time without time zone")
                         .HasColumnName("horalocacao");
 
-                    b.Property<int>("Idlocatario")
+                    b.Property<int>("IdCustomer")
                         .HasColumnType("integer")
-                        .HasColumnName("idlocatario");
+                        .HasColumnName("idCustomer");
 
-                    b.Property<int>("Idveiculo")
+                    b.Property<int>("IdVehicle")
                         .HasColumnType("integer")
-                        .HasColumnName("idveiculo");
+                        .HasColumnName("idVehicle");
 
                     b.Property<string>("Tipodiaria")
                         .HasMaxLength(20)
@@ -212,20 +212,20 @@ namespace LoccarInfra.Migrations
                     b.HasKey("Numeroreserva")
                         .HasName("reserva_pkey");
 
-                    b.HasIndex("Idlocatario");
+                    b.HasIndex("IdCustomer");
 
-                    b.HasIndex("Idveiculo");
+                    b.HasIndex("IdVehicle");
 
                     b.ToTable("RESERVA", (string)null);
                 });
 
-            modelBuilder.Entity("LoccarInfra.ORM.model.Veiculo", b =>
+            modelBuilder.Entity("LoccarInfra.ORM.model.Vehicle", b =>
                 {
-                    b.Property<int>("Idveiculo")
+                    b.Property<int>("IdVehicle")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("idveiculo")
-                        .HasDefaultValueSql("nextval('veiculo_idveiculo_seq'::regclass)");
+                        .HasColumnName("idVehicle")
+                        .HasDefaultValueSql("nextval('Vehicle_idVehicle_seq'::regclass)");
 
                     b.Property<int?>("Anofabricacao")
                         .HasColumnType("integer")
@@ -275,20 +275,20 @@ namespace LoccarInfra.Migrations
                         .HasColumnType("numeric(10,2)")
                         .HasColumnName("valordiariareduzida");
 
-                    b.HasKey("Idveiculo")
-                        .HasName("veiculo_pkey");
+                    b.HasKey("IdVehicle")
+                        .HasName("Vehicle_pkey");
 
-                    b.HasIndex(new[] { "Renavam" }, "veiculo_renavam_key")
+                    b.HasIndex(new[] { "Renavam" }, "Vehicle_renavam_key")
                         .IsUnique();
 
-                    b.ToTable("VEICULO", (string)null);
+                    b.ToTable("Vehicle", (string)null);
                 });
 
-            modelBuilder.Entity("LoccarInfra.ORM.model.VeiculoCarga", b =>
+            modelBuilder.Entity("LoccarInfra.ORM.model.VehicleCarga", b =>
                 {
-                    b.Property<int>("Idveiculo")
+                    b.Property<int>("IdVehicle")
                         .HasColumnType("integer")
-                        .HasColumnName("idveiculo");
+                        .HasColumnName("idVehicle");
 
                     b.Property<decimal?>("Capacidadecarga")
                         .HasPrecision(10, 2)
@@ -310,17 +310,17 @@ namespace LoccarInfra.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("tipocarga");
 
-                    b.HasKey("Idveiculo")
-                        .HasName("veiculo_carga_pkey");
+                    b.HasKey("IdVehicle")
+                        .HasName("Vehicle_carga_pkey");
 
-                    b.ToTable("VEICULO_CARGA", (string)null);
+                    b.ToTable("Vehicle_CARGA", (string)null);
                 });
 
-            modelBuilder.Entity("LoccarInfra.ORM.model.VeiculoPassageiro", b =>
+            modelBuilder.Entity("LoccarInfra.ORM.model.VehiclePassageiro", b =>
                 {
-                    b.Property<int>("Idveiculo")
+                    b.Property<int>("IdVehicle")
                         .HasColumnType("integer")
-                        .HasColumnName("idveiculo");
+                        .HasColumnName("idVehicle");
 
                     b.Property<bool?>("Arcondicionado")
                         .HasColumnType("boolean")
@@ -338,17 +338,17 @@ namespace LoccarInfra.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("televisao");
 
-                    b.HasKey("Idveiculo")
-                        .HasName("veiculo_passageiro_pkey");
+                    b.HasKey("IdVehicle")
+                        .HasName("Vehicle_passageiro_pkey");
 
-                    b.ToTable("VEICULO_PASSAGEIRO", (string)null);
+                    b.ToTable("Vehicle_PASSAGEIRO", (string)null);
                 });
 
-            modelBuilder.Entity("LoccarInfra.ORM.model.VeiculoPasseio", b =>
+            modelBuilder.Entity("LoccarInfra.ORM.model.VehiclePasseio", b =>
                 {
-                    b.Property<int>("Idveiculo")
+                    b.Property<int>("IdVehicle")
                         .HasColumnType("integer")
-                        .HasColumnName("idveiculo");
+                        .HasColumnName("idVehicle");
 
                     b.Property<bool?>("Arcondicionado")
                         .HasColumnType("boolean")
@@ -367,98 +367,98 @@ namespace LoccarInfra.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("direcaohidraulica");
 
-                    b.HasKey("Idveiculo")
-                        .HasName("veiculo_passeio_pkey");
+                    b.HasKey("IdVehicle")
+                        .HasName("Vehicle_passeio_pkey");
 
-                    b.ToTable("VEICULO_PASSEIO", (string)null);
+                    b.ToTable("Vehicle_PASSEIO", (string)null);
                 });
 
             modelBuilder.Entity("LoccarInfra.ORM.model.Motocicletum", b =>
                 {
-                    b.HasOne("LoccarInfra.ORM.model.Veiculo", "IdveiculoNavigation")
+                    b.HasOne("LoccarInfra.ORM.model.Vehicle", "IdVehicleNavigation")
                         .WithOne("Motocicletum")
-                        .HasForeignKey("LoccarInfra.ORM.model.Motocicletum", "Idveiculo")
+                        .HasForeignKey("LoccarInfra.ORM.model.Motocicletum", "IdVehicle")
                         .IsRequired()
-                        .HasConstraintName("motocicleta_idveiculo_fkey");
+                        .HasConstraintName("motocicleta_idVehicle_fkey");
 
-                    b.Navigation("IdveiculoNavigation");
+                    b.Navigation("IdVehicleNavigation");
                 });
 
             modelBuilder.Entity("LoccarInfra.ORM.model.PessoaFisica", b =>
                 {
-                    b.HasOne("LoccarInfra.ORM.model.Locatario", "IdlocatarioNavigation")
+                    b.HasOne("LoccarInfra.ORM.model.Customer", "IdCustomerNavigation")
                         .WithOne("PessoaFisica")
-                        .HasForeignKey("LoccarInfra.ORM.model.PessoaFisica", "Idlocatario")
+                        .HasForeignKey("LoccarInfra.ORM.model.PessoaFisica", "IdCustomer")
                         .IsRequired()
-                        .HasConstraintName("pessoa_fisica_idlocatario_fkey");
+                        .HasConstraintName("pessoa_fisica_idCustomer_fkey");
 
-                    b.Navigation("IdlocatarioNavigation");
+                    b.Navigation("IdCustomerNavigation");
                 });
 
             modelBuilder.Entity("LoccarInfra.ORM.model.PessoaJuridica", b =>
                 {
-                    b.HasOne("LoccarInfra.ORM.model.Locatario", "IdlocatarioNavigation")
+                    b.HasOne("LoccarInfra.ORM.model.Customer", "IdCustomerNavigation")
                         .WithOne("PessoaJuridica")
-                        .HasForeignKey("LoccarInfra.ORM.model.PessoaJuridica", "Idlocatario")
+                        .HasForeignKey("LoccarInfra.ORM.model.PessoaJuridica", "IdCustomer")
                         .IsRequired()
-                        .HasConstraintName("pessoa_juridica_idlocatario_fkey");
+                        .HasConstraintName("pessoa_juridica_idCustomer_fkey");
 
-                    b.Navigation("IdlocatarioNavigation");
+                    b.Navigation("IdCustomerNavigation");
                 });
 
             modelBuilder.Entity("LoccarInfra.ORM.model.Reserva", b =>
                 {
-                    b.HasOne("LoccarInfra.ORM.model.Locatario", "IdlocatarioNavigation")
+                    b.HasOne("LoccarInfra.ORM.model.Customer", "IdCustomerNavigation")
                         .WithMany("Reservas")
-                        .HasForeignKey("Idlocatario")
+                        .HasForeignKey("IdCustomer")
                         .IsRequired()
-                        .HasConstraintName("reserva_idlocatario_fkey");
+                        .HasConstraintName("reserva_idCustomer_fkey");
 
-                    b.HasOne("LoccarInfra.ORM.model.Veiculo", "IdveiculoNavigation")
+                    b.HasOne("LoccarInfra.ORM.model.Vehicle", "IdVehicleNavigation")
                         .WithMany("Reservas")
-                        .HasForeignKey("Idveiculo")
+                        .HasForeignKey("IdVehicle")
                         .IsRequired()
-                        .HasConstraintName("reserva_idveiculo_fkey");
+                        .HasConstraintName("reserva_idVehicle_fkey");
 
-                    b.Navigation("IdlocatarioNavigation");
+                    b.Navigation("IdCustomerNavigation");
 
-                    b.Navigation("IdveiculoNavigation");
+                    b.Navigation("IdVehicleNavigation");
                 });
 
-            modelBuilder.Entity("LoccarInfra.ORM.model.VeiculoCarga", b =>
+            modelBuilder.Entity("LoccarInfra.ORM.model.VehicleCarga", b =>
                 {
-                    b.HasOne("LoccarInfra.ORM.model.Veiculo", "IdveiculoNavigation")
-                        .WithOne("VeiculoCarga")
-                        .HasForeignKey("LoccarInfra.ORM.model.VeiculoCarga", "Idveiculo")
+                    b.HasOne("LoccarInfra.ORM.model.Vehicle", "IdVehicleNavigation")
+                        .WithOne("VehicleCarga")
+                        .HasForeignKey("LoccarInfra.ORM.model.VehicleCarga", "IdVehicle")
                         .IsRequired()
-                        .HasConstraintName("veiculo_carga_idveiculo_fkey");
+                        .HasConstraintName("Vehicle_carga_idVehicle_fkey");
 
-                    b.Navigation("IdveiculoNavigation");
+                    b.Navigation("IdVehicleNavigation");
                 });
 
-            modelBuilder.Entity("LoccarInfra.ORM.model.VeiculoPassageiro", b =>
+            modelBuilder.Entity("LoccarInfra.ORM.model.VehiclePassageiro", b =>
                 {
-                    b.HasOne("LoccarInfra.ORM.model.Veiculo", "IdveiculoNavigation")
-                        .WithOne("VeiculoPassageiro")
-                        .HasForeignKey("LoccarInfra.ORM.model.VeiculoPassageiro", "Idveiculo")
+                    b.HasOne("LoccarInfra.ORM.model.Vehicle", "IdVehicleNavigation")
+                        .WithOne("VehiclePassageiro")
+                        .HasForeignKey("LoccarInfra.ORM.model.VehiclePassageiro", "IdVehicle")
                         .IsRequired()
-                        .HasConstraintName("veiculo_passageiro_idveiculo_fkey");
+                        .HasConstraintName("Vehicle_passageiro_idVehicle_fkey");
 
-                    b.Navigation("IdveiculoNavigation");
+                    b.Navigation("IdVehicleNavigation");
                 });
 
-            modelBuilder.Entity("LoccarInfra.ORM.model.VeiculoPasseio", b =>
+            modelBuilder.Entity("LoccarInfra.ORM.model.VehiclePasseio", b =>
                 {
-                    b.HasOne("LoccarInfra.ORM.model.Veiculo", "IdveiculoNavigation")
-                        .WithOne("VeiculoPasseio")
-                        .HasForeignKey("LoccarInfra.ORM.model.VeiculoPasseio", "Idveiculo")
+                    b.HasOne("LoccarInfra.ORM.model.Vehicle", "IdVehicleNavigation")
+                        .WithOne("VehiclePasseio")
+                        .HasForeignKey("LoccarInfra.ORM.model.VehiclePasseio", "IdVehicle")
                         .IsRequired()
-                        .HasConstraintName("veiculo_passeio_idveiculo_fkey");
+                        .HasConstraintName("Vehicle_passeio_idVehicle_fkey");
 
-                    b.Navigation("IdveiculoNavigation");
+                    b.Navigation("IdVehicleNavigation");
                 });
 
-            modelBuilder.Entity("LoccarInfra.ORM.model.Locatario", b =>
+            modelBuilder.Entity("LoccarInfra.ORM.model.Customer", b =>
                 {
                     b.Navigation("PessoaFisica");
 
@@ -467,17 +467,17 @@ namespace LoccarInfra.Migrations
                     b.Navigation("Reservas");
                 });
 
-            modelBuilder.Entity("LoccarInfra.ORM.model.Veiculo", b =>
+            modelBuilder.Entity("LoccarInfra.ORM.model.Vehicle", b =>
                 {
                     b.Navigation("Motocicletum");
 
                     b.Navigation("Reservas");
 
-                    b.Navigation("VeiculoCarga");
+                    b.Navigation("VehicleCarga");
 
-                    b.Navigation("VeiculoPassageiro");
+                    b.Navigation("VehiclePassageiro");
 
-                    b.Navigation("VeiculoPasseio");
+                    b.Navigation("VehiclePasseio");
                 });
 #pragma warning restore 612, 618
         }

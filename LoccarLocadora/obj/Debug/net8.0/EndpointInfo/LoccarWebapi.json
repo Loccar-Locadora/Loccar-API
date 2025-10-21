@@ -1,30 +1,30 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "LoccarWebapi",
-    "version": "1.0"
+    "title": "Minha API",
+    "version": "v1"
   },
   "paths": {
-    "/api/locatario/register": {
+    "/api/Customer/register": {
       "post": {
         "tags": [
-          "Locatario"
+          "Lessee"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Locatario"
+                "$ref": "#/components/schemas/LoccarDomain.Customer.Models.Customer"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Locatario"
+                "$ref": "#/components/schemas/LoccarDomain.Customer.Models.Customer"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Locatario"
+                "$ref": "#/components/schemas/LoccarDomain.Customer.Models.Customer"
               }
             }
           }
@@ -35,17 +35,350 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/LocatarioBaseReturn"
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[LoccarDomain.Customer.Models.Customer, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LocatarioBaseReturn"
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[LoccarDomain.Customer.Models.Customer, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LocatarioBaseReturn"
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[LoccarDomain.Customer.Models.Customer, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Customer/update": {
+      "put": {
+        "tags": [
+          "Lessee"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoccarDomain.Customer.Models.Customer"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoccarDomain.Customer.Models.Customer"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoccarDomain.Customer.Models.Customer"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[LoccarDomain.Customer.Models.Customer, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[LoccarDomain.Customer.Models.Customer, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[LoccarDomain.Customer.Models.Customer, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Customer/delete/{id}": {
+      "delete": {
+        "tags": [
+          "Lessee"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reservation/register": {
+      "post": {
+        "tags": [
+          "Reservation"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoccarDomain.Reservation.Models.Reservation"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoccarDomain.Reservation.Models.Reservation"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoccarDomain.Reservation.Models.Reservation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[LoccarDomain.Reservation.Models.Reservation, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[LoccarDomain.Reservation.Models.Reservation, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[LoccarDomain.Reservation.Models.Reservation, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reservation/calculate-cost/{reservationId}": {
+      "get": {
+        "tags": [
+          "Reservation"
+        ],
+        "parameters": [
+          {
+            "name": "reservationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reservation/cancel/{reservationNumber}": {
+      "delete": {
+        "tags": [
+          "Reservation"
+        ],
+        "parameters": [
+          {
+            "name": "reservationNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reservation/history/{customerId}": {
+      "get": {
+        "tags": [
+          "Reservation"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[System.Collections.Generic.List`1[[LoccarDomain.Reservation.Models.Reservation, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[System.Collections.Generic.List`1[[LoccarDomain.Reservation.Models.Reservation, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[System.Collections.Generic.List`1[[LoccarDomain.Reservation.Models.Reservation, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/vehicle/register": {
+      "post": {
+        "tags": [
+          "Vehicle"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.Vehicle"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.Vehicle"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.Vehicle"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[LoccarDomain.Vehicle.Models.Vehicle, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[LoccarDomain.Vehicle.Models.Vehicle, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[LoccarDomain.Vehicle.Models.Vehicle, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/vehicle/list/available": {
+      "get": {
+        "tags": [
+          "Vehicle"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[System.Collections.Generic.List`1[[LoccarDomain.Vehicle.Models.Vehicle, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[System.Collections.Generic.List`1[[LoccarDomain.Vehicle.Models.Vehicle, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoccarDomain.BaseReturn`1[[System.Collections.Generic.List`1[[LoccarDomain.Vehicle.Models.Vehicle, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
                 }
               }
             }
@@ -56,9 +389,142 @@
   },
   "components": {
     "schemas": {
-      "Locatario": {
+      "LoccarDomain.BaseReturn`1[[LoccarDomain.Customer.Models.Customer, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
         "type": "object",
         "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/LoccarDomain.Customer.Models.Customer"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoccarDomain.BaseReturn`1[[LoccarDomain.Reservation.Models.Reservation, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/LoccarDomain.Reservation.Models.Reservation"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoccarDomain.BaseReturn`1[[LoccarDomain.Vehicle.Models.Vehicle, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.Vehicle"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoccarDomain.BaseReturn`1[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoccarDomain.BaseReturn`1[[System.Collections.Generic.List`1[[LoccarDomain.Reservation.Models.Reservation, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LoccarDomain.Reservation.Models.Reservation"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoccarDomain.BaseReturn`1[[System.Collections.Generic.List`1[[LoccarDomain.Vehicle.Models.Vehicle, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.Vehicle"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoccarDomain.BaseReturn`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoccarDomain.Customer.Models.Customer": {
+        "type": "object",
+        "properties": {
+          "idCustomer": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
           "username": {
             "type": "string",
             "nullable": true
@@ -71,7 +537,7 @@
             "type": "string",
             "nullable": true
           },
-          "cnh": {
+          "driverLicense": {
             "type": "string",
             "nullable": true
           },
@@ -80,7 +546,166 @@
             "format": "date-time",
             "nullable": true
           },
-          "locacoes": {
+          "authenticated": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoccarDomain.Reservation.Models.Reservation": {
+        "type": "object",
+        "properties": {
+          "reservationnumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idcustomer": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idvehicle": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rentalDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "returnDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "rentalDays": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "dailyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "rateType": {
+            "type": "string",
+            "nullable": true
+          },
+          "insuranceVehicle": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "insuranceThirdParty": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "taxAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "damageDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "vehicleReserved": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.Vehicle"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoccarDomain.Vehicle.Models.CargoVehicle": {
+        "type": "object",
+        "properties": {
+          "idvehicle": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "brand": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufacturingYear": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "modelYear": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "vin": {
+            "type": "string",
+            "nullable": true
+          },
+          "fuelTankCapacity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "dailyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "reducedDailyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "monthlyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "companyDailyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "reserved": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.VehicleType"
+          },
+          "cargoVehicle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.CargoVehicle"
+          },
+          "motorcycle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.Motorcycle"
+          },
+          "passengerVehicle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.PassengerVehicle"
+          },
+          "leisureVehicle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.LeisureVehicle"
+          },
+          "cargoCapacity": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "cargoType": {
+            "type": "string",
+            "nullable": true
+          },
+          "tareWeight": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "cargoCompartmentSize": {
+            "type": "string",
+            "nullable": true
+          },
+          "idVehicle": {
             "type": "integer",
             "format": "int32",
             "nullable": true
@@ -88,23 +713,393 @@
         },
         "additionalProperties": false
       },
-      "LocatarioBaseReturn": {
+      "LoccarDomain.Vehicle.Models.LeisureVehicle": {
         "type": "object",
         "properties": {
-          "code": {
+          "idvehicle": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "brand": {
             "type": "string",
             "nullable": true
           },
-          "message": {
+          "model": {
             "type": "string",
             "nullable": true
           },
-          "data": {
-            "$ref": "#/components/schemas/Locatario"
+          "manufacturingYear": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "modelYear": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "vin": {
+            "type": "string",
+            "nullable": true
+          },
+          "fuelTankCapacity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "dailyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "reducedDailyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "monthlyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "companyDailyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "reserved": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.VehicleType"
+          },
+          "cargoVehicle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.CargoVehicle"
+          },
+          "motorcycle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.Motorcycle"
+          },
+          "passengerVehicle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.PassengerVehicle"
+          },
+          "leisureVehicle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.LeisureVehicle"
+          },
+          "idVehicle": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "automatic": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "powerSteering": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "airConditioning": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
+      },
+      "LoccarDomain.Vehicle.Models.Motorcycle": {
+        "type": "object",
+        "properties": {
+          "idvehicle": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "brand": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufacturingYear": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "modelYear": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "vin": {
+            "type": "string",
+            "nullable": true
+          },
+          "fuelTankCapacity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "dailyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "reducedDailyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "monthlyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "companyDailyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "reserved": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.VehicleType"
+          },
+          "cargoVehicle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.CargoVehicle"
+          },
+          "motorcycle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.Motorcycle"
+          },
+          "passengerVehicle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.PassengerVehicle"
+          },
+          "leisureVehicle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.LeisureVehicle"
+          },
+          "idVehicle": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tractionControl": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "absBrakes": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "cruiseControl": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoccarDomain.Vehicle.Models.PassengerVehicle": {
+        "type": "object",
+        "properties": {
+          "idvehicle": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "brand": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufacturingYear": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "modelYear": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "vin": {
+            "type": "string",
+            "nullable": true
+          },
+          "fuelTankCapacity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "dailyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "reducedDailyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "monthlyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "companyDailyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "reserved": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.VehicleType"
+          },
+          "cargoVehicle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.CargoVehicle"
+          },
+          "motorcycle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.Motorcycle"
+          },
+          "passengerVehicle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.PassengerVehicle"
+          },
+          "leisureVehicle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.LeisureVehicle"
+          },
+          "idVehicle": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "passengerCapacity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tv": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "airConditioning": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "powerSteering": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoccarDomain.Vehicle.Models.Vehicle": {
+        "type": "object",
+        "properties": {
+          "idvehicle": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "brand": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufacturingYear": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "modelYear": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "vin": {
+            "type": "string",
+            "nullable": true
+          },
+          "fuelTankCapacity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "dailyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "reducedDailyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "monthlyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "companyDailyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "reserved": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.VehicleType"
+          },
+          "cargoVehicle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.CargoVehicle"
+          },
+          "motorcycle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.Motorcycle"
+          },
+          "passengerVehicle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.PassengerVehicle"
+          },
+          "leisureVehicle": {
+            "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.LeisureVehicle"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoccarDomain.Vehicle.Models.VehicleType": {
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32"
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "Insira o token JWT assim: Bearer {seu token}",
+        "name": "Authorization",
+        "in": "header"
       }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }
