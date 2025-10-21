@@ -19,5 +19,9 @@ namespace LoccarApplication.Interfaces
 
         Task<BaseReturn<bool>> RegisterDamage(int reservationNumber, string damageDescription);
 
+        // Novos métodos CRUD
+        Task<BaseReturn<Reservation>> GetReservationById(int reservationId);
+        Task<BaseReturn<List<Reservation>>> ListAllReservations();
+        Task<BaseReturn<Reservation>> UpdateReservation(Reservation reservation);
     }
 }

@@ -33,5 +33,17 @@ namespace LoccarWebapi.Controllers
         {
             return await _customerApplication.DeleteCustomer(id);
         }
+
+        [HttpGet("{id}")]
+        public async Task<BaseReturn<Customer>> GetCustomerById(int id)
+        {
+            return await _customerApplication.GetCustomerById(id);
+        }
+
+        [HttpGet("list/all")]
+        public async Task<BaseReturn<List<Customer>>> ListAllCustomers()
+        {
+            return await _customerApplication.ListAllCustomers();
+        }
     } 
 }

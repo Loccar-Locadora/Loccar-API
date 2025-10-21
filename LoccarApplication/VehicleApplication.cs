@@ -335,5 +335,281 @@ namespace LoccarApplication
             return baseReturn;
         }
 
+        // Novos métodos CRUD
+        public async Task<BaseReturn<Vehicle>> GetVehicleById(int vehicleId)
+        {
+            BaseReturn<Vehicle> baseReturn = new BaseReturn<Vehicle>();
+
+            try
+            {
+                LoggedUser user = _authApplication.GetLoggedUser();
+
+                if (user == null)
+                {
+                    baseReturn.Code = "401";
+                    baseReturn.Message = "Usuário não autorizado";
+                    return baseReturn;
+                }
+
+                LoccarInfra.ORM.model.Vehicle tbVehicle = await _vehicleRepository.GetVehicleById(vehicleId);
+
+                if (tbVehicle == null)
+                {
+                    baseReturn.Code = "404";
+                    baseReturn.Message = "Veículo não encontrado.";
+                    return baseReturn;
+                }
+
+                Vehicle vehicle = new Vehicle()
+                {
+                    Idvehicle = tbVehicle.Idvehicle,
+                    Brand = tbVehicle.Brand,
+                    Model = tbVehicle.Model,
+                    ManufacturingYear = tbVehicle.ManufacturingYear,
+                    ModelYear = tbVehicle.ModelYear,
+                    DailyRate = tbVehicle.DailyRate,
+                    MonthlyRate = tbVehicle.MonthlyRate,
+                    CompanyDailyRate = tbVehicle.CompanyDailyRate,
+                    ReducedDailyRate = tbVehicle.ReducedDailyRate,
+                    FuelTankCapacity = tbVehicle.FuelTankCapacity,
+                    Vin = tbVehicle.Vin,
+                    Reserved = tbVehicle.Reserved,
+
+                    // CargoVehicle
+                    CargoVehicle = tbVehicle.CargoVehicle != null ? new CargoVehicle()
+                    {
+                        IdVehicle = tbVehicle.CargoVehicle.Idvehicle,
+                        CargoCapacity = tbVehicle.CargoVehicle.CargoCapacity,
+                        CargoType = tbVehicle.CargoVehicle.CargoType,
+                        TareWeight = tbVehicle.CargoVehicle.TareWeight,
+                        CargoCompartmentSize = tbVehicle.CargoVehicle.CargoCompartmentSize
+                    } : null,
+
+                    // PassengerVehicle
+                    PassengerVehicle = tbVehicle.PassengerVehicle != null ? new PassengerVehicle()
+                    {
+                        IdVehicle = tbVehicle.PassengerVehicle.Idvehicle,
+                        PassengerCapacity = tbVehicle.PassengerVehicle.PassengerCapacity,
+                        Tv = tbVehicle.PassengerVehicle.Tv,
+                        AirConditioning = tbVehicle.PassengerVehicle.AirConditioning,
+                        PowerSteering = tbVehicle.PassengerVehicle.PowerSteering
+                    } : null,
+
+                    // LeisureVehicle
+                    LeisureVehicle = tbVehicle.LeisureVehicle != null ? new LeisureVehicle()
+                    {
+                        IdVehicle = tbVehicle.LeisureVehicle.Idvehicle,
+                        Automatic = tbVehicle.LeisureVehicle.Automatic,
+                        PowerSteering = tbVehicle.LeisureVehicle.PowerSteering,
+                        AirConditioning = tbVehicle.LeisureVehicle.AirConditioning,
+                        Category = tbVehicle.LeisureVehicle.Category
+                    } : null,
+
+                    // Motorcycle
+                    Motorcycle = tbVehicle.Motorcycle != null ? new Motorcycle()
+                    {
+                        IdVehicle = tbVehicle.Motorcycle.Idvehicle,
+                        TractionControl = tbVehicle.Motorcycle.TractionControl,
+                        AbsBrakes = tbVehicle.Motorcycle.AbsBrakes,
+                        CruiseControl = tbVehicle.Motorcycle.CruiseControl
+                    } : null,
+                };
+
+                baseReturn.Code = "200";
+                baseReturn.Message = "Veículo encontrado com sucesso.";
+                baseReturn.Data = vehicle;
+            }
+            catch (Exception ex)
+            {
+                baseReturn.Code = "500";
+                baseReturn.Message = $"Ocorreu um erro inesperado: {ex.Message}";
+            }
+
+            return baseReturn;
+        }
+
+        public async Task<BaseReturn<List<Vehicle>>> ListAllVehicles()
+        {
+            BaseReturn<List<Vehicle>> baseReturn = new BaseReturn<List<Vehicle>>();
+
+            try
+            {
+                LoggedUser user = _authApplication.GetLoggedUser();
+
+                if (user == null || (!user.Roles.Contains("ADMIN") && !user.Roles.Contains("EMPLOYEE")))
+                {
+                    baseReturn.Code = "401";
+                    baseReturn.Message = "Usuário não autorizado";
+                    return baseReturn;
+                }
+
+                List<LoccarInfra.ORM.model.Vehicle> tbVehicles = await _vehicleRepository.ListAllVehicles();
+
+                if (tbVehicles == null || !tbVehicles.Any())
+                {
+                    baseReturn.Code = "404";
+                    baseReturn.Message = "Nenhum veículo encontrado.";
+                    return baseReturn;
+                }
+
+                List<Vehicle> vehicles = new List<Vehicle>();
+                foreach (LoccarInfra.ORM.model.Vehicle tbVehicle in tbVehicles)
+                {
+                    Vehicle vehicle = new Vehicle()
+                    {
+                        Idvehicle = tbVehicle.Idvehicle,
+                        Brand = tbVehicle.Brand,
+                        Model = tbVehicle.Model,
+                        ManufacturingYear = tbVehicle.ManufacturingYear,
+                        ModelYear = tbVehicle.ModelYear,
+                        DailyRate = tbVehicle.DailyRate,
+                        MonthlyRate = tbVehicle.MonthlyRate,
+                        CompanyDailyRate = tbVehicle.CompanyDailyRate,
+                        ReducedDailyRate = tbVehicle.ReducedDailyRate,
+                        FuelTankCapacity = tbVehicle.FuelTankCapacity,
+                        Vin = tbVehicle.Vin,
+                        Reserved = tbVehicle.Reserved,
+
+                        // CargoVehicle
+                        CargoVehicle = tbVehicle.CargoVehicle != null ? new CargoVehicle()
+                        {
+                            IdVehicle = tbVehicle.CargoVehicle.Idvehicle,
+                            CargoCapacity = tbVehicle.CargoVehicle.CargoCapacity,
+                            CargoType = tbVehicle.CargoVehicle.CargoType,
+                            TareWeight = tbVehicle.CargoVehicle.TareWeight,
+                            CargoCompartmentSize = tbVehicle.CargoVehicle.CargoCompartmentSize
+                        } : null,
+
+                        // PassengerVehicle
+                        PassengerVehicle = tbVehicle.PassengerVehicle != null ? new PassengerVehicle()
+                        {
+                            IdVehicle = tbVehicle.PassengerVehicle.Idvehicle,
+                            PassengerCapacity = tbVehicle.PassengerVehicle.PassengerCapacity,
+                            Tv = tbVehicle.PassengerVehicle.Tv,
+                            AirConditioning = tbVehicle.PassengerVehicle.AirConditioning,
+                            PowerSteering = tbVehicle.PassengerVehicle.PowerSteering
+                        } : null,
+
+                        // LeisureVehicle
+                        LeisureVehicle = tbVehicle.LeisureVehicle != null ? new LeisureVehicle()
+                        {
+                            IdVehicle = tbVehicle.LeisureVehicle.Idvehicle,
+                            Automatic = tbVehicle.LeisureVehicle.Automatic,
+                            PowerSteering = tbVehicle.LeisureVehicle.PowerSteering,
+                            AirConditioning = tbVehicle.LeisureVehicle.AirConditioning,
+                            Category = tbVehicle.LeisureVehicle.Category
+                        } : null,
+
+                        // Motorcycle
+                        Motorcycle = tbVehicle.Motorcycle != null ? new Motorcycle()
+                        {
+                            IdVehicle = tbVehicle.Motorcycle.Idvehicle,
+                            TractionControl = tbVehicle.Motorcycle.TractionControl,
+                            AbsBrakes = tbVehicle.Motorcycle.AbsBrakes,
+                            CruiseControl = tbVehicle.Motorcycle.CruiseControl
+                        } : null,
+                    };
+
+                    vehicles.Add(vehicle);
+                }
+
+                baseReturn.Code = "200";
+                baseReturn.Message = "Lista de todos os veículos:";
+                baseReturn.Data = vehicles;
+            }
+            catch (Exception ex)
+            {
+                baseReturn.Code = "500";
+                baseReturn.Message = $"Ocorreu um erro inesperado: {ex.Message}";
+            }
+
+            return baseReturn;
+        }
+
+        public async Task<BaseReturn<Vehicle>> UpdateVehicle(Vehicle vehicle)
+        {
+            BaseReturn<Vehicle> baseReturn = new BaseReturn<Vehicle>();
+
+            try
+            {
+                LoggedUser loggedUser = _authApplication.GetLoggedUser();
+
+                if (loggedUser.Roles.Contains("COMMON_USER") || loggedUser.Roles == null)
+                {
+                    baseReturn.Code = "401";
+                    baseReturn.Message = "Usuário não autorizado.";
+                    return baseReturn;
+                }
+
+                
+                LoccarInfra.ORM.model.Vehicle tbVehicle = new LoccarInfra.ORM.model.Vehicle()
+                {
+                    Idvehicle = vehicle.Idvehicle,
+                    Brand = vehicle.Brand,
+                    Model = vehicle.Model,
+                    ManufacturingYear = vehicle.ManufacturingYear,
+                    ModelYear = vehicle.ModelYear,
+                    DailyRate = vehicle.DailyRate,
+                    MonthlyRate = vehicle.MonthlyRate,
+                    CompanyDailyRate = vehicle.CompanyDailyRate,
+                    ReducedDailyRate = vehicle.ReducedDailyRate,
+                    FuelTankCapacity = vehicle.FuelTankCapacity,
+                    Vin = vehicle.Vin,
+                    Reserved = vehicle.Reserved
+                };
+
+                var updatedVehicle = await _vehicleRepository.UpdateVehicle(tbVehicle);
+
+                if (updatedVehicle == null)
+                {
+                    baseReturn.Code = "404";
+                    baseReturn.Message = "Veículo não encontrado.";
+                    return baseReturn;
+                }
+
+                baseReturn.Code = "200";
+                baseReturn.Data = vehicle;
+                baseReturn.Message = "Veículo atualizado com sucesso";
+            }
+            catch (Exception ex)
+            {
+                baseReturn.Code = "500";
+                baseReturn.Message = $"Ocorreu um erro inesperado: {ex.Message}";
+            }
+
+            return baseReturn;
+        }
+
+        public async Task<BaseReturn<bool>> DeleteVehicle(int vehicleId)
+        {
+            BaseReturn<bool> baseReturn = new BaseReturn<bool>();
+
+            try
+            {
+                LoggedUser loggedUser = _authApplication.GetLoggedUser();
+
+                if (loggedUser.Roles.Contains("COMMON_USER") || loggedUser.Roles == null)
+                {
+                    baseReturn.Code = "401";
+                    baseReturn.Message = "Usuário não autorizado.";
+                    baseReturn.Data = false;
+                    return baseReturn;
+                }
+
+                bool success = await _vehicleRepository.DeleteVehicle(vehicleId);
+
+                baseReturn.Code = success ? "200" : "404";
+                baseReturn.Data = success;
+                baseReturn.Message = success ? "Veículo excluído com sucesso." : "Veículo não encontrado.";
+            }
+            catch (Exception ex)
+            {
+                baseReturn.Code = "500";
+                baseReturn.Message = $"Ocorreu um erro inesperado: {ex.Message}";
+                baseReturn.Data = false;
+            }
+
+            return baseReturn;
+        }
     }
 }

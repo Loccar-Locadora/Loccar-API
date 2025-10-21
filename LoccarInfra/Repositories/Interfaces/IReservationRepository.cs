@@ -11,15 +11,17 @@ namespace LoccarInfra.Repositories.Interfaces
         // US05 - Criar reserva
         Task<Reservation> CreateReservation(Reservation reservation);
 
-        // US04 - Obter reserva com veículo (para cálculo de custo)
-        Task<Reservation> GetReservationWithVehicle(int reservationNumber);
+        Task<Reservation> GetReservationById(int reservationId);
 
         // US10 - Cancelar reserva
         Task<bool> CancelReservation(int reservationNumber);
 
-        Task<List<Reservation>> GetReservationsByCustomer(int customerId);
+        Task<List<Reservation>> GetReservationHistory(int customerId);
 
         Task<bool> RegisterDamage(int reservationNumber, string damageDescription);
 
+        // Novos métodos CRUD
+        Task<List<Reservation>> ListAllReservations();
+        Task<Reservation> UpdateReservation(Reservation reservation);
     }
 }

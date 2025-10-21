@@ -12,5 +12,11 @@ namespace LoccarInfra.Repositories.Interfaces
         Task<PassengerVehicle> RegisterPassengerVehicle(PassengerVehicle passengerVehicle);
         Task<List<Vehicle>> ListAvailableVehicles();
         Task<bool> SetVehicleMaintenance(int vehicleId, bool inMaintenance);
+        
+        // Novos métodos CRUD
+        Task<Vehicle> GetVehicleById(int vehicleId);
+        Task<List<Vehicle>> ListAllVehicles();
+        Task<Vehicle> UpdateVehicle(Vehicle vehicle);
+        Task<bool> DeleteVehicle(int vehicleId);
     }
 }

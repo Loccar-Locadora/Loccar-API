@@ -52,5 +52,16 @@ namespace LoccarInfra.Repositories
             await _dbContext.SaveChangesAsync();
             return true;
         }
+
+        // Novos métodos CRUD
+        public async Task<Customer> GetCustomerById(int customerId)
+        {
+            return await _dbContext.Customers.FirstOrDefaultAsync(c => c.Idcustomer == customerId);
+        }
+
+        public async Task<List<Customer>> ListAllCustomers()
+        {
+            return await _dbContext.Customers.ToListAsync();
+        }
     }
 }

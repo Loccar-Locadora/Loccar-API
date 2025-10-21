@@ -14,5 +14,9 @@ namespace LoccarApplication.Interfaces
         Task<BaseReturn<Customer>> RegisterCustomer(Customer Customer);
         Task<BaseReturn<Customer>> UpdateCustomer(Customer customer);
         Task<BaseReturn<bool>> DeleteCustomer(int customerId);
+        
+        // Novos métodos CRUD
+        Task<BaseReturn<Customer>> GetCustomerById(int customerId);
+        Task<BaseReturn<List<Customer>>> ListAllCustomers();
     }
 }

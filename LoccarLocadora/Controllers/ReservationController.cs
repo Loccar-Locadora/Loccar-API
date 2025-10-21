@@ -41,6 +41,31 @@ namespace LoccarWebapi.Controllers
         {
             return await _reservationApplication.GetReservationHistory(customerId);
         }
+
+        [HttpPost("damage/{reservationNumber}")]
+        public async Task<BaseReturn<bool>> RegisterDamage(int reservationNumber, [FromBody] string damageDescription)
+        {
+            return await _reservationApplication.RegisterDamage(reservationNumber, damageDescription);
+        }
+
+        // Novos endpoints CRUD
+        [HttpGet("{id}")]
+        public async Task<BaseReturn<Reservation>> GetReservationById(int id)
+        {
+            return await _reservationApplication.GetReservationById(id);
+        }
+
+        [HttpGet("list/all")]
+        public async Task<BaseReturn<List<Reservation>>> ListAllReservations()
+        {
+            return await _reservationApplication.ListAllReservations();
+        }
+
+        [HttpPut("update")]
+        public async Task<BaseReturn<Reservation>> UpdateReservation(Reservation reservation)
+        {
+            return await _reservationApplication.UpdateReservation(reservation);
+        }
     }
 }
 
