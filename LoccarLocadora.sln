@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoccarDomain", "LoccarDomai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoccarInfra", "LoccarInfra\LoccarInfra.csproj", "{640281EB-CD6B-41B2-9493-B360C09FD6DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoccarTests", "LoccarTests\LoccarTests.csproj", "{3E29C8C4-B66B-4E42-9DA2-728741365DD3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,8 +35,15 @@ Global
 		{640281EB-CD6B-41B2-9493-B360C09FD6DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{640281EB-CD6B-41B2-9493-B360C09FD6DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{640281EB-CD6B-41B2-9493-B360C09FD6DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E29C8C4-B66B-4E42-9DA2-728741365DD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E29C8C4-B66B-4E42-9DA2-728741365DD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E29C8C4-B66B-4E42-9DA2-728741365DD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E29C8C4-B66B-4E42-9DA2-728741365DD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F112EFB0-F335-4DF0-8C4F-19862DB86A08}
 	EndGlobalSection
 EndGlobal

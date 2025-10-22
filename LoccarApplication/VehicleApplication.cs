@@ -30,7 +30,8 @@ namespace LoccarApplication
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
-                if (loggedUser.Roles.Contains("COMMON_USER") || loggedUser.Roles == null)
+                // Corrigindo a lógica de autorização - usuário deve ter role ADMIN ou EMPLOYEE
+                if (loggedUser?.Roles == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "Usuário não autorizado.";
@@ -54,23 +55,57 @@ namespace LoccarApplication
 
                 await _vehicleRepository.RegisterVehicle(tbVehicle);
 
+                // Corrigindo a lógica de verificação de tipos de veículo
+                Vehicle registeredVehicle = null;
                 switch (vehicle.Type)
                 {
                     case VehicleType.Cargo:
-                        baseReturn.Data = vehicle.CargoVehicle != null ? (await RegisterCargoVehicle(vehicle.CargoVehicle)).Data : null;
+                        if (vehicle.CargoVehicle != null)
+                        {
+                            vehicle.CargoVehicle.Idvehicle = tbVehicle.Idvehicle;
+                            var cargoResult = await RegisterCargoVehicle(vehicle.CargoVehicle);
+                            if (cargoResult.Code == "201")
+                            {
+                                registeredVehicle = vehicle;
+                            }
+                        }
                         break;
                     case VehicleType.Motorcycle:
-                        baseReturn.Data = vehicle.CargoVehicle != null ? (await RegisterMotorcycleVehicle(vehicle.Motorcycle)).Data : null;
+                        if (vehicle.Motorcycle != null)
+                        {
+                            vehicle.Motorcycle.Idvehicle = tbVehicle.Idvehicle;
+                            var motorcycleResult = await RegisterMotorcycleVehicle(vehicle.Motorcycle);
+                            if (motorcycleResult.Code == "201")
+                            {
+                                registeredVehicle = vehicle;
+                            }
+                        }
                         break;
                     case VehicleType.Leisure:
-                        baseReturn.Data = vehicle.CargoVehicle != null ? (await RegisterLeisureVehicle(vehicle.LeisureVehicle)).Data : null;
+                        if (vehicle.LeisureVehicle != null)
+                        {
+                            vehicle.LeisureVehicle.Idvehicle = tbVehicle.Idvehicle;
+                            var leisureResult = await RegisterLeisureVehicle(vehicle.LeisureVehicle);
+                            if (leisureResult.Code == "201")
+                            {
+                                registeredVehicle = vehicle;
+                            }
+                        }
                         break;
                     case VehicleType.Passenger:
-                        baseReturn.Data = vehicle.CargoVehicle != null ? (await RegisterPassengerVehicle(vehicle.PassengerVehicle)).Data : null;
+                        if (vehicle.PassengerVehicle != null)
+                        {
+                            vehicle.PassengerVehicle.Idvehicle = tbVehicle.Idvehicle;
+                            var passengerResult = await RegisterPassengerVehicle(vehicle.PassengerVehicle);
+                            if (passengerResult.Code == "201")
+                            {
+                                registeredVehicle = vehicle;
+                            }
+                        }
                         break;
                 }
 
-                if (baseReturn.Data == null)
+                if (registeredVehicle == null)
                 {
                     baseReturn.Code = "400";
                     baseReturn.Message = "Não foi possível cadastrar o veículo";
@@ -78,7 +113,7 @@ namespace LoccarApplication
                 }
 
                 baseReturn.Code = "201";
-                baseReturn.Data = vehicle;
+                baseReturn.Data = registeredVehicle;
                 baseReturn.Message = "Veículo cadastrado com sucesso";
 
             }
@@ -311,7 +346,8 @@ namespace LoccarApplication
             try
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
-                if (!loggedUser.Roles.Contains("ADMIN"))
+                // Corrigindo para permitir ADMIN e EMPLOYEE
+                if (loggedUser?.Roles == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "Usuário não autorizado.";
@@ -534,7 +570,8 @@ namespace LoccarApplication
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
-                if (loggedUser.Roles.Contains("COMMON_USER") || loggedUser.Roles == null)
+                // Corrigindo lógica de autorização
+                if (loggedUser?.Roles == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "Usuário não autorizado.";
@@ -588,7 +625,8 @@ namespace LoccarApplication
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
-                if (loggedUser.Roles.Contains("COMMON_USER") || loggedUser.Roles == null)
+                // Corrigindo lógica de autorização
+                if (loggedUser?.Roles == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "Usuário não autorizado.";
