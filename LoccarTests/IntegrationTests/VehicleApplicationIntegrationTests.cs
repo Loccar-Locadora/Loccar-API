@@ -11,6 +11,7 @@ using Xunit;
 
 namespace LoccarTests.IntegrationTests
 {
+    [Collection("TestCollection")]
     public class VehicleApplicationIntegrationTests : IDisposable
     {
         private readonly DataBaseContext _context;

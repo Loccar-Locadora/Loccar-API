@@ -12,6 +12,7 @@ using Xunit;
 
 namespace LoccarTests.UnitTests
 {
+    [Collection("TestCollection")]
     public class VehicleApplicationTests
     {
         private readonly Mock<IAuthApplication> _mockAuthApplication;

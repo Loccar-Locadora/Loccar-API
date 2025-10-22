@@ -3310,6 +3310,19 @@
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
       },
+      "Validation/2.4.18": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.3/_._": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard1.3/Validation.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "xunit/2.4.2": {
         "type": "package",
         "dependencies": {
@@ -3409,6 +3422,23 @@
         },
         "build": {
           "build/netcoreapp3.1/xunit.runner.visualstudio.props": {}
+        }
+      },
+      "Xunit.SkippableFact/1.4.13": {
+        "type": "package",
+        "dependencies": {
+          "Validation": "2.4.18",
+          "xunit.extensibility.execution": "2.4.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Xunit.SkippableFact.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Xunit.SkippableFact.dll": {
+            "related": ".xml"
+          }
         }
       },
       "LoccarApplication/1.0.0": {
@@ -9882,6 +9912,39 @@
         "system.xml.xdocument.nuspec"
       ]
     },
+    "Validation/2.4.18": {
+      "sha512": "NfvWJ1QeuZ1FQCkqgXTu1cOkRkbNCfxs4Tat+abXLwom6OXbULVhRGp34BTvVB4XPxj6VIAl7KfLfStXMt/Ehw==",
+      "type": "package",
+      "path": "validation/2.4.18",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net20/Validation.dll",
+        "lib/net20/Validation.xml",
+        "lib/net40/Validation.dll",
+        "lib/net40/Validation.xml",
+        "lib/net45/Validation.dll",
+        "lib/net45/Validation.xml",
+        "lib/netstandard1.0/Validation.dll",
+        "lib/netstandard1.0/Validation.xml",
+        "lib/netstandard1.3/Validation.dll",
+        "lib/netstandard1.3/Validation.xml",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Validation.dll",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Validation.xml",
+        "lib/portable-net45+win8+wp8+wpa81/Validation.dll",
+        "lib/portable-net45+win8+wp8+wpa81/Validation.xml",
+        "tools/2013/RequiresNotNull.snippet",
+        "tools/2013/RequiresNotNullOrEmpty.snippet",
+        "tools/2015/RequiresNotNull.snippet",
+        "tools/2015/RequiresNotNullOrEmpty.snippet",
+        "tools/install_snippets.cmd",
+        "tools/uninstall_snippets.cmd",
+        "validation.2.4.18.nupkg.sha512",
+        "validation.nuspec"
+      ]
+    },
     "xunit/2.4.2": {
       "sha512": "6Mj73Ont3zj2CJuoykVJfE0ZmRwn7C+pTuRP8c4bnaaTFjwNG6tGe0prJ1yIbMe9AHrpDys63ctWacSsFJWK/w==",
       "type": "package",
@@ -10027,6 +10090,23 @@
         "xunit.runner.visualstudio.nuspec"
       ]
     },
+    "Xunit.SkippableFact/1.4.13": {
+      "sha512": "IyzZNvJEtXGlXrzxDiSbtH5Lyxf4iJdRQADuyjGdDf00LjXRLJwIoezQNFhFGKTMtvk8IIgaSHxW4mAV4O7b8A==",
+      "type": "package",
+      "path": "xunit.skippablefact/1.4.13",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Xunit.SkippableFact.dll",
+        "lib/net45/Xunit.SkippableFact.xml",
+        "lib/net452/Xunit.SkippableFact.dll",
+        "lib/net452/Xunit.SkippableFact.xml",
+        "lib/netstandard2.0/Xunit.SkippableFact.dll",
+        "lib/netstandard2.0/Xunit.SkippableFact.xml",
+        "xunit.skippablefact.1.4.13.nupkg.sha512",
+        "xunit.skippablefact.nuspec"
+      ]
+    },
     "LoccarApplication/1.0.0": {
       "type": "project",
       "path": "../LoccarApplication/LoccarApplication.csproj",
@@ -10057,6 +10137,7 @@
       "Microsoft.EntityFrameworkCore.InMemory >= 8.0.0",
       "Microsoft.NET.Test.Sdk >= 17.8.0",
       "Moq >= 4.20.69",
+      "Xunit.SkippableFact >= 1.4.13",
       "coverlet.collector >= 6.0.0",
       "xunit >= 2.4.2",
       "xunit.runner.visualstudio >= 2.4.5"
@@ -10158,6 +10239,10 @@
           "Moq": {
             "target": "Package",
             "version": "[4.20.69, )"
+          },
+          "Xunit.SkippableFact": {
+            "target": "Package",
+            "version": "[1.4.13, )"
           },
           "coverlet.collector": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",

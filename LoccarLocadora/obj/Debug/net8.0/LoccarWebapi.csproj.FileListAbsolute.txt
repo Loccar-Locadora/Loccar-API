@@ -237,7 +237,6 @@ C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarLocadora\obj\Debug\n
 C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarLocadora\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarLocadora\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
 C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarLocadora\obj\Debug\net8.0\staticwebassets.build.json.cache
-C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarLocadora\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarLocadora\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
 C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarLocadora\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
 C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarLocadora\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
@@ -246,3 +245,4 @@ C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarLocadora\bin\Debug\n
 C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarLocadora\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarLocadora\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
 C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarLocadora\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarLocadora\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
