@@ -37,9 +37,11 @@ jobs:
     - name: Test
       run: dotnet test --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory TestResults/ --blame-hang-timeout 5m
       env:
-        LC_ALL: C
-        LANG: C
-        DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
+        LC_ALL: pt_BR.UTF-8
+        LANG: pt_BR.UTF-8
+        ASPNETCORE_CULTURE: pt-BR
+        ASPNETCORE_UI_CULTURE: pt-BR
+        TZ: America/Sao_Paulo
         
     - name: Upload test results
       uses: actions/upload-artifact@v4

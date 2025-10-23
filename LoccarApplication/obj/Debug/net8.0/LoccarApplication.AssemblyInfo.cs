@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LoccarApplication")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7b10a3bcb15458095f645b63456b4128716227e8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eca4f447a0f74d708c4cacdf735f61c966475ec7")]
 [assembly: System.Reflection.AssemblyProductAttribute("LoccarApplication")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LoccarApplication")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
