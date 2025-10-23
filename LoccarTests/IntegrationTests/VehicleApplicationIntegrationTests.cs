@@ -65,7 +65,7 @@ namespace LoccarTests.IntegrationTests
 
             // Assert
             result.Code.Should().Be("201");
-            result.Message.Should().Be("Veículo cadastrado com sucesso");
+            result.Message.Should().Be("Vehicle registered successfully");
 
             var vehicleInDb = await _context.Vehicles.FirstOrDefaultAsync(v => v.Brand == "Toyota");
             vehicleInDb.Should().NotBeNull();
@@ -94,7 +94,7 @@ namespace LoccarTests.IntegrationTests
                 Brand = "Ford",
                 Model = "Focus",
                 DailyRate = 85.0m,
-                Reserved = true // Este não deve aparecer na lista de disponíveis
+                Reserved = true // Este nao deve aparecer na lista de disponiveis
             };
 
             _context.Vehicles.AddRange(vehicle1, vehicle2);
@@ -170,7 +170,7 @@ namespace LoccarTests.IntegrationTests
 
             // Assert
             result.Code.Should().Be("200");
-            result.Message.Should().Be("Veículo atualizado com sucesso");
+            result.Message.Should().Be("Vehicle updated successfully");
 
             var vehicleInDb = await _context.Vehicles.FindAsync(vehicle.Idvehicle);
             vehicleInDb.Should().NotBeNull();
@@ -202,7 +202,7 @@ namespace LoccarTests.IntegrationTests
             // Assert
             result.Code.Should().Be("200");
             result.Data.Should().BeTrue();
-            result.Message.Should().Be("Veículo excluído com sucesso.");
+            result.Message.Should().Be("Vehicle deleted successfully.");
 
             var vehicleInDb = await _context.Vehicles.FindAsync(vehicle.Idvehicle);
             vehicleInDb.Should().BeNull();
@@ -242,7 +242,7 @@ namespace LoccarTests.IntegrationTests
             {
                 result.Code.Should().Be("401");
                 result.Data.Should().BeFalse();
-                result.Message.Should().Be("Usuário não autorizado.");
+                result.Message.Should().Be("User not authorized.");
             }
         }
 

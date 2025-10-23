@@ -46,7 +46,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("401");
-            result.Message.Should().Be("Usuário não autorizado.");
+            result.Message.Should().Be("User not authorized.");
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("201");
-            result.Message.Should().Be("Veículo cadastrado com sucesso");
+            result.Message.Should().Be("Vehicle registered successfully");
             result.Data.Should().NotBeNull();
         }
 
@@ -106,7 +106,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("500");
-            result.Message.Should().Contain("Ocorreu um erro inesperado");
+            result.Message.Should().Contain("An unexpected error occurred");
         }
 
         [Fact]
@@ -120,7 +120,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("401");
-            result.Message.Should().Be("Usuário não autorizado");
+            result.Message.Should().Be("User not authorized");
         }
 
         [Fact]
@@ -137,7 +137,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("404");
-            result.Message.Should().Be("Nenhum veículo disponível encontrado.");
+            result.Message.Should().Be("No available vehicles found.");
         }
 
         [Fact]
@@ -164,7 +164,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("200");
-            result.Message.Should().Be("Lista de veículos disponíveis:");
+            result.Message.Should().Be("Available vehicles list:");
             result.Data.Should().HaveCount(1);
             result.Data.First().Brand.Should().Be("Toyota");
         }
@@ -197,7 +197,7 @@ namespace LoccarTests.UnitTests
             else
             {
                 result.Code.Should().Be("401");
-                result.Message.Should().Be("Usuário não autorizado.");
+                result.Message.Should().Be("User not authorized.");
                 result.Data.Should().BeFalse();
             }
         }
@@ -222,7 +222,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("200");
-            result.Message.Should().Be("Veículo encontrado com sucesso.");
+            result.Message.Should().Be("Vehicle found successfully.");
             result.Data.Should().NotBeNull();
             result.Data.Brand.Should().Be("Toyota");
         }
@@ -241,7 +241,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("404");
-            result.Message.Should().Be("Veículo não encontrado.");
+            result.Message.Should().Be("Vehicle not found.");
         }
 
         [Fact]
@@ -259,7 +259,7 @@ namespace LoccarTests.UnitTests
             // Assert
             result.Code.Should().Be("200");
             result.Data.Should().BeTrue();
-            result.Message.Should().Be("Veículo excluído com sucesso.");
+            result.Message.Should().Be("Vehicle deleted successfully.");
         }
 
         [Fact]
@@ -286,7 +286,7 @@ namespace LoccarTests.UnitTests
             // Assert
             result.Code.Should().Be("200");
             result.Data.Should().NotBeNull();
-            result.Message.Should().Be("Veículo atualizado com sucesso");
+            result.Message.Should().Be("Vehicle updated successfully");
         }
     }
 }

@@ -34,7 +34,7 @@ namespace LoccarTests.IntegrationTests
             // Arrange
             var customer = new DomainCustomer
             {
-                Username = "João Silva",
+                Username = "Joao Silva",
                 Email = "joao@email.com",
                 Cellphone = "11999999999",
                 DriverLicense = "12345678901"
@@ -45,13 +45,13 @@ namespace LoccarTests.IntegrationTests
 
             // Assert
             result.Code.Should().Be("200");
-            result.Message.Should().Be("Locatário cadastrado com sucesso.");
+            result.Message.Should().Be("Customer registered successfully.");
             result.Data.Should().NotBeNull();
-            result.Data.Username.Should().Be("João Silva");
+            result.Data.Username.Should().Be("Joao Silva");
 
             var customerInDb = await _context.Customers.FirstOrDefaultAsync(c => c.Email == "joao@email.com");
             customerInDb.Should().NotBeNull();
-            customerInDb.Name.Should().Be("João Silva");
+            customerInDb.Name.Should().Be("Joao Silva");
         }
 
         [Fact]
@@ -110,7 +110,7 @@ namespace LoccarTests.IntegrationTests
 
             // Assert
             result.Code.Should().Be("200");
-            result.Message.Should().Be("Locatário atualizado com sucesso.");
+            result.Message.Should().Be("Customer updated successfully.");
 
             var customerInDb = await _context.Customers.FindAsync(customer.Idcustomer);
             customerInDb.Should().NotBeNull();
@@ -140,7 +140,7 @@ namespace LoccarTests.IntegrationTests
             // Assert
             result.Code.Should().Be("200");
             result.Data.Should().BeTrue();
-            result.Message.Should().Be("Locatário excluído com sucesso.");
+            result.Message.Should().Be("Customer deleted successfully.");
 
             var customerInDb = await _context.Customers.FindAsync(customer.Idcustomer);
             customerInDb.Should().BeNull();

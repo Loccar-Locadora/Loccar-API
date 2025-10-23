@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,11 +30,11 @@ namespace LoccarApplication
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
-                // Corrigindo a lógica de autorização - usuário deve ter role ADMIN ou EMPLOYEE
+                // Corrigindo a l�gica de autoriza��o - usu�rio deve ter role ADMIN ou EMPLOYEE
                 if (loggedUser?.Roles == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
-                    baseReturn.Message = "Usuário não autorizado.";
+                    baseReturn.Message = "User not authorized.";
                     return baseReturn;
                 }
 
@@ -55,7 +55,7 @@ namespace LoccarApplication
 
                 await _vehicleRepository.RegisterVehicle(tbVehicle);
 
-                // Corrigindo a lógica de verificação de tipos de veículo
+                // Corrigindo a l�gica de verifica��o de tipos de ve�culo
                 Vehicle registeredVehicle = null;
                 switch (vehicle.Type)
                 {
@@ -108,19 +108,19 @@ namespace LoccarApplication
                 if (registeredVehicle == null)
                 {
                     baseReturn.Code = "400";
-                    baseReturn.Message = "Não foi possível cadastrar o veículo";
+                    baseReturn.Message = "Unable to register the vehicle";
                     return baseReturn;
                 }
 
                 baseReturn.Code = "201";
                 baseReturn.Data = registeredVehicle;
-                baseReturn.Message = "Veículo cadastrado com sucesso";
+                baseReturn.Message = "Vehicle registered successfully";
 
             }
             catch (Exception ex)
             {
                 baseReturn.Code = "500";
-                baseReturn.Message = $"Ocorreu um erro inesperado: {ex.Message}";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
             }
             return baseReturn;
         }
@@ -142,13 +142,13 @@ namespace LoccarApplication
                 await _vehicleRepository.RegisterCargoVehicle(tbCargoVehicle);
 
                 baseReturn.Code = "201";
-                baseReturn.Message = "Veículo de carga cadastrado.";
+                baseReturn.Message = "Cargo vehicle registered.";
                 baseReturn.Data = cargoVehicle; 
             }
             catch (Exception ex) 
             {
                 baseReturn.Code = "500";
-                baseReturn.Message = $"Ocorreu um erro inesperado: {ex.Message}";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
             }
 
             return baseReturn;
@@ -171,13 +171,13 @@ namespace LoccarApplication
                 await _vehicleRepository.RegisterLeisureVehicle(tbLeisureVehicle);
 
                 baseReturn.Code = "201";
-                baseReturn.Message = "Veículo de lazer cadastrado.";
+                baseReturn.Message = "Leisure vehicle registered.";
                 baseReturn.Data = leisureVehicle;
             }
             catch (Exception ex)
             {
                 baseReturn.Code = "500";
-                baseReturn.Message = $"Ocorreu um erro inesperado: {ex.Message}";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
             }
 
             return baseReturn;
@@ -199,13 +199,13 @@ namespace LoccarApplication
                 await _vehicleRepository.RegisterMotorcycleVehicle(tbMotorcycle);
 
                 baseReturn.Code = "201";
-                baseReturn.Message = "Motocicleta cadastrada.";
+                baseReturn.Message = "Motorcycle registered.";
                 baseReturn.Data = motorcycle;
             }
             catch (Exception ex)
             {
                 baseReturn.Code = "500";
-                baseReturn.Message = $"Ocorreu um erro inesperado: {ex.Message}";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
             }
 
             return baseReturn;
@@ -228,13 +228,13 @@ namespace LoccarApplication
                 await _vehicleRepository.RegisterPassengerVehicle(tbPassengerVehicle);
 
                 baseReturn.Code = "201";
-                baseReturn.Message = "Veículo de passageiro cadastrado.";
+                baseReturn.Message = "Passenger vehicle registered.";
                 baseReturn.Data = passengerVehicle;
             }
             catch (Exception ex)
             {
                 baseReturn.Code = "500";
-                baseReturn.Message = $"Ocorreu um erro inesperado: {ex.Message}";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
             }
 
             return baseReturn;
@@ -251,7 +251,7 @@ namespace LoccarApplication
                 if (user == null)
                 {
                     baseReturn.Code = "401";
-                    baseReturn.Message = "Usuário não autorizado";
+                    baseReturn.Message = "User not authorized";
                     return baseReturn;
                 }
 
@@ -260,7 +260,7 @@ namespace LoccarApplication
                 if(tbVehicles == null)
                 {
                     baseReturn.Code = "404";
-                    baseReturn.Message = "Nenhum veículo disponível encontrado.";
+                    baseReturn.Message = "No available vehicles found.";
                     return baseReturn;
                 }
 
@@ -326,14 +326,14 @@ namespace LoccarApplication
 
 
                 baseReturn.Code = "200";
-                baseReturn.Message = "Lista de veículos disponíveis:";
+                baseReturn.Message = "Available vehicles list:";
                 baseReturn.Data = vehicles;
 
             }
             catch (Exception ex)
             {
                 baseReturn.Code = "500";
-                baseReturn.Message = $"Ocorreu um erro inesperado{ex.Message}";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
             }
 
             return baseReturn;
@@ -350,7 +350,7 @@ namespace LoccarApplication
                 if (loggedUser?.Roles == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
-                    baseReturn.Message = "Usuário não autorizado.";
+                    baseReturn.Message = "User not authorized.";
                     baseReturn.Data = false;
                     return baseReturn;
                 }
@@ -359,7 +359,7 @@ namespace LoccarApplication
 
                 baseReturn.Code = success ? "200" : "404";
                 baseReturn.Data = success;
-                baseReturn.Message = success ? "Veículo atualizado com sucesso." : "Veículo não encontrado.";
+                baseReturn.Message = success ? "Vehicle updated successfully." : "Vehicle not found.";
             }
             catch (Exception ex)
             {
@@ -371,7 +371,7 @@ namespace LoccarApplication
             return baseReturn;
         }
 
-        // Novos métodos CRUD
+        // Novos m�todos CRUD
         public async Task<BaseReturn<Vehicle>> GetVehicleById(int vehicleId)
         {
             BaseReturn<Vehicle> baseReturn = new BaseReturn<Vehicle>();
@@ -383,7 +383,7 @@ namespace LoccarApplication
                 if (user == null)
                 {
                     baseReturn.Code = "401";
-                    baseReturn.Message = "Usuário não autorizado";
+                    baseReturn.Message = "User not authorized";
                     return baseReturn;
                 }
 
@@ -392,7 +392,7 @@ namespace LoccarApplication
                 if (tbVehicle == null)
                 {
                     baseReturn.Code = "404";
-                    baseReturn.Message = "Veículo não encontrado.";
+                    baseReturn.Message = "Vehicle not found.";
                     return baseReturn;
                 }
 
@@ -452,13 +452,13 @@ namespace LoccarApplication
                 };
 
                 baseReturn.Code = "200";
-                baseReturn.Message = "Veículo encontrado com sucesso.";
+                baseReturn.Message = "Vehicle found successfully.";
                 baseReturn.Data = vehicle;
             }
             catch (Exception ex)
             {
                 baseReturn.Code = "500";
-                baseReturn.Message = $"Ocorreu um erro inesperado: {ex.Message}";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
             }
 
             return baseReturn;
@@ -475,7 +475,7 @@ namespace LoccarApplication
                 if (user == null || (!user.Roles.Contains("ADMIN") && !user.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
-                    baseReturn.Message = "Usuário não autorizado";
+                    baseReturn.Message = "User not authorized";
                     return baseReturn;
                 }
 
@@ -484,7 +484,7 @@ namespace LoccarApplication
                 if (tbVehicles == null || !tbVehicles.Any())
                 {
                     baseReturn.Code = "404";
-                    baseReturn.Message = "Nenhum veículo encontrado.";
+                    baseReturn.Message = "No vehicles found.";
                     return baseReturn;
                 }
 
@@ -550,13 +550,13 @@ namespace LoccarApplication
                 }
 
                 baseReturn.Code = "200";
-                baseReturn.Message = "Lista de todos os veículos:";
+                baseReturn.Message = "All vehicles list:";
                 baseReturn.Data = vehicles;
             }
             catch (Exception ex)
             {
                 baseReturn.Code = "500";
-                baseReturn.Message = $"Ocorreu um erro inesperado: {ex.Message}";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
             }
 
             return baseReturn;
@@ -570,11 +570,11 @@ namespace LoccarApplication
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
-                // Corrigindo lógica de autorização
+                // Corrigindo l�gica de autoriza��o
                 if (loggedUser?.Roles == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
-                    baseReturn.Message = "Usuário não autorizado.";
+                    baseReturn.Message = "User not authorized.";
                     return baseReturn;
                 }
 
@@ -600,18 +600,18 @@ namespace LoccarApplication
                 if (updatedVehicle == null)
                 {
                     baseReturn.Code = "404";
-                    baseReturn.Message = "Veículo não encontrado.";
+                    baseReturn.Message = "Vehicle not found.";
                     return baseReturn;
                 }
 
                 baseReturn.Code = "200";
                 baseReturn.Data = vehicle;
-                baseReturn.Message = "Veículo atualizado com sucesso";
+                baseReturn.Message = "Vehicle updated successfully";
             }
             catch (Exception ex)
             {
                 baseReturn.Code = "500";
-                baseReturn.Message = $"Ocorreu um erro inesperado: {ex.Message}";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
             }
 
             return baseReturn;
@@ -625,11 +625,11 @@ namespace LoccarApplication
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
-                // Corrigindo lógica de autorização
+                // Corrigindo l�gica de autoriza��o
                 if (loggedUser?.Roles == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
-                    baseReturn.Message = "Usuário não autorizado.";
+                    baseReturn.Message = "User not authorized.";
                     baseReturn.Data = false;
                     return baseReturn;
                 }
@@ -638,12 +638,12 @@ namespace LoccarApplication
 
                 baseReturn.Code = success ? "200" : "404";
                 baseReturn.Data = success;
-                baseReturn.Message = success ? "Veículo excluído com sucesso." : "Veículo não encontrado.";
+                baseReturn.Message = success ? "Vehicle deleted successfully." : "Vehicle not found.";
             }
             catch (Exception ex)
             {
                 baseReturn.Code = "500";
-                baseReturn.Message = $"Ocorreu um erro inesperado: {ex.Message}";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
                 baseReturn.Data = false;
             }
 

@@ -27,11 +27,11 @@ namespace LoccarTests.ParameterizedTests
         public static IEnumerable<object[]> UserRoleTestData =>
             new List<object[]>
             {
-                new object[] { new List<string> { "ADMIN" }, true, "201", "Veículo cadastrado com sucesso" },
-                new object[] { new List<string> { "EMPLOYEE" }, true, "201", "Veículo cadastrado com sucesso" },
-                new object[] { new List<string> { "COMMON_USER" }, false, "401", "Usuário não autorizado." },
-                new object[] { null, false, "401", "Usuário não autorizado." },
-                new object[] { new List<string>(), false, "401", "Usuário não autorizado." }
+                new object[] { new List<string> { "ADMIN" }, true, "201", "Vehicle registered successfully" },
+                new object[] { new List<string> { "EMPLOYEE" }, true, "201", "Vehicle registered successfully" },
+                new object[] { new List<string> { "COMMON_USER" }, false, "401", "User not authorized." },
+                new object[] { null, false, "401", "User not authorized." },
+                new object[] { new List<string>(), false, "401", "User not authorized." }
             };
 
         [Theory]
@@ -92,7 +92,7 @@ namespace LoccarTests.ParameterizedTests
                 Type = vehicleType
             };
 
-            // Criar instância do tipo específico
+            // Criar instancia do tipo especifico
             switch (vehicleType)
             {
                 case VehicleType.Cargo:
@@ -116,7 +116,7 @@ namespace LoccarTests.ParameterizedTests
             _mockVehicleRepository.Setup(x => x.RegisterVehicle(It.IsAny<LoccarInfra.ORM.model.Vehicle>()))
                 .ReturnsAsync(tbVehicle);
 
-            // Setup específico para cada tipo
+            // Setup especifico para cada tipo
             switch (vehicleType)
             {
                 case VehicleType.Cargo:
@@ -144,7 +144,7 @@ namespace LoccarTests.ParameterizedTests
             result.Code.Should().Be("201");
             _mockVehicleRepository.Verify(x => x.RegisterVehicle(It.IsAny<LoccarInfra.ORM.model.Vehicle>()), Times.Once);
             
-            // Verificar se o método correto foi chamado
+            // Verificar se o metodo correto foi chamado
             switch (vehicleType)
             {
                 case VehicleType.Cargo:
@@ -188,13 +188,13 @@ namespace LoccarTests.ParameterizedTests
             {
                 result.Code.Should().Be("200");
                 result.Data.Should().BeTrue();
-                result.Message.Should().Be("Veículo atualizado com sucesso.");
+                result.Message.Should().Be("Vehicle updated successfully.");
             }
             else
             {
                 result.Code.Should().Be("401");
                 result.Data.Should().BeFalse();
-                result.Message.Should().Be("Usuário não autorizado.");
+                result.Message.Should().Be("User not authorized.");
             }
         }
 
@@ -270,7 +270,7 @@ namespace LoccarTests.ParameterizedTests
             decimal dailyRate, int days, decimal expectedTotal)
         {
             // Arrange
-            int actualDays = days <= 0 ? 1 : days; // Simular lógica da aplicação
+            int actualDays = days <= 0 ? 1 : days; // Simular logica da aplicacao
 
             // Act
             decimal actualTotal = dailyRate * actualDays;
@@ -282,9 +282,9 @@ namespace LoccarTests.ParameterizedTests
         public static IEnumerable<object[]> ExceptionHandlingTestData =>
             new List<object[]>
             {
-                new object[] { new InvalidOperationException("Invalid operation"), "500", "Ocorreu um erro inesperado: Invalid operation" },
-                new object[] { new ArgumentNullException("parameter"), "500", "Ocorreu um erro inesperado: Value cannot be null. (Parameter 'parameter')" },
-                new object[] { new UnauthorizedAccessException("Access denied"), "500", "Ocorreu um erro inesperado: Access denied" }
+                new object[] { new InvalidOperationException("Invalid operation"), "500", "An unexpected error occurred: Invalid operation" },
+                new object[] { new ArgumentNullException("parameter"), "500", "An unexpected error occurred: Value cannot be null. (Parameter 'parameter')" },
+                new object[] { new UnauthorizedAccessException("Access denied"), "500", "An unexpected error occurred: Access denied" }
             };
 
         [Theory]
@@ -305,7 +305,7 @@ namespace LoccarTests.ParameterizedTests
 
             // Assert
             result.Code.Should().Be(expectedCode);
-            result.Message.Should().StartWith("Ocorreu um erro inesperado:");
+            result.Message.Should().StartWith("An unexpected error occurred:");
         }
     }
 }

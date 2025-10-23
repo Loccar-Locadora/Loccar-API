@@ -29,7 +29,7 @@ namespace LoccarTests.UnitTests
             // Arrange
             var customer = new Customer
             {
-                Username = "João Silva",
+                Username = "Joao Silva",
                 Email = "joao@email.com",
                 Cellphone = "11999999999",
                 DriverLicense = "12345678901"
@@ -51,7 +51,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("200");
-            result.Message.Should().Be("Locatário cadastrado com sucesso.");
+            result.Message.Should().Be("Customer registered successfully.");
             result.Data.Should().NotBeNull();
             result.Data.Username.Should().Be(customer.Username);
         }
@@ -109,7 +109,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("200");
-            result.Message.Should().Be("Locatário atualizado com sucesso.");
+            result.Message.Should().Be("Customer updated successfully.");
             result.Data.Should().NotBeNull();
             result.Data.Username.Should().Be(customer.Username);
         }
@@ -134,13 +134,13 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("404");
-            result.Message.Should().Be("Locatário não encontrado.");
+            result.Message.Should().Be("Customer not found.");
             result.Data.Should().BeNull();
         }
 
         [Theory]
-        [InlineData(1, true, "200", "Locatário excluído com sucesso.")]
-        [InlineData(2, false, "404", "Locatário não encontrado.")]
+        [InlineData(1, true, "200", "Customer deleted successfully.")]
+        [InlineData(2, false, "404", "Customer not found.")]
         public async Task DeleteCustomer_WithDifferentScenarios_ReturnsExpectedResult(
             int customerId, bool deleteSuccess, string expectedCode, string expectedMessage)
         {
@@ -180,7 +180,7 @@ namespace LoccarTests.UnitTests
             var tbCustomer = new LoccarInfra.ORM.model.Customer
             {
                 Idcustomer = 1,
-                Name = "João Silva",
+                Name = "Joao Silva",
                 Email = "joao@email.com",
                 Phone = "11999999999",
                 DriverLicense = "123456789",
@@ -195,9 +195,9 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("200");
-            result.Message.Should().Be("Locatário encontrado com sucesso.");
+            result.Message.Should().Be("Customer found successfully.");
             result.Data.Should().NotBeNull();
-            result.Data.Username.Should().Be("João Silva");
+            result.Data.Username.Should().Be("Joao Silva");
             result.Data.Email.Should().Be("joao@email.com");
         }
 
@@ -213,7 +213,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("404");
-            result.Message.Should().Be("Locatário não encontrado.");
+            result.Message.Should().Be("Customer not found.");
             result.Data.Should().BeNull();
         }
 
@@ -226,7 +226,7 @@ namespace LoccarTests.UnitTests
                 new LoccarInfra.ORM.model.Customer
                 {
                     Idcustomer = 1,
-                    Name = "João Silva",
+                    Name = "Joao Silva",
                     Email = "joao@email.com",
                     Phone = "11999999999",
                     DriverLicense = "123456789",
@@ -251,9 +251,9 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("200");
-            result.Message.Should().Be("Lista de locatários obtida com sucesso.");
+            result.Message.Should().Be("Customer list obtained successfully.");
             result.Data.Should().HaveCount(2);
-            result.Data.First().Username.Should().Be("João Silva");
+            result.Data.First().Username.Should().Be("Joao Silva");
         }
 
         [Fact]
@@ -268,7 +268,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("404");
-            result.Message.Should().Be("Nenhum locatário encontrado.");
+            result.Message.Should().Be("No customers found.");
             result.Data.Should().BeNull();
         }
 

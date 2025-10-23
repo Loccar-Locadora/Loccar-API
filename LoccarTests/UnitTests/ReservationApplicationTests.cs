@@ -53,7 +53,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("401");
-            result.Message.Should().Be("Usuário não autorizado.");
+            result.Message.Should().Be("User not authorized.");
         }
 
         [Fact]
@@ -78,7 +78,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("404");
-            result.Message.Should().Be("Veículo não encontrado.");
+            result.Message.Should().Be("Vehicle not found.");
         }
 
         [Fact]
@@ -104,7 +104,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("400");
-            result.Message.Should().Be("Veículo não está disponível.");
+            result.Message.Should().Be("Vehicle is not available.");
         }
 
         [Fact]
@@ -132,7 +132,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("404");
-            result.Message.Should().Be("Cliente não encontrado.");
+            result.Message.Should().Be("Customer not found.");
         }
 
         [Fact]
@@ -173,7 +173,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("201");
-            result.Message.Should().Be("Reserva criada com sucesso.");
+            result.Message.Should().Be("Reservation created successfully.");
             result.Data.Should().NotBeNull();
             result.Data.Reservationnumber.Should().Be(123456);
         }
@@ -222,7 +222,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("404");
-            result.Message.Should().Be("Reserva não encontrada.");
+            result.Message.Should().Be("Reservation not found.");
         }
 
         [Theory]
@@ -243,7 +243,7 @@ namespace LoccarTests.UnitTests
             }
 
             // Act
-            var result = await _reservationApplication.RegisterDamage(123456, "Dano no para-choque");
+            var result = await _reservationApplication.RegisterDamage(123456, "Damage on bumper");
 
             // Assert
             if (shouldSucceed)
@@ -254,7 +254,7 @@ namespace LoccarTests.UnitTests
             else
             {
                 result.Code.Should().Be("401");
-                result.Message.Should().Be("Usuário não autorizado.");
+                result.Message.Should().Be("User not authorized.");
                 result.Data.Should().BeFalse();
             }
         }
@@ -274,7 +274,7 @@ namespace LoccarTests.UnitTests
             // Assert
             result.Code.Should().Be("200");
             result.Data.Should().BeTrue();
-            result.Message.Should().Be("Reserva cancelada com sucesso.");
+            result.Message.Should().Be("Reservation cancelled successfully.");
         }
 
         [Fact]
@@ -303,7 +303,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("200");
-            result.Message.Should().Be("Histórico de reservas obtido com sucesso.");
+            result.Message.Should().Be("Reservation history obtained successfully.");
             result.Data.Should().HaveCount(1);
             result.Data.First().Reservationnumber.Should().Be(123456);
         }
@@ -338,7 +338,7 @@ namespace LoccarTests.UnitTests
             // Assert
             result.Code.Should().Be("200");
             result.Data.Should().NotBeNull();
-            result.Message.Should().Be("Reserva atualizada com sucesso.");
+            result.Message.Should().Be("Reservation updated successfully.");
         }
 
         [Fact]
@@ -361,7 +361,7 @@ namespace LoccarTests.UnitTests
 
             // Assert
             result.Code.Should().Be("401");
-            result.Message.Should().Be("Usuário não autorizado.");
+            result.Message.Should().Be("User not authorized.");
         }
     }
 }

@@ -85,7 +85,7 @@ namespace LoccarTests.ParameterizedTests
                 new object[] { new List<string> { "EMPLOYEE" }, true },
                 new object[] { new List<string> { "ADMIN" }, true },
                 new object[] { null, false },
-                new object[] { new List<string>(), true } // Roles vazias são consideradas autorizadas (não null)
+                new object[] { new List<string>(), true } // Roles vazias sao consideradas autorizadas (nao null)
             };
 
         [Theory]
@@ -112,18 +112,18 @@ namespace LoccarTests.ParameterizedTests
             if (!shouldBeAuthorized)
             {
                 result.Code.Should().Be("401");
-                result.Message.Should().Be("Usuário não autorizado.");
+                result.Message.Should().Be("User not authorized.");
             }
             else
             {
-                // Se autorizado, pode falhar por outros motivos (404 - veículo não encontrado, etc.)
+                // Se autorizado, pode falhar por outros motivos (404 - veiculo nao encontrado, etc.)
                 result.Code.Should().NotBe("401");
             }
         }
 
         [Theory]
-        [InlineData(true, "400", "Veículo não está disponível.")]
-        [InlineData(false, "404", "Cliente não encontrado.")] // Assumindo que o cliente não será encontrado no setup
+        [InlineData(true, "400", "Vehicle is not available.")]
+        [InlineData(false, "404", "Customer not found.")] // Assumindo que o cliente nao sera encontrado no setup
         public async Task CreateReservation_WithDifferentVehicleStates_ReturnsExpectedResult(
             bool vehicleReserved, string expectedCode, string expectedMessage)
         {
@@ -182,20 +182,20 @@ namespace LoccarTests.ParameterizedTests
             }
 
             // Act
-            var result = await _reservationApplication.RegisterDamage(123456, "Dano no para-choque");
+            var result = await _reservationApplication.RegisterDamage(123456, "Damage on bumper");
 
             // Assert
             if (shouldSucceed)
             {
                 result.Code.Should().Be("200");
                 result.Data.Should().BeTrue();
-                result.Message.Should().Be("Dano registrado com sucesso.");
+                result.Message.Should().Be("Damage registered successfully.");
             }
             else
             {
                 result.Code.Should().Be("401");
                 result.Data.Should().BeFalse();
-                result.Message.Should().Be("Usuário não autorizado.");
+                result.Message.Should().Be("User not authorized.");
             }
         }
 
@@ -230,13 +230,13 @@ namespace LoccarTests.ParameterizedTests
             else
             {
                 result.Code.Should().Be("401");
-                result.Message.Should().Be("Usuário não autorizado.");
+                result.Message.Should().Be("User not authorized.");
             }
         }
 
         [Theory]
-        [InlineData(123456, true, "200", "Reserva cancelada com sucesso.")]
-        [InlineData(999999, false, "404", "Reserva não encontrada.")]
+        [InlineData(123456, true, "200", "Reservation cancelled successfully.")]
+        [InlineData(999999, false, "404", "Reservation not found.")]
         public async Task CancelReservation_WithDifferentReservationNumbers_ReturnsExpectedResult(
             int reservationNumber, bool reservationExists, string expectedCode, string expectedMessage)
         {
@@ -291,12 +291,12 @@ namespace LoccarTests.ParameterizedTests
             {
                 result.Code.Should().Be("200");
                 result.Data.Should().HaveCount(reservationCount);
-                result.Message.Should().Be("Histórico de reservas obtido com sucesso.");
+                result.Message.Should().Be("Reservation history obtained successfully.");
             }
             else
             {
                 result.Code.Should().Be("404");
-                result.Message.Should().Be("Nenhuma reserva encontrada para este cliente.");
+                result.Message.Should().Be("No reservations found for this customer.");
             }
         }
 
@@ -306,7 +306,7 @@ namespace LoccarTests.ParameterizedTests
                 new object[] { DateTime.Now, DateTime.Now.AddDays(1), true },
                 new object[] { DateTime.Now, DateTime.Now.AddDays(7), true },
                 new object[] { DateTime.Now, DateTime.Now.AddDays(-1), false }, // Data de retorno no passado
-                new object[] { DateTime.Now.AddDays(1), DateTime.Now, false }, // Data de locação depois da devolução
+                new object[] { DateTime.Now.AddDays(1), DateTime.Now, false }, // Data de locacao depois da devolucao
             };
 
         [Theory]
@@ -330,15 +330,15 @@ namespace LoccarTests.ParameterizedTests
             int inputDays, int expectedDays)
         {
             // Arrange & Act
-            int actualDays = inputDays <= 0 ? 1 : inputDays; // Simular lógica da aplicação
+            int actualDays = inputDays <= 0 ? 1 : inputDays; // Simular logica da aplicacao
 
             // Assert
             actualDays.Should().Be(expectedDays);
         }
 
         [Theory]
-        [InlineData("Pequeno arranhão na porta", true)]
-        [InlineData("Dano severo no motor", true)]
+        [InlineData("Small scratch on door", true)]
+        [InlineData("Severe engine damage", true)]
         [InlineData("", false)]
         [InlineData(null, false)]
         public void ValidateDamageDescription_WithDifferentInputs_ReturnsExpectedResult(

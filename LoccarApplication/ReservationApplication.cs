@@ -1,4 +1,4 @@
-﻿using LoccarApplication.Interfaces;
+using LoccarApplication.Interfaces;
 using LoccarDomain;
 using LoccarDomain.LoggedUser.Models;
 using LoccarDomain.Reservation.Models;
@@ -21,7 +21,7 @@ namespace LoccarApplication
             _authApplication = authApplication;
         }
 
-        // US05 - Cliente: Reservar veículo online
+        // US05 - Cliente: Reservar ve�culo online
         public async Task<BaseReturn<Reservation>> CreateReservation(Reservation reservation)
         {
             BaseReturn<Reservation> baseReturn = new BaseReturn<Reservation>();
@@ -32,23 +32,23 @@ namespace LoccarApplication
                 if (loggedUser == null)
                 {
                     baseReturn.Code = "401";
-                    baseReturn.Message = "Usuário não autorizado.";
+                    baseReturn.Message = "User not authorized.";
                     return baseReturn;
                 }
 
-                // Validar se o veículo existe e está disponível
+                // Validar se o ve�culo existe e est� dispon�vel
                 var vehicle = await _vehicleRepository.GetVehicleById(reservation.Idvehicle);
                 if (vehicle == null)
                 {
                     baseReturn.Code = "404";
-                    baseReturn.Message = "Veículo não encontrado.";
+                    baseReturn.Message = "Vehicle not found.";
                     return baseReturn;
                 }
 
                 if (vehicle.Reserved == true)
                 {
                     baseReturn.Code = "400";
-                    baseReturn.Message = "Veículo não está disponível.";
+                    baseReturn.Message = "Vehicle is not available.";
                     return baseReturn;
                 }
 
@@ -57,7 +57,7 @@ namespace LoccarApplication
                 if (customer == null)
                 {
                     baseReturn.Code = "404";
-                    baseReturn.Message = "Cliente não encontrado.";
+                    baseReturn.Message = "Customer not found.";
                     return baseReturn;
                 }
 
@@ -78,12 +78,12 @@ namespace LoccarApplication
 
                 var createdReservation = await _reservationRepository.CreateReservation(tbReservation);
 
-                // Marcar veículo como reservado
+                // Marcar ve�culo como reservado
                 vehicle.Reserved = true;
                 await _vehicleRepository.UpdateVehicle(vehicle);
 
                 baseReturn.Code = "201";
-                baseReturn.Message = "Reserva criada com sucesso.";
+                baseReturn.Message = "Reservation created successfully.";
                 baseReturn.Data = new Reservation()
                 {
                     Reservationnumber = createdReservation.Reservationnumber,
@@ -103,7 +103,7 @@ namespace LoccarApplication
             catch (Exception ex)
             {
                 baseReturn.Code = "500";
-                baseReturn.Message = $"Erro interno: {ex.Message}";
+                baseReturn.Message = $"Internal error: {ex.Message}";
             }
 
             return baseReturn;
@@ -120,7 +120,7 @@ namespace LoccarApplication
                 if (reservation == null)
                 {
                     baseReturn.Code = "404";
-                    baseReturn.Message = "Reserva não encontrada.";
+                    baseReturn.Message = "Reservation not found.";
                     return baseReturn;
                 }
 
@@ -128,12 +128,12 @@ namespace LoccarApplication
                 if (vehicle == null)
                 {
                     baseReturn.Code = "404";
-                    baseReturn.Message = "Veículo não encontrado.";
+                    baseReturn.Message = "Vehicle not found.";
                     return baseReturn;
                 }
 
                 int days = reservation.RentalDays ?? (reservation.ReturnDate - reservation.RentalDate).Days;
-                if (days <= 0) days = 1; // Mínimo 1 dia
+                if (days <= 0) days = 1; // M�nimo 1 dia
 
                 decimal dailyRate = reservation.DailyRate ?? vehicle.DailyRate ?? 0;
                 decimal totalCost = days * dailyRate;
@@ -147,13 +147,13 @@ namespace LoccarApplication
                     totalCost += reservation.TaxAmount.Value;
 
                 baseReturn.Code = "200";
-                baseReturn.Message = "Custo calculado com sucesso.";
+                baseReturn.Message = "Cost calculated successfully.";
                 baseReturn.Data = totalCost;
             }
             catch (Exception ex)
             {
                 baseReturn.Code = "500";
-                baseReturn.Message = $"Erro interno: {ex.Message}";
+                baseReturn.Message = $"Internal error: {ex.Message}";
             }
 
             return baseReturn;
@@ -170,7 +170,7 @@ namespace LoccarApplication
                 if (loggedUser == null)
                 {
                     baseReturn.Code = "401";
-                    baseReturn.Message = "Usuário não autorizado.";
+                    baseReturn.Message = "User not authorized.";
                     baseReturn.Data = false;
                     return baseReturn;
                 }
@@ -179,19 +179,19 @@ namespace LoccarApplication
 
                 baseReturn.Code = success ? "200" : "404";
                 baseReturn.Data = success;
-                baseReturn.Message = success ? "Reserva cancelada com sucesso." : "Reserva não encontrada.";
+                baseReturn.Message = success ? "Reservation cancelled successfully." : "Reservation not found.";
             }
             catch (Exception ex)
             {
                 baseReturn.Code = "500";
-                baseReturn.Message = $"Erro interno: {ex.Message}";
+                baseReturn.Message = $"Internal error: {ex.Message}";
                 baseReturn.Data = false;
             }
 
             return baseReturn;
         }
 
-        // US11 - Cliente: Consultar histórico de reservas
+        // US11 - Cliente: Consultar hist�rico de reservas
         public async Task<BaseReturn<List<Reservation>>> GetReservationHistory(int customerId)
         {
             BaseReturn<List<Reservation>> baseReturn = new BaseReturn<List<Reservation>>();
@@ -202,7 +202,7 @@ namespace LoccarApplication
                 if (loggedUser == null)
                 {
                     baseReturn.Code = "401";
-                    baseReturn.Message = "Usuário não autorizado.";
+                    baseReturn.Message = "User not authorized.";
                     return baseReturn;
                 }
 
@@ -211,7 +211,7 @@ namespace LoccarApplication
                 if (tbReservations == null || !tbReservations.Any())
                 {
                     baseReturn.Code = "404";
-                    baseReturn.Message = "Nenhuma reserva encontrada para este cliente.";
+                    baseReturn.Message = "No reservations found for this customer.";
                     return baseReturn;
                 }
 
@@ -236,13 +236,13 @@ namespace LoccarApplication
                 }
 
                 baseReturn.Code = "200";
-                baseReturn.Message = "Histórico de reservas obtido com sucesso.";
+                baseReturn.Message = "Reservation history obtained successfully.";
                 baseReturn.Data = reservations;
             }
             catch (Exception ex)
             {
                 baseReturn.Code = "500";
-                baseReturn.Message = $"Erro interno: {ex.Message}";
+                baseReturn.Message = $"Internal error: {ex.Message}";
             }
 
             return baseReturn;
@@ -258,7 +258,7 @@ namespace LoccarApplication
                 if (loggedUser == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
-                    baseReturn.Message = "Usuário não autorizado.";
+                    baseReturn.Message = "User not authorized.";
                     baseReturn.Data = false;
                     return baseReturn;
                 }
@@ -267,19 +267,19 @@ namespace LoccarApplication
 
                 baseReturn.Code = success ? "200" : "404";
                 baseReturn.Data = success;
-                baseReturn.Message = success ? "Dano registrado com sucesso." : "Reserva não encontrada.";
+                baseReturn.Message = success ? "Damage registered successfully." : "Reservation not found.";
             }
             catch (Exception ex)
             {
                 baseReturn.Code = "500";
-                baseReturn.Message = $"Erro interno: {ex.Message}";
+                baseReturn.Message = $"Internal error: {ex.Message}";
                 baseReturn.Data = false;
             }
 
             return baseReturn;
         }
 
-        // Novos métodos CRUD
+        // Novos m�todos CRUD
         public async Task<BaseReturn<Reservation>> GetReservationById(int reservationId)
         {
             BaseReturn<Reservation> baseReturn = new BaseReturn<Reservation>();
@@ -290,7 +290,7 @@ namespace LoccarApplication
                 if (loggedUser == null)
                 {
                     baseReturn.Code = "401";
-                    baseReturn.Message = "Usuário não autorizado.";
+                    baseReturn.Message = "User not authorized.";
                     return baseReturn;
                 }
 
@@ -299,7 +299,7 @@ namespace LoccarApplication
                 if (tbReservation == null)
                 {
                     baseReturn.Code = "404";
-                    baseReturn.Message = "Reserva não encontrada.";
+                    baseReturn.Message = "Reservation not found.";
                     return baseReturn;
                 }
 
@@ -320,13 +320,13 @@ namespace LoccarApplication
                 };
 
                 baseReturn.Code = "200";
-                baseReturn.Message = "Reserva encontrada com sucesso.";
+                baseReturn.Message = "Reservation found successfully.";
                 baseReturn.Data = reservation;
             }
             catch (Exception ex)
             {
                 baseReturn.Code = "500";
-                baseReturn.Message = $"Erro interno: {ex.Message}";
+                baseReturn.Message = $"Internal error: {ex.Message}";
             }
 
             return baseReturn;
@@ -342,7 +342,7 @@ namespace LoccarApplication
                 if (loggedUser == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
-                    baseReturn.Message = "Usuário não autorizado.";
+                    baseReturn.Message = "User not authorized.";
                     return baseReturn;
                 }
 
@@ -351,7 +351,7 @@ namespace LoccarApplication
                 if (tbReservations == null || !tbReservations.Any())
                 {
                     baseReturn.Code = "404";
-                    baseReturn.Message = "Nenhuma reserva encontrada.";
+                    baseReturn.Message = "No reservations found.";
                     return baseReturn;
                 }
 
@@ -376,13 +376,13 @@ namespace LoccarApplication
                 }
 
                 baseReturn.Code = "200";
-                baseReturn.Message = "Lista de reservas obtida com sucesso.";
+                baseReturn.Message = "Reservation list obtained successfully.";
                 baseReturn.Data = reservations;
             }
             catch (Exception ex)
             {
                 baseReturn.Code = "500";
-                baseReturn.Message = $"Erro interno: {ex.Message}";
+                baseReturn.Message = $"Internal error: {ex.Message}";
             }
 
             return baseReturn;
@@ -398,7 +398,7 @@ namespace LoccarApplication
                 if (loggedUser == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
-                    baseReturn.Message = "Usuário não autorizado.";
+                    baseReturn.Message = "User not authorized.";
                     return baseReturn;
                 }
 
@@ -423,18 +423,18 @@ namespace LoccarApplication
                 if (updatedReservation == null)
                 {
                     baseReturn.Code = "404";
-                    baseReturn.Message = "Reserva não encontrada.";
+                    baseReturn.Message = "Reservation not found.";
                     return baseReturn;
                 }
 
                 baseReturn.Code = "200";
                 baseReturn.Data = reservation;
-                baseReturn.Message = "Reserva atualizada com sucesso.";
+                baseReturn.Message = "Reservation updated successfully.";
             }
             catch (Exception ex)
             {
                 baseReturn.Code = "500";
-                baseReturn.Message = $"Erro interno: {ex.Message}";
+                baseReturn.Message = $"Internal error: {ex.Message}";
             }
 
             return baseReturn;

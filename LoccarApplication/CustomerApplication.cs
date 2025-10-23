@@ -43,7 +43,7 @@ namespace LoccarApplication
 
                 baseReturn.Code = "200";
                 baseReturn.Data = customerResponse;
-                baseReturn.Message = "Locatário cadastrado com sucesso.";
+                baseReturn.Message = "Customer registered successfully.";
             }
             catch (Exception ex)
             {
@@ -74,7 +74,7 @@ namespace LoccarApplication
                 if (response == null)
                 {
                     baseReturn.Code = "404";
-                    baseReturn.Message = "Locatário não encontrado.";
+                    baseReturn.Message = "Customer not found.";
                     baseReturn.Data = null;
                     return baseReturn;
                 }
@@ -90,7 +90,7 @@ namespace LoccarApplication
 
                 baseReturn.Code = "200";
                 baseReturn.Data = customerResponse;
-                baseReturn.Message = "Locatário atualizado com sucesso.";
+                baseReturn.Message = "Customer updated successfully.";
             }
             catch (Exception ex)
             {
@@ -111,7 +111,7 @@ namespace LoccarApplication
 
                 baseReturn.Code = success ? "200" : "404";
                 baseReturn.Data = success;
-                baseReturn.Message = success ? "Locatário excluído com sucesso." : "Locatário não encontrado.";
+                baseReturn.Message = success ? "Customer deleted successfully." : "Customer not found.";
             }
             catch (Exception ex)
             {
@@ -135,7 +135,7 @@ namespace LoccarApplication
                 if (tabelaCustomer == null)
                 {
                     baseReturn.Code = "404";
-                    baseReturn.Message = "Locatário não encontrado.";
+                    baseReturn.Message = "Customer not found.";
                     return baseReturn;
                 }
 
@@ -151,7 +151,7 @@ namespace LoccarApplication
 
                 baseReturn.Code = "200";
                 baseReturn.Data = customerResponse;
-                baseReturn.Message = "Locatário encontrado com sucesso.";
+                baseReturn.Message = "Customer found successfully.";
             }
             catch (Exception ex)
             {
@@ -173,7 +173,7 @@ namespace LoccarApplication
                 if (tabelaCustomers == null || !tabelaCustomers.Any())
                 {
                     baseReturn.Code = "404";
-                    baseReturn.Message = "Nenhum locatário encontrado.";
+                    baseReturn.Message = "No customers found.";
                     return baseReturn;
                 }
 
@@ -193,7 +193,7 @@ namespace LoccarApplication
 
                 baseReturn.Code = "200";
                 baseReturn.Data = customers;
-                baseReturn.Message = "Lista de locatários obtida com sucesso.";
+                baseReturn.Message = "Customer list obtained successfully.";
             }
             catch (Exception ex)
             {
