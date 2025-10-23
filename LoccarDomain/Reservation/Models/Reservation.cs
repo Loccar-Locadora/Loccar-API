@@ -1,4 +1,4 @@
-﻿using LoccarDomain.Vehicle.Models;
+using LoccarDomain.Vehicle.Models;
 
 namespace LoccarDomain.Reservation.Models;
 
@@ -25,6 +25,7 @@ public class Reservation
     public decimal? InsuranceThirdParty { get; set; }
 
     public decimal? TaxAmount { get; set; }
+
     public string? DamageDescription { get; set; }
 
     public Vehicle.Models.Vehicle VehicleReserved { get; set; }

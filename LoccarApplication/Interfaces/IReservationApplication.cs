@@ -1,4 +1,4 @@
-﻿using LoccarDomain;
+using LoccarDomain;
 using LoccarDomain.Reservation.Models;
 
 namespace LoccarApplication.Interfaces
@@ -21,7 +21,9 @@ namespace LoccarApplication.Interfaces
 
         // Novos métodos CRUD
         Task<BaseReturn<Reservation>> GetReservationById(int reservationId);
+
         Task<BaseReturn<List<Reservation>>> ListAllReservations();
+
         Task<BaseReturn<Reservation>> UpdateReservation(Reservation reservation);
     }
 }

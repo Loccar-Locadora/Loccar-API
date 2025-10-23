@@ -16,8 +16,9 @@ namespace LoccarApplication
     {
         private readonly IAuthApplication _authApplication;
         private readonly IVehicleRepository _vehicleRepository;
-        public VehicleApplication(IAuthApplication authApplication, IVehicleRepository vehicleRepository) 
-        { 
+
+        public VehicleApplication(IAuthApplication authApplication, IVehicleRepository vehicleRepository)
+        {
             _authApplication = authApplication;
             _vehicleRepository = vehicleRepository;
         }
@@ -30,7 +31,7 @@ namespace LoccarApplication
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
-                // Corrigindo a lógica de autorização - usuário deve ter role ADMIN ou EMPLOYEE
+                // Corrigindo a lÃ³gica de autorizaÃ§Ã£o - usuÃ¡rio deve ter role ADMIN ou EMPLOYEE
                 if (loggedUser?.Roles == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
@@ -40,22 +41,22 @@ namespace LoccarApplication
 
                 LoccarInfra.ORM.model.Vehicle tbVehicle = new LoccarInfra.ORM.model.Vehicle()
                 {
-                   Brand = vehicle.Brand,
-                   Model = vehicle.Model,
-                   ManufacturingYear = vehicle.ManufacturingYear,
-                   ModelYear = vehicle.ModelYear,
-                   DailyRate = vehicle.DailyRate,
-                   MonthlyRate = vehicle.MonthlyRate,
-                   CompanyDailyRate = vehicle.CompanyDailyRate,
-                   ReducedDailyRate = vehicle.ReducedDailyRate,
-                   FuelTankCapacity = vehicle.FuelTankCapacity,
-                   Vin = vehicle.Vin,
-                   Reserved = false
+                    Brand = vehicle.Brand,
+                    Model = vehicle.Model,
+                    ManufacturingYear = vehicle.ManufacturingYear,
+                    ModelYear = vehicle.ModelYear,
+                    DailyRate = vehicle.DailyRate,
+                    MonthlyRate = vehicle.MonthlyRate,
+                    CompanyDailyRate = vehicle.CompanyDailyRate,
+                    ReducedDailyRate = vehicle.ReducedDailyRate,
+                    FuelTankCapacity = vehicle.FuelTankCapacity,
+                    Vin = vehicle.Vin,
+                    Reserved = false,
                 };
 
                 await _vehicleRepository.RegisterVehicle(tbVehicle);
 
-                // Corrigindo a lógica de verificação de tipos de veículo
+                // Corrigindo a lÃ³gica de verificaÃ§Ã£o de tipos de veÃ­culo
                 Vehicle registeredVehicle = null;
                 switch (vehicle.Type)
                 {
@@ -69,6 +70,7 @@ namespace LoccarApplication
                                 registeredVehicle = vehicle;
                             }
                         }
+
                         break;
                     case VehicleType.Motorcycle:
                         if (vehicle.Motorcycle != null)
@@ -80,6 +82,7 @@ namespace LoccarApplication
                                 registeredVehicle = vehicle;
                             }
                         }
+
                         break;
                     case VehicleType.Leisure:
                         if (vehicle.LeisureVehicle != null)
@@ -91,6 +94,7 @@ namespace LoccarApplication
                                 registeredVehicle = vehicle;
                             }
                         }
+
                         break;
                     case VehicleType.Passenger:
                         if (vehicle.PassengerVehicle != null)
@@ -102,6 +106,7 @@ namespace LoccarApplication
                                 registeredVehicle = vehicle;
                             }
                         }
+
                         break;
                 }
 
@@ -115,13 +120,13 @@ namespace LoccarApplication
                 baseReturn.Code = "201";
                 baseReturn.Data = registeredVehicle;
                 baseReturn.Message = "Vehicle registered successfully";
-
             }
             catch (Exception ex)
             {
                 baseReturn.Code = "500";
                 baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
             }
+
             return baseReturn;
         }
 
@@ -136,16 +141,16 @@ namespace LoccarApplication
                     CargoCompartmentSize = cargoVehicle.CargoCompartmentSize,
                     CargoType = cargoVehicle.CargoType,
                     TareWeight = cargoVehicle.TareWeight,
-                    Idvehicle = cargoVehicle.Idvehicle
+                    Idvehicle = cargoVehicle.Idvehicle,
                 };
 
                 await _vehicleRepository.RegisterCargoVehicle(tbCargoVehicle);
 
                 baseReturn.Code = "201";
                 baseReturn.Message = "Cargo vehicle registered.";
-                baseReturn.Data = cargoVehicle; 
+                baseReturn.Data = cargoVehicle;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 baseReturn.Code = "500";
                 baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
@@ -165,7 +170,7 @@ namespace LoccarApplication
                     PowerSteering = leisureVehicle.PowerSteering,
                     AirConditioning = leisureVehicle.AirConditioning,
                     Category = leisureVehicle.Category,
-                    Idvehicle = leisureVehicle.Idvehicle
+                    Idvehicle = leisureVehicle.Idvehicle,
                 };
 
                 await _vehicleRepository.RegisterLeisureVehicle(tbLeisureVehicle);
@@ -193,7 +198,7 @@ namespace LoccarApplication
                     TractionControl = motorcycle.TractionControl,
                     AbsBrakes = motorcycle.AbsBrakes,
                     CruiseControl = motorcycle.CruiseControl,
-                    Idvehicle = motorcycle.Idvehicle
+                    Idvehicle = motorcycle.Idvehicle,
                 };
 
                 await _vehicleRepository.RegisterMotorcycleVehicle(tbMotorcycle);
@@ -222,7 +227,7 @@ namespace LoccarApplication
                     Tv = passengerVehicle.Tv,
                     AirConditioning = passengerVehicle.AirConditioning,
                     PowerSteering = passengerVehicle.PowerSteering,
-                    Idvehicle = passengerVehicle.Idvehicle
+                    Idvehicle = passengerVehicle.Idvehicle,
                 };
 
                 await _vehicleRepository.RegisterPassengerVehicle(tbPassengerVehicle);
@@ -257,7 +262,7 @@ namespace LoccarApplication
 
                 List<LoccarInfra.ORM.model.Vehicle> tbVehicles = await _vehicleRepository.ListAvailableVehicles();
 
-                if(tbVehicles == null)
+                if (tbVehicles == null)
                 {
                     baseReturn.Code = "404";
                     baseReturn.Message = "No available vehicles found.";
@@ -288,8 +293,9 @@ namespace LoccarApplication
                             CargoCapacity = tbVehicle.CargoVehicle.CargoCapacity,
                             CargoType = tbVehicle.CargoVehicle.CargoType,
                             TareWeight = tbVehicle.CargoVehicle.TareWeight,
-                            CargoCompartmentSize = tbVehicle.CargoVehicle.CargoCompartmentSize
-                        } : null,
+                            CargoCompartmentSize = tbVehicle.CargoVehicle.CargoCompartmentSize,
+                        }
+                        : null,
 
                         // PassengerVehicle
                         PassengerVehicle = tbVehicle.PassengerVehicle != null ? new PassengerVehicle()
@@ -298,8 +304,9 @@ namespace LoccarApplication
                             PassengerCapacity = tbVehicle.PassengerVehicle.PassengerCapacity,
                             Tv = tbVehicle.PassengerVehicle.Tv,
                             AirConditioning = tbVehicle.PassengerVehicle.AirConditioning,
-                            PowerSteering = tbVehicle.PassengerVehicle.PowerSteering
-                        } : null,
+                            PowerSteering = tbVehicle.PassengerVehicle.PowerSteering,
+                        }
+                        : null,
 
                         // LeisureVehicle
                         LeisureVehicle = tbVehicle.LeisureVehicle != null ? new LeisureVehicle()
@@ -308,8 +315,9 @@ namespace LoccarApplication
                             Automatic = tbVehicle.LeisureVehicle.Automatic,
                             PowerSteering = tbVehicle.LeisureVehicle.PowerSteering,
                             AirConditioning = tbVehicle.LeisureVehicle.AirConditioning,
-                            Category = tbVehicle.LeisureVehicle.Category
-                        } : null,
+                            Category = tbVehicle.LeisureVehicle.Category,
+                        }
+                        : null,
 
                         // Motorcycle
                         Motorcycle = tbVehicle.Motorcycle != null ? new Motorcycle()
@@ -317,18 +325,17 @@ namespace LoccarApplication
                             IdVehicle = tbVehicle.Motorcycle.Idvehicle,
                             TractionControl = tbVehicle.Motorcycle.TractionControl,
                             AbsBrakes = tbVehicle.Motorcycle.AbsBrakes,
-                            CruiseControl = tbVehicle.Motorcycle.CruiseControl
-                        } : null,
+                            CruiseControl = tbVehicle.Motorcycle.CruiseControl,
+                        }
+                        : null,
                     };
 
                     vehicles.Add(vehicle);
                 }
 
-
                 baseReturn.Code = "200";
                 baseReturn.Message = "Available vehicles list:";
                 baseReturn.Data = vehicles;
-
             }
             catch (Exception ex)
             {
@@ -346,6 +353,7 @@ namespace LoccarApplication
             try
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
+
                 // Corrigindo para permitir ADMIN e EMPLOYEE
                 if (loggedUser?.Roles == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
@@ -371,7 +379,7 @@ namespace LoccarApplication
             return baseReturn;
         }
 
-        // Novos métodos CRUD
+        // Novos mÃ©todos CRUD
         public async Task<BaseReturn<Vehicle>> GetVehicleById(int vehicleId)
         {
             BaseReturn<Vehicle> baseReturn = new BaseReturn<Vehicle>();
@@ -418,8 +426,9 @@ namespace LoccarApplication
                         CargoCapacity = tbVehicle.CargoVehicle.CargoCapacity,
                         CargoType = tbVehicle.CargoVehicle.CargoType,
                         TareWeight = tbVehicle.CargoVehicle.TareWeight,
-                        CargoCompartmentSize = tbVehicle.CargoVehicle.CargoCompartmentSize
-                    } : null,
+                        CargoCompartmentSize = tbVehicle.CargoVehicle.CargoCompartmentSize,
+                    }
+                    : null,
 
                     // PassengerVehicle
                     PassengerVehicle = tbVehicle.PassengerVehicle != null ? new PassengerVehicle()
@@ -428,8 +437,9 @@ namespace LoccarApplication
                         PassengerCapacity = tbVehicle.PassengerVehicle.PassengerCapacity,
                         Tv = tbVehicle.PassengerVehicle.Tv,
                         AirConditioning = tbVehicle.PassengerVehicle.AirConditioning,
-                        PowerSteering = tbVehicle.PassengerVehicle.PowerSteering
-                    } : null,
+                        PowerSteering = tbVehicle.PassengerVehicle.PowerSteering,
+                    }
+                    : null,
 
                     // LeisureVehicle
                     LeisureVehicle = tbVehicle.LeisureVehicle != null ? new LeisureVehicle()
@@ -438,8 +448,9 @@ namespace LoccarApplication
                         Automatic = tbVehicle.LeisureVehicle.Automatic,
                         PowerSteering = tbVehicle.LeisureVehicle.PowerSteering,
                         AirConditioning = tbVehicle.LeisureVehicle.AirConditioning,
-                        Category = tbVehicle.LeisureVehicle.Category
-                    } : null,
+                        Category = tbVehicle.LeisureVehicle.Category,
+                    }
+                    : null,
 
                     // Motorcycle
                     Motorcycle = tbVehicle.Motorcycle != null ? new Motorcycle()
@@ -447,8 +458,9 @@ namespace LoccarApplication
                         IdVehicle = tbVehicle.Motorcycle.Idvehicle,
                         TractionControl = tbVehicle.Motorcycle.TractionControl,
                         AbsBrakes = tbVehicle.Motorcycle.AbsBrakes,
-                        CruiseControl = tbVehicle.Motorcycle.CruiseControl
-                    } : null,
+                        CruiseControl = tbVehicle.Motorcycle.CruiseControl,
+                    }
+                    : null,
                 };
 
                 baseReturn.Code = "200";
@@ -513,8 +525,9 @@ namespace LoccarApplication
                             CargoCapacity = tbVehicle.CargoVehicle.CargoCapacity,
                             CargoType = tbVehicle.CargoVehicle.CargoType,
                             TareWeight = tbVehicle.CargoVehicle.TareWeight,
-                            CargoCompartmentSize = tbVehicle.CargoVehicle.CargoCompartmentSize
-                        } : null,
+                            CargoCompartmentSize = tbVehicle.CargoVehicle.CargoCompartmentSize,
+                        }
+                        : null,
 
                         // PassengerVehicle
                         PassengerVehicle = tbVehicle.PassengerVehicle != null ? new PassengerVehicle()
@@ -523,8 +536,9 @@ namespace LoccarApplication
                             PassengerCapacity = tbVehicle.PassengerVehicle.PassengerCapacity,
                             Tv = tbVehicle.PassengerVehicle.Tv,
                             AirConditioning = tbVehicle.PassengerVehicle.AirConditioning,
-                            PowerSteering = tbVehicle.PassengerVehicle.PowerSteering
-                        } : null,
+                            PowerSteering = tbVehicle.PassengerVehicle.PowerSteering,
+                        }
+                        : null,
 
                         // LeisureVehicle
                         LeisureVehicle = tbVehicle.LeisureVehicle != null ? new LeisureVehicle()
@@ -533,8 +547,9 @@ namespace LoccarApplication
                             Automatic = tbVehicle.LeisureVehicle.Automatic,
                             PowerSteering = tbVehicle.LeisureVehicle.PowerSteering,
                             AirConditioning = tbVehicle.LeisureVehicle.AirConditioning,
-                            Category = tbVehicle.LeisureVehicle.Category
-                        } : null,
+                            Category = tbVehicle.LeisureVehicle.Category,
+                        }
+                        : null,
 
                         // Motorcycle
                         Motorcycle = tbVehicle.Motorcycle != null ? new Motorcycle()
@@ -542,8 +557,9 @@ namespace LoccarApplication
                             IdVehicle = tbVehicle.Motorcycle.Idvehicle,
                             TractionControl = tbVehicle.Motorcycle.TractionControl,
                             AbsBrakes = tbVehicle.Motorcycle.AbsBrakes,
-                            CruiseControl = tbVehicle.Motorcycle.CruiseControl
-                        } : null,
+                            CruiseControl = tbVehicle.Motorcycle.CruiseControl,
+                        }
+                        : null,
                     };
 
                     vehicles.Add(vehicle);
@@ -570,7 +586,7 @@ namespace LoccarApplication
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
-                // Corrigindo lógica de autorização
+                // Corrigindo lÃ³gica de autorizaÃ§Ã£o
                 if (loggedUser?.Roles == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
@@ -578,7 +594,6 @@ namespace LoccarApplication
                     return baseReturn;
                 }
 
-                
                 LoccarInfra.ORM.model.Vehicle tbVehicle = new LoccarInfra.ORM.model.Vehicle()
                 {
                     Idvehicle = vehicle.Idvehicle,
@@ -592,7 +607,7 @@ namespace LoccarApplication
                     ReducedDailyRate = vehicle.ReducedDailyRate,
                     FuelTankCapacity = vehicle.FuelTankCapacity,
                     Vin = vehicle.Vin,
-                    Reserved = vehicle.Reserved
+                    Reserved = vehicle.Reserved,
                 };
 
                 var updatedVehicle = await _vehicleRepository.UpdateVehicle(tbVehicle);
@@ -625,7 +640,7 @@ namespace LoccarApplication
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
-                // Corrigindo lógica de autorização
+                // Corrigindo lÃ³gica de autorizaÃ§Ã£o
                 if (loggedUser?.Roles == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";

@@ -1,0 +1,72 @@
+# Global analyzer configuration
+# This file provides project-wide analyzer configuration.
+# Learn more at https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files#global-analyzerconfig
+
+is_global = true
+
+# Code style rules
+dotnet_analyzer_diagnostic.category-style.severity = suggestion
+
+# Suppress documentation warnings for test projects
+dotnet_diagnostic.CS1591.severity = none
+dotnet_diagnostic.SA1600.severity = none
+dotnet_diagnostic.SA1601.severity = none
+dotnet_diagnostic.SA1602.severity = none
+dotnet_diagnostic.SA1633.severity = none
+
+# Test-specific suppressions
+dotnet_diagnostic.CA1707.severity = none  # Test method names with underscores are okay
+
+# Nullable reference types - reduce severity during migration
+dotnet_diagnostic.CS8618.severity = suggestion
+dotnet_diagnostic.CS8602.severity = suggestion
+dotnet_diagnostic.CS8603.severity = suggestion
+dotnet_diagnostic.CS8600.severity = suggestion
+dotnet_diagnostic.CS8601.severity = suggestion
+dotnet_diagnostic.CS8604.severity = suggestion
+dotnet_diagnostic.CS8625.severity = suggestion
+dotnet_diagnostic.CS8629.severity = suggestion
+
+# Reduce severity for certain code quality rules
+dotnet_diagnostic.CA1724.severity = suggestion  # Namespace conflicts
+dotnet_diagnostic.CA2227.severity = suggestion  # Collection properties should be read only
+dotnet_diagnostic.CA1002.severity = suggestion  # Do not expose generic lists
+dotnet_diagnostic.CA1506.severity = suggestion  # Excessive class coupling
+
+# StyleCop - reduce severity for certain formatting rules
+dotnet_diagnostic.SA1516.severity = suggestion  # Elements should be separated by blank line
+dotnet_diagnostic.SA1413.severity = suggestion  # Use trailing comma
+dotnet_diagnostic.SA1028.severity = suggestion  # Code should not contain trailing whitespace
+dotnet_diagnostic.SA1507.severity = suggestion  # Code should not contain multiple blank lines
+dotnet_diagnostic.SA1513.severity = suggestion  # Closing brace should be followed by blank line
+dotnet_diagnostic.SA1508.severity = suggestion  # Closing brace should not be preceded by blank line
+dotnet_diagnostic.SA1505.severity = suggestion  # Opening brace should not be followed by blank line
+dotnet_diagnostic.SA1202.severity = suggestion  # Member access order
+dotnet_diagnostic.SA1204.severity = suggestion  # Static members should appear before non-static
+
+# Sonar - reduce severity for certain rules
+dotnet_diagnostic.S1144.severity = suggestion  # Unused private members
+dotnet_diagnostic.S4487.severity = suggestion  # Unread private fields
+dotnet_diagnostic.S3251.severity = suggestion  # Partial methods
+dotnet_diagnostic.S1186.severity = suggestion  # Empty methods
+dotnet_diagnostic.S1481.severity = suggestion  # Unused local variables
+dotnet_diagnostic.S6608.severity = suggestion  # Use indexing instead of First()
+dotnet_diagnostic.S6781.severity = suggestion  # JWT secrets (for tests)
+
+# Performance rules - keep as warnings but not errors
+dotnet_diagnostic.CA1860.severity = suggestion  # Prefer Count over Any()
+dotnet_diagnostic.CA1825.severity = suggestion  # Avoid zero-length array allocations
+dotnet_diagnostic.CA1861.severity = suggestion  # Prefer static readonly fields
+dotnet_diagnostic.CA1866.severity = suggestion  # Use char overload
+
+# Security - keep important ones as warnings
+dotnet_diagnostic.CA5394.severity = warning  # Do not use insecure randomness
+dotnet_diagnostic.CA1307.severity = suggestion  # Specify StringComparison  
+dotnet_diagnostic.CA1309.severity = suggestion  # Use ordinal string comparison
+
+# Test-specific suppressions
+dotnet_diagnostic.CA2201.severity = suggestion  # Generic exceptions in tests are okay
+
+# Disable format verification for analyzer warnings
+dotnet_diagnostic.SA0001.severity = none
+dotnet_diagnostic.AD0001.severity = none

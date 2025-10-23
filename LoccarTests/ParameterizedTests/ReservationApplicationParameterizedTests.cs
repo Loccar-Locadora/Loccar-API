@@ -42,13 +42,13 @@ namespace LoccarTests.ParameterizedTests
                 new object[] { 100.0m, 5, null, null, 20.0m, 520.0m },
                 new object[] { 100.0m, 5, 50.0m, 30.0m, 20.0m, 600.0m },
                 new object[] { 80.5m, 3, 25.0m, 15.0m, 10.0m, 291.5m },
-                new object[] { 150.0m, 1, null, null, null, 150.0m }
+                new object[] { 150.0m, 1, null, null, null, 150.0m },
             };
 
         [Theory]
         [MemberData(nameof(RentalCostCalculationTestData))]
-        public async Task CalculateTotalCost_WithDifferentParameters_ReturnsCorrectTotal(
-            decimal dailyRate, int rentalDays, decimal? insuranceVehicle, decimal? insuranceThirdParty, 
+        public async Task CalculateTotalCostWithDifferentParametersReturnsCorrectTotal(
+            decimal dailyRate, int rentalDays, decimal? insuranceVehicle, decimal? insuranceThirdParty,
             decimal? taxAmount, decimal expectedTotal)
         {
             // Arrange
@@ -61,7 +61,7 @@ namespace LoccarTests.ParameterizedTests
                 InsuranceThirdParty = insuranceThirdParty,
                 TaxAmount = taxAmount,
                 RentalDate = DateTime.Now,
-                ReturnDate = DateTime.Now.AddDays(rentalDays)
+                ReturnDate = DateTime.Now.AddDays(rentalDays),
             };
             var vehicle = new LoccarInfra.ORM.model.Vehicle { DailyRate = dailyRate };
 
@@ -85,12 +85,12 @@ namespace LoccarTests.ParameterizedTests
                 new object[] { new List<string> { "EMPLOYEE" }, true },
                 new object[] { new List<string> { "ADMIN" }, true },
                 new object[] { null, false },
-                new object[] { new List<string>(), true } // Roles vazias sao consideradas autorizadas (nao null)
+                new object[] { new List<string>(), true }, // Roles vazias sao consideradas autorizadas (nao null)
             };
 
         [Theory]
         [MemberData(nameof(UserAuthorizationTestData))]
-        public async Task CreateReservation_WithDifferentUserRoles_ReturnsExpectedResult(
+        public async Task CreateReservationWithDifferentUserRolesReturnsExpectedResult(
             List<string> userRoles, bool shouldBeAuthorized)
         {
             // Arrange
@@ -99,7 +99,7 @@ namespace LoccarTests.ParameterizedTests
                 Idcustomer = 1,
                 Idvehicle = 1,
                 RentalDate = DateTime.Now,
-                ReturnDate = DateTime.Now.AddDays(5)
+                ReturnDate = DateTime.Now.AddDays(5),
             };
 
             var loggedUser = userRoles != null ? new LoggedUser { Roles = userRoles } : null;
@@ -124,7 +124,7 @@ namespace LoccarTests.ParameterizedTests
         [Theory]
         [InlineData(true, "400", "Vehicle is not available.")]
         [InlineData(false, "404", "Customer not found.")] // Assumindo que o cliente nao sera encontrado no setup
-        public async Task CreateReservation_WithDifferentVehicleStates_ReturnsExpectedResult(
+        public async Task CreateReservationWithDifferentVehicleStatesReturnsExpectedResult(
             bool vehicleReserved, string expectedCode, string expectedMessage)
         {
             // Arrange
@@ -133,7 +133,7 @@ namespace LoccarTests.ParameterizedTests
                 Idcustomer = 1,
                 Idvehicle = 1,
                 RentalDate = DateTime.Now,
-                ReturnDate = DateTime.Now.AddDays(5)
+                ReturnDate = DateTime.Now.AddDays(5),
             };
 
             var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" } };
@@ -163,12 +163,12 @@ namespace LoccarTests.ParameterizedTests
                 new object[] { "ADMIN", true },
                 new object[] { "EMPLOYEE", true },
                 new object[] { "COMMON_USER", false },
-                new object[] { "INVALID_ROLE", false }
+                new object[] { "INVALID_ROLE", false },
             };
 
         [Theory]
         [MemberData(nameof(AdminEmployeeRoleTestData))]
-        public async Task RegisterDamage_WithDifferentRoles_ReturnsExpectedResult(
+        public async Task RegisterDamageWithDifferentRolesReturnsExpectedResult(
             string role, bool shouldSucceed)
         {
             // Arrange
@@ -201,7 +201,7 @@ namespace LoccarTests.ParameterizedTests
 
         [Theory]
         [MemberData(nameof(AdminEmployeeRoleTestData))]
-        public async Task ListAllReservations_WithDifferentRoles_ReturnsExpectedResult(
+        public async Task ListAllReservationsWithDifferentRolesReturnsExpectedResult(
             string role, bool shouldSucceed)
         {
             // Arrange
@@ -212,7 +212,7 @@ namespace LoccarTests.ParameterizedTests
             {
                 var tbReservations = new List<LoccarInfra.ORM.model.Reservation>
                 {
-                    new LoccarInfra.ORM.model.Reservation { Reservationnumber = 123456 }
+                    new LoccarInfra.ORM.model.Reservation { Reservationnumber = 123456 },
                 };
                 _mockReservationRepository.Setup(x => x.ListAllReservations())
                     .ReturnsAsync(tbReservations);
@@ -237,7 +237,7 @@ namespace LoccarTests.ParameterizedTests
         [Theory]
         [InlineData(123456, true, "200", "Reservation cancelled successfully.")]
         [InlineData(999999, false, "404", "Reservation not found.")]
-        public async Task CancelReservation_WithDifferentReservationNumbers_ReturnsExpectedResult(
+        public async Task CancelReservationWithDifferentReservationNumbersReturnsExpectedResult(
             int reservationNumber, bool reservationExists, string expectedCode, string expectedMessage)
         {
             // Arrange
@@ -260,7 +260,7 @@ namespace LoccarTests.ParameterizedTests
         [InlineData(1)]
         [InlineData(3)]
         [InlineData(5)]
-        public async Task GetReservationHistory_WithMultipleReservations_ReturnsCorrectCount(
+        public async Task GetReservationHistoryWithMultipleReservationsReturnsCorrectCount(
             int reservationCount)
         {
             // Arrange
@@ -275,7 +275,7 @@ namespace LoccarTests.ParameterizedTests
                     Idcustomer = 1,
                     Idvehicle = i + 1,
                     RentalDate = DateTime.Now.AddDays(-10 - i),
-                    ReturnDate = DateTime.Now.AddDays(-5 - i)
+                    ReturnDate = DateTime.Now.AddDays(-5 - i),
                 });
             }
 
@@ -311,7 +311,7 @@ namespace LoccarTests.ParameterizedTests
 
         [Theory]
         [MemberData(nameof(DateValidationTestData))]
-        public void ValidateReservationDates_WithDifferentDates_ReturnsExpectedResult(
+        public void ValidateReservationDatesWithDifferentDatesReturnsExpectedResult(
             DateTime rentalDate, DateTime returnDate, bool isValid)
         {
             // Arrange & Act
@@ -326,7 +326,7 @@ namespace LoccarTests.ParameterizedTests
         [InlineData(-1, 1)]
         [InlineData(5, 5)]
         [InlineData(30, 30)]
-        public void CalculateRentalDays_WithDifferentValues_ReturnsCorrectDays(
+        public void CalculateRentalDaysWithDifferentValuesReturnsCorrectDays(
             int inputDays, int expectedDays)
         {
             // Arrange & Act
@@ -341,7 +341,7 @@ namespace LoccarTests.ParameterizedTests
         [InlineData("Severe engine damage", true)]
         [InlineData("", false)]
         [InlineData(null, false)]
-        public void ValidateDamageDescription_WithDifferentInputs_ReturnsExpectedResult(
+        public void ValidateDamageDescriptionWithDifferentInputsReturnsExpectedResult(
             string damageDescription, bool isValid)
         {
             // Arrange & Act

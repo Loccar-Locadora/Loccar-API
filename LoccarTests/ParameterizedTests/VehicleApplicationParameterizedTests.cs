@@ -31,12 +31,12 @@ namespace LoccarTests.ParameterizedTests
                 new object[] { new List<string> { "EMPLOYEE" }, true, "201", "Vehicle registered successfully" },
                 new object[] { new List<string> { "COMMON_USER" }, false, "401", "User not authorized." },
                 new object[] { null, false, "401", "User not authorized." },
-                new object[] { new List<string>(), false, "401", "User not authorized." }
+                new object[] { new List<string>(), false, "401", "User not authorized." },
             };
 
         [Theory]
         [MemberData(nameof(UserRoleTestData))]
-        public async Task RegisterVehicle_WithDifferentUserRoles_ReturnsExpectedResult(
+        public async Task RegisterVehicleWithDifferentUserRolesReturnsExpectedResult(
             List<string> userRoles, bool shouldSucceed, string expectedCode, string expectedMessage)
         {
             // Arrange
@@ -45,7 +45,7 @@ namespace LoccarTests.ParameterizedTests
                 Brand = "Toyota",
                 Model = "Corolla",
                 Type = VehicleType.Passenger,
-                PassengerVehicle = new PassengerVehicle()
+                PassengerVehicle = new PassengerVehicle(),
             };
 
             var loggedUser = userRoles != null ? new LoggedUser { Roles = userRoles } : null;
@@ -55,7 +55,7 @@ namespace LoccarTests.ParameterizedTests
             {
                 var tbVehicle = new LoccarInfra.ORM.model.Vehicle { Idvehicle = 1 };
                 var tbPassengerVehicle = new LoccarInfra.ORM.model.PassengerVehicle { Idvehicle = 1 };
-                
+
                 _mockVehicleRepository.Setup(x => x.RegisterVehicle(It.IsAny<LoccarInfra.ORM.model.Vehicle>()))
                     .ReturnsAsync(tbVehicle);
                 _mockVehicleRepository.Setup(x => x.RegisterPassengerVehicle(It.IsAny<LoccarInfra.ORM.model.PassengerVehicle>()))
@@ -73,23 +73,23 @@ namespace LoccarTests.ParameterizedTests
         public static IEnumerable<object[]> VehicleTypeTestData =>
             new List<object[]>
             {
-                new object[] { VehicleType.Cargo, typeof(CargoVehicle) },
-                new object[] { VehicleType.Motorcycle, typeof(Motorcycle) },
-                new object[] { VehicleType.Passenger, typeof(PassengerVehicle) },
-                new object[] { VehicleType.Leisure, typeof(LeisureVehicle) }
+                new object[] { VehicleType.Cargo },
+                new object[] { VehicleType.Motorcycle },
+                new object[] { VehicleType.Passenger },
+                new object[] { VehicleType.Leisure },
             };
 
         [Theory]
         [MemberData(nameof(VehicleTypeTestData))]
-        public async Task RegisterVehicle_WithDifferentVehicleTypes_CallsCorrectRepository(
-            VehicleType vehicleType, Type expectedVehicleType)
+        public async Task RegisterVehicleWithDifferentVehicleTypesCallsCorrectRepository(
+            VehicleType vehicleType)
         {
             // Arrange
             var vehicle = new Vehicle
             {
                 Brand = "Test Brand",
                 Model = "Test Model",
-                Type = vehicleType
+                Type = vehicleType,
             };
 
             // Criar instancia do tipo especifico
@@ -111,7 +111,7 @@ namespace LoccarTests.ParameterizedTests
 
             var loggedUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
-            
+
             var tbVehicle = new LoccarInfra.ORM.model.Vehicle { Idvehicle = 1 };
             _mockVehicleRepository.Setup(x => x.RegisterVehicle(It.IsAny<LoccarInfra.ORM.model.Vehicle>()))
                 .ReturnsAsync(tbVehicle);
@@ -143,7 +143,7 @@ namespace LoccarTests.ParameterizedTests
             // Assert
             result.Code.Should().Be("201");
             _mockVehicleRepository.Verify(x => x.RegisterVehicle(It.IsAny<LoccarInfra.ORM.model.Vehicle>()), Times.Once);
-            
+
             // Verificar se o metodo correto foi chamado
             switch (vehicleType)
             {
@@ -167,7 +167,7 @@ namespace LoccarTests.ParameterizedTests
         [InlineData("EMPLOYEE", true)]
         [InlineData("COMMON_USER", false)]
         [InlineData("INVALID_ROLE", false)]
-        public async Task SetVehicleMaintenance_WithDifferentRoles_ReturnsExpectedResult(
+        public async Task SetVehicleMaintenanceWithDifferentRolesReturnsExpectedResult(
             string role, bool shouldSucceed)
         {
             // Arrange
@@ -202,22 +202,22 @@ namespace LoccarTests.ParameterizedTests
             new List<object[]>
             {
                 new object[] { null, null, false },
-                new object[] { "", "", false },
-                new object[] { "Toyota", "", false },
-                new object[] { "", "Corolla", false },
-                new object[] { "Toyota", "Corolla", true }
+                new object[] { string.Empty, string.Empty, false },
+                new object[] { "Toyota", string.Empty, false },
+                new object[] { string.Empty, "Corolla", false },
+                new object[] { "Toyota", "Corolla", true },
             };
 
         [Theory]
         [MemberData(nameof(VehicleDataValidationTestData))]
-        public void ValidateVehicleData_WithDifferentInputs_ReturnsExpectedResult(
+        public void ValidateVehicleDataWithDifferentInputsReturnsExpectedResult(
             string brand, string model, bool isValid)
         {
             // Arrange
             var vehicle = new Vehicle
             {
                 Brand = brand,
-                Model = model
+                Model = model,
             };
 
             // Act
@@ -232,7 +232,7 @@ namespace LoccarTests.ParameterizedTests
         [InlineData(3)]
         [InlineData(5)]
         [InlineData(10)]
-        public async Task ListAvailableVehicles_WithMultipleVehicles_ReturnsCorrectCount(
+        public async Task ListAvailableVehiclesWithMultipleVehiclesReturnsCorrectCount(
             int vehicleCount)
         {
             // Arrange
@@ -246,7 +246,7 @@ namespace LoccarTests.ParameterizedTests
                     Idvehicle = i + 1,
                     Brand = $"Brand{i}",
                     Model = $"Model{i}",
-                    Reserved = false
+                    Reserved = false,
                 });
             }
 
@@ -266,7 +266,7 @@ namespace LoccarTests.ParameterizedTests
         [InlineData(150.5, 3, 451.5)]
         [InlineData(99.99, 1, 99.99)]
         [InlineData(200.0, 0, 200.0)] // 0 dias deve ser tratado como 1 dia
-        public void CalculateRentalCost_WithDifferentValues_ReturnsCorrectResult(
+        public void CalculateRentalCostWithDifferentValuesReturnsCorrectResult(
             decimal dailyRate, int days, decimal expectedTotal)
         {
             // Arrange
@@ -282,20 +282,20 @@ namespace LoccarTests.ParameterizedTests
         public static IEnumerable<object[]> ExceptionHandlingTestData =>
             new List<object[]>
             {
-                new object[] { new InvalidOperationException("Invalid operation"), "500", "An unexpected error occurred: Invalid operation" },
-                new object[] { new ArgumentNullException("parameter"), "500", "An unexpected error occurred: Value cannot be null. (Parameter 'parameter')" },
-                new object[] { new UnauthorizedAccessException("Access denied"), "500", "An unexpected error occurred: Access denied" }
+                new object[] { new InvalidOperationException("Invalid operation"), "500" },
+                new object[] { new ArgumentNullException("parameter"), "500" },
+                new object[] { new UnauthorizedAccessException("Access denied"), "500" },
             };
 
         [Theory]
         [MemberData(nameof(ExceptionHandlingTestData))]
-        public async Task RegisterVehicle_WithDifferentExceptions_HandlesCorrectly(
-            Exception exception, string expectedCode, string expectedMessageStart)
+        public async Task RegisterVehicleWithDifferentExceptionsHandlesCorrectly(
+            Exception exception, string expectedCode)
         {
             // Arrange
             var vehicle = new Vehicle { Brand = "Test", Model = "Test" };
             var loggedUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
-            
+
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
             _mockVehicleRepository.Setup(x => x.RegisterVehicle(It.IsAny<LoccarInfra.ORM.model.Vehicle>()))
                 .ThrowsAsync(exception);

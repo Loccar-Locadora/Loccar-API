@@ -1,4 +1,4 @@
-﻿using LoccarApplication.Interfaces;
+using LoccarApplication.Interfaces;
 using LoccarDomain;
 using LoccarDomain.Customer.Models;
 using LoccarDomain.LoggedUser.Models;
@@ -11,10 +11,11 @@ namespace LoccarWebapi.Controllers
     [Route("api/vehicle")]
     [ApiController]
     [Authorize]
-    public class VehicleController : Controller
+    public class VehicleController : ControllerBase
     {
-        private readonly IVehicleApplication _vehicleApplication; 
+        private readonly IVehicleApplication _vehicleApplication;
         private readonly IAuthApplication _authApplication;
+
         public VehicleController(IVehicleApplication vehicleApplication, IAuthApplication authApplication)
         {
             _vehicleApplication = vehicleApplication;
@@ -22,9 +23,9 @@ namespace LoccarWebapi.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<BaseReturn<Vehicle>> RegisterVehicle(Vehicle Vehicle)
+        public async Task<BaseReturn<Vehicle>> RegisterVehicle(Vehicle vehicle)
         {
-            return await _vehicleApplication.RegisterVehicle(Vehicle);
+            return await _vehicleApplication.RegisterVehicle(vehicle);
         }
 
         [HttpGet("list/available")]

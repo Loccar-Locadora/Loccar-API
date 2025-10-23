@@ -1,7 +1,7 @@
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LoccarTests.IntegrationTests
 {
@@ -15,11 +15,11 @@ namespace LoccarTests.IntegrationTests
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(JwtKey);
-            
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, userId),
-                new Claim(ClaimTypes.Email, email)
+                new Claim(ClaimTypes.Email, email),
             };
 
             foreach (var role in roles)
@@ -33,7 +33,7 @@ namespace LoccarTests.IntegrationTests
                 Expires = DateTime.UtcNow.AddHours(1),
                 Issuer = JwtIssuer,
                 Audience = JwtAudience,
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -41,7 +41,9 @@ namespace LoccarTests.IntegrationTests
         }
 
         public static string GenerateAdminToken() => GenerateToken("1", "admin@test.com", "ADMIN");
+
         public static string GenerateEmployeeToken() => GenerateToken("2", "employee@test.com", "EMPLOYEE");
+
         public static string GenerateCommonUserToken() => GenerateToken("3", "user@test.com", "COMMON_USER");
     }
 }

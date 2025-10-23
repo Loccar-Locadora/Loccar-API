@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using LoccarInfra.ORM.model;
 using LoccarInfra.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -62,7 +62,10 @@ namespace LoccarInfra.Repositories
         public async Task<bool> SetVehicleMaintenance(int vehicleId, bool inMaintenance)
         {
             var vehicle = await _dbContext.Vehicles.FirstOrDefaultAsync(v => v.Idvehicle == vehicleId);
-            if (vehicle == null) return false;
+            if (vehicle == null)
+            {
+                return false;
+            }
 
             vehicle.Reserved = inMaintenance; // ou criar coluna Maintenance
             await _dbContext.SaveChangesAsync();
@@ -93,7 +96,10 @@ namespace LoccarInfra.Repositories
         public async Task<Vehicle> UpdateVehicle(Vehicle vehicle)
         {
             var existingVehicle = await _dbContext.Vehicles.FirstOrDefaultAsync(v => v.Idvehicle == vehicle.Idvehicle);
-            if (existingVehicle == null) return null;
+            if (existingVehicle == null)
+            {
+                return null;
+            }
 
             existingVehicle.Brand = vehicle.Brand;
             existingVehicle.Model = vehicle.Model;
@@ -119,18 +125,32 @@ namespace LoccarInfra.Repositories
                 .Include(v => v.PassengerVehicle)
                 .Include(v => v.Motorcycle)
                 .FirstOrDefaultAsync(v => v.Idvehicle == vehicleId);
-                
-            if (vehicle == null) return false;
+
+            if (vehicle == null)
+            {
+                return false;
+            }
 
             // Remove veículos específicos primeiro (devido às chaves estrangeiras)
             if (vehicle.CargoVehicle != null)
+            {
                 _dbContext.CargoVehicles.Remove(vehicle.CargoVehicle);
+            }
+
             if (vehicle.LeisureVehicle != null)
+            {
                 _dbContext.LeisureVehicles.Remove(vehicle.LeisureVehicle);
+            }
+
             if (vehicle.PassengerVehicle != null)
+            {
                 _dbContext.PassengerVehicles.Remove(vehicle.PassengerVehicle);
+            }
+
             if (vehicle.Motorcycle != null)
+            {
                 _dbContext.Motorcycles.Remove(vehicle.Motorcycle);
+            }
 
             _dbContext.Vehicles.Remove(vehicle);
             await _dbContext.SaveChangesAsync();

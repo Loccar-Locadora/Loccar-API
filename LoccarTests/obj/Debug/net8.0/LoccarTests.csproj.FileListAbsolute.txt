@@ -512,3 +512,8 @@ C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarTests\obj\Debug\net8
 C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarTests\obj\Debug\net8.0\ref\LoccarTests.dll
 C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarTests\bin\Debug\net8.0\Validation.dll
 C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarTests\bin\Debug\net8.0\Xunit.SkippableFact.dll
+C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarTests\bin\Debug\net8.0\LoccarTests.xml
+C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarTests\bin\Debug\net8.0\LoccarApplication.xml
+C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarTests\bin\Debug\net8.0\LoccarDomain.xml
+C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarTests\bin\Debug\net8.0\LoccarInfra.xml
+C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarTests\obj\Debug\net8.0\LoccarTests.xml

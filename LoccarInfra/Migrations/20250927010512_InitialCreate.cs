@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -21,7 +21,7 @@ namespace LoccarInfra.Migrations
                     telefone = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     locador = table.Column<bool>(type: "boolean", nullable: true),
                     login = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    senha = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false)
+                    senha = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                 },
                 constraints: table =>
                 {
@@ -42,7 +42,7 @@ namespace LoccarInfra.Migrations
                     valordiaria = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: true),
                     valordiariareduzida = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: true),
                     valordiariamensal = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: true),
-                    valordiariaempresa = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: true)
+                    valordiariaempresa = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: true),
                 },
                 constraints: table =>
                 {
@@ -56,7 +56,7 @@ namespace LoccarInfra.Migrations
                     idCustomer = table.Column<int>(type: "integer", nullable: false),
                     cpf = table.Column<string>(type: "character(11)", fixedLength: true, maxLength: 11, nullable: false),
                     estadoCivil = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
-                    contratado = table.Column<bool>(type: "boolean", nullable: true)
+                    contratado = table.Column<bool>(type: "boolean", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -73,7 +73,7 @@ namespace LoccarInfra.Migrations
                 columns: table => new
                 {
                     idCustomer = table.Column<int>(type: "integer", nullable: false),
-                    cnpj = table.Column<string>(type: "character(14)", fixedLength: true, maxLength: 14, nullable: false)
+                    cnpj = table.Column<string>(type: "character(14)", fixedLength: true, maxLength: 14, nullable: false),
                 },
                 constraints: table =>
                 {
@@ -92,7 +92,7 @@ namespace LoccarInfra.Migrations
                     idVehicle = table.Column<int>(type: "integer", nullable: false),
                     controletracao = table.Column<bool>(type: "boolean", nullable: true),
                     freioabs = table.Column<bool>(type: "boolean", nullable: true),
-                    pilotoautomatico = table.Column<bool>(type: "boolean", nullable: true)
+                    pilotoautomatico = table.Column<bool>(type: "boolean", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -120,7 +120,7 @@ namespace LoccarInfra.Migrations
                     tipodiaria = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
                     valorsegurocarro = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: true),
                     valorseguroterceiro = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: true),
-                    valorimposto = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: true)
+                    valorimposto = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: true),
                 },
                 constraints: table =>
                 {
@@ -145,7 +145,7 @@ namespace LoccarInfra.Migrations
                     capacidadecarga = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: true),
                     tipocarga = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     tara = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: true),
-                    tamanhocompartimentocarga = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true)
+                    tamanhocompartimentocarga = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                 },
                 constraints: table =>
                 {
@@ -165,7 +165,7 @@ namespace LoccarInfra.Migrations
                     capacidadepassageiro = table.Column<int>(type: "integer", nullable: true),
                     televisao = table.Column<bool>(type: "boolean", nullable: true),
                     arcondicionado = table.Column<bool>(type: "boolean", nullable: true),
-                    direcaohidraulica = table.Column<bool>(type: "boolean", nullable: true)
+                    direcaohidraulica = table.Column<bool>(type: "boolean", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -185,7 +185,7 @@ namespace LoccarInfra.Migrations
                     automatico = table.Column<bool>(type: "boolean", nullable: true),
                     direcaohidraulica = table.Column<bool>(type: "boolean", nullable: true),
                     arcondicionado = table.Column<bool>(type: "boolean", nullable: true),
-                    categoria = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true)
+                    categoria = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                 },
                 constraints: table =>
                 {

@@ -1,4 +1,4 @@
-﻿using System.Security.Cryptography;
+using System.Security.Cryptography;
 using System.Text;
 using LoccarApplication.Interfaces;
 using LoccarDomain;
@@ -10,12 +10,14 @@ namespace LoccarApplication
 {
     public class CustomerApplication : ICustomerApplication
     {
-        readonly ICustomerRepository _CustomerRepository;
-        public CustomerApplication(ICustomerRepository CustomerRepository)
+        private readonly ICustomerRepository _customerRepository;
+
+        public CustomerApplication(ICustomerRepository customerRepository)
         {
-            _CustomerRepository = CustomerRepository;
+            _customerRepository = customerRepository;
         }
-        public async Task<BaseReturn<Customer>> RegisterCustomer(Customer Customer)
+
+        public async Task<BaseReturn<Customer>> RegisterCustomer(Customer customer)
         {
             BaseReturn<Customer> baseReturn = new BaseReturn<Customer>();
 
@@ -23,14 +25,14 @@ namespace LoccarApplication
             {
                 LoccarInfra.ORM.model.Customer tabelaCustomer = new LoccarInfra.ORM.model.Customer()
                 {
-                    Name = Customer.Username,
-                    Email = Customer.Email,
-                    Phone = Customer.Cellphone,
-                    DriverLicense = Customer.DriverLicense,
-                    Created = DateTime.Now
+                    Name = customer.Username,
+                    Email = customer.Email,
+                    Phone = customer.Cellphone,
+                    DriverLicense = customer.DriverLicense,
+                    Created = DateTime.Now,
                 };
 
-                var response = await _CustomerRepository.RegisterCustomer(tabelaCustomer);
+                var response = await _customerRepository.RegisterCustomer(tabelaCustomer);
 
                 Customer customerResponse = new Customer()
                 {
@@ -38,7 +40,7 @@ namespace LoccarApplication
                     Email = response.Email,
                     Cellphone = response.Phone,
                     DriverLicense = response.DriverLicense,
-                    Created = response.Created
+                    Created = response.Created,
                 };
 
                 baseReturn.Code = "200";
@@ -66,10 +68,10 @@ namespace LoccarApplication
                     Name = customer.Username,
                     Email = customer.Email,
                     Phone = customer.Cellphone,
-                    DriverLicense = customer.DriverLicense
+                    DriverLicense = customer.DriverLicense,
                 };
 
-                var response = await _CustomerRepository.UpdateCustomer(tabelaCustomer);
+                var response = await _customerRepository.UpdateCustomer(tabelaCustomer);
 
                 if (response == null)
                 {
@@ -85,7 +87,7 @@ namespace LoccarApplication
                     Email = response.Email,
                     Cellphone = response.Phone,
                     DriverLicense = response.DriverLicense,
-                    Created = response.Created
+                    Created = response.Created,
                 };
 
                 baseReturn.Code = "200";
@@ -107,7 +109,7 @@ namespace LoccarApplication
 
             try
             {
-                bool success = await _CustomerRepository.DeleteCustomer(customerId);
+                bool success = await _customerRepository.DeleteCustomer(customerId);
 
                 baseReturn.Code = success ? "200" : "404";
                 baseReturn.Data = success;
@@ -130,7 +132,7 @@ namespace LoccarApplication
 
             try
             {
-                var tabelaCustomer = await _CustomerRepository.GetCustomerById(customerId);
+                var tabelaCustomer = await _customerRepository.GetCustomerById(customerId);
 
                 if (tabelaCustomer == null)
                 {
@@ -146,7 +148,7 @@ namespace LoccarApplication
                     Email = tabelaCustomer.Email,
                     Cellphone = tabelaCustomer.Phone,
                     DriverLicense = tabelaCustomer.DriverLicense,
-                    Created = tabelaCustomer.Created
+                    Created = tabelaCustomer.Created,
                 };
 
                 baseReturn.Code = "200";
@@ -168,7 +170,7 @@ namespace LoccarApplication
 
             try
             {
-                var tabelaCustomers = await _CustomerRepository.ListAllCustomers();
+                var tabelaCustomers = await _customerRepository.ListAllCustomers();
 
                 if (tabelaCustomers == null || !tabelaCustomers.Any())
                 {
@@ -187,7 +189,7 @@ namespace LoccarApplication
                         Email = tabelaCustomer.Email,
                         Cellphone = tabelaCustomer.Phone,
                         DriverLicense = tabelaCustomer.DriverLicense,
-                        Created = tabelaCustomer.Created
+                        Created = tabelaCustomer.Created,
                     });
                 }
 

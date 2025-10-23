@@ -21,7 +21,7 @@ namespace LoccarApplication
             _authApplication = authApplication;
         }
 
-        // US05 - Cliente: Reservar veÌculo online
+        // US05 - Cliente: Reservar ve√≠culo online
         public async Task<BaseReturn<Reservation>> CreateReservation(Reservation reservation)
         {
             BaseReturn<Reservation> baseReturn = new BaseReturn<Reservation>();
@@ -36,7 +36,7 @@ namespace LoccarApplication
                     return baseReturn;
                 }
 
-                // Validar se o veÌculo existe e est· disponÌvel
+                // Validar se o ve√≠culo existe e est√° dispon√≠vel
                 var vehicle = await _vehicleRepository.GetVehicleById(reservation.Idvehicle);
                 if (vehicle == null)
                 {
@@ -73,12 +73,12 @@ namespace LoccarApplication
                     InsuranceVehicle = reservation.InsuranceVehicle,
                     InsuranceThirdParty = reservation.InsuranceThirdParty,
                     TaxAmount = reservation.TaxAmount,
-                    Reservationnumber = new Random().Next(100000, 999999)
+                    Reservationnumber = new Random().Next(100000, 999999),
                 };
 
                 var createdReservation = await _reservationRepository.CreateReservation(tbReservation);
 
-                // Marcar veÌculo como reservado
+                // Marcar ve√≠culo como reservado
                 vehicle.Reserved = true;
                 await _vehicleRepository.UpdateVehicle(vehicle);
 
@@ -97,7 +97,7 @@ namespace LoccarApplication
                     InsuranceVehicle = createdReservation.InsuranceVehicle,
                     InsuranceThirdParty = createdReservation.InsuranceThirdParty,
                     TaxAmount = createdReservation.TaxAmount,
-                    DamageDescription = createdReservation.DamageDescription
+                    DamageDescription = createdReservation.DamageDescription,
                 };
             }
             catch (Exception ex)
@@ -133,18 +133,29 @@ namespace LoccarApplication
                 }
 
                 int days = reservation.RentalDays ?? (reservation.ReturnDate - reservation.RentalDate).Days;
-                if (days <= 0) days = 1; // MÌnimo 1 dia
+                if (days <= 0)
+                {
+                    days = 1; // M√≠nimo 1 dia
+                }
 
                 decimal dailyRate = reservation.DailyRate ?? vehicle.DailyRate ?? 0;
                 decimal totalCost = days * dailyRate;
-                
+
                 // Adicionar seguros se existirem
                 if (reservation.InsuranceVehicle.HasValue)
+                {
                     totalCost += reservation.InsuranceVehicle.Value;
+                }
+
                 if (reservation.InsuranceThirdParty.HasValue)
+                {
                     totalCost += reservation.InsuranceThirdParty.Value;
+                }
+
                 if (reservation.TaxAmount.HasValue)
+                {
                     totalCost += reservation.TaxAmount.Value;
+                }
 
                 baseReturn.Code = "200";
                 baseReturn.Message = "Cost calculated successfully.";
@@ -160,7 +171,7 @@ namespace LoccarApplication
         }
 
         // US10 - Cliente: Cancelar reserva
-        public async Task<BaseReturn<bool>> CancelReservation(int reservationNumber)
+        public async Task<BaseReturn<bool>> CancelReservation(int reservationId)
         {
             BaseReturn<bool> baseReturn = new BaseReturn<bool>();
 
@@ -175,7 +186,7 @@ namespace LoccarApplication
                     return baseReturn;
                 }
 
-                bool success = await _reservationRepository.CancelReservation(reservationNumber);
+                bool success = await _reservationRepository.CancelReservation(reservationId);
 
                 baseReturn.Code = success ? "200" : "404";
                 baseReturn.Data = success;
@@ -191,7 +202,7 @@ namespace LoccarApplication
             return baseReturn;
         }
 
-        // US11 - Cliente: Consultar histÛrico de reservas
+        // US11 - Cliente: Consultar hist√≥rico de reservas
         public async Task<BaseReturn<List<Reservation>>> GetReservationHistory(int customerId)
         {
             BaseReturn<List<Reservation>> baseReturn = new BaseReturn<List<Reservation>>();
@@ -231,7 +242,7 @@ namespace LoccarApplication
                         InsuranceVehicle = tbReservation.InsuranceVehicle,
                         InsuranceThirdParty = tbReservation.InsuranceThirdParty,
                         TaxAmount = tbReservation.TaxAmount,
-                        DamageDescription = tbReservation.DamageDescription
+                        DamageDescription = tbReservation.DamageDescription,
                     });
                 }
 
@@ -279,7 +290,7 @@ namespace LoccarApplication
             return baseReturn;
         }
 
-        // Novos mÈtodos CRUD
+        // Novos m√©todos CRUD
         public async Task<BaseReturn<Reservation>> GetReservationById(int reservationId)
         {
             BaseReturn<Reservation> baseReturn = new BaseReturn<Reservation>();
@@ -316,7 +327,7 @@ namespace LoccarApplication
                     InsuranceVehicle = tbReservation.InsuranceVehicle,
                     InsuranceThirdParty = tbReservation.InsuranceThirdParty,
                     TaxAmount = tbReservation.TaxAmount,
-                    DamageDescription = tbReservation.DamageDescription
+                    DamageDescription = tbReservation.DamageDescription,
                 };
 
                 baseReturn.Code = "200";
@@ -371,7 +382,7 @@ namespace LoccarApplication
                         InsuranceVehicle = tbReservation.InsuranceVehicle,
                         InsuranceThirdParty = tbReservation.InsuranceThirdParty,
                         TaxAmount = tbReservation.TaxAmount,
-                        DamageDescription = tbReservation.DamageDescription
+                        DamageDescription = tbReservation.DamageDescription,
                     });
                 }
 
@@ -415,7 +426,7 @@ namespace LoccarApplication
                     InsuranceVehicle = reservation.InsuranceVehicle,
                     InsuranceThirdParty = reservation.InsuranceThirdParty,
                     TaxAmount = reservation.TaxAmount,
-                    DamageDescription = reservation.DamageDescription
+                    DamageDescription = reservation.DamageDescription,
                 };
 
                 var updatedReservation = await _reservationRepository.UpdateReservation(tbReservation);

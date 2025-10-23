@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,7 +29,10 @@ public partial class DataBaseContext : DbContext
 
     public virtual DbSet<Vehicle> Vehicles { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){}
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        // Method intentionally left empty.
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

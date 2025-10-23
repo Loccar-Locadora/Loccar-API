@@ -31,8 +31,22 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
       
-    - name: Build
-      run: dotnet build --no-restore --configuration Release
+    - name: Check code formatting (Main Projects)
+      run: |
+        dotnet format --include LoccarDomain --verify-no-changes --verbosity diagnostic
+        dotnet format --include LoccarApplication --verify-no-changes --verbosity diagnostic  
+        dotnet format --include LoccarInfra --verify-no-changes --verbosity diagnostic
+        dotnet format --include LoccarLocadora --verify-no-changes --verbosity diagnostic
+      
+    - name: Build with Code Analysis
+      run: dotnet build --no-restore --configuration Release --verbosity normal /p:TreatWarningsAsErrors=false /p:WarningsAsErrors=""
+      
+    - name: Run Code Analysis
+      run: |
+        dotnet build --no-restore --configuration Release --verbosity normal > build-output.log 2>&1 || true
+        echo "=== Code Analysis Results ==="
+        grep -E "(warning|error) (CA|SA)[0-9]+" build-output.log || echo "No critical code analysis warnings found"
+        echo "=== End Code Analysis Results ==="
       
     - name: Test
       run: dotnet test --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory TestResults/ --blame-hang-timeout 5m
@@ -54,3 +68,32 @@ jobs:
       with:
         name: coverage-results
         path: TestResults/*/coverage.cobertura.xml
+
+  lint:
+    name: Code Quality Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Check code formatting (Main Projects)
+      run: |
+        echo "Checking LoccarDomain formatting..."
+        dotnet format --include LoccarDomain --verify-no-changes --verbosity diagnostic
+        echo "Checking LoccarApplication formatting..."  
+        dotnet format --include LoccarApplication --verify-no-changes --verbosity diagnostic
+        echo "Checking LoccarInfra formatting..."
+        dotnet format --include LoccarInfra --verify-no-changes --verbosity diagnostic
+        echo "Checking LoccarLocadora formatting..."
+        dotnet format --include LoccarLocadora --verify-no-changes --verbosity diagnostic
+      
+    - name: Build with full analysis
+      run: dotnet build --configuration Release --verbosity normal /p:TreatWarningsAsErrors=false

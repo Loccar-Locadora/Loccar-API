@@ -1,0 +1,13 @@
+# Editor configuration for test projects
+root = false
+
+[*.cs]
+# Test files can have more relaxed rules
+dotnet_diagnostic.S4487.severity = none  # Unused private fields in tests
+dotnet_diagnostic.S1481.severity = none  # Unused variables in tests  
+dotnet_diagnostic.CA2201.severity = none  # Generic exceptions in tests
+dotnet_diagnostic.S6608.severity = none  # Use indexing vs First() in tests
+dotnet_diagnostic.S6781.severity = none  # JWT secrets disclosure in tests
+dotnet_diagnostic.SA1202.severity = none  # Member ordering in tests
+dotnet_diagnostic.SA1204.severity = none  # Static member ordering in tests
+dotnet_diagnostic.CA1866.severity = none  # String overloads in tests

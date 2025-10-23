@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -20,17 +20,17 @@ namespace LoccarApplication
         private readonly IConfiguration _config;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        private readonly IConfiguration _iconfiguration;
-        public AuthApplication(IConfiguration config, IHttpContextAccessor httpContextAccessor) {
-            _config = config;       
+        public AuthApplication(IConfiguration config, IHttpContextAccessor httpContextAccessor)
+        {
+            _config = config;
             _httpContextAccessor = httpContextAccessor;
         }
-        
+
         public LoggedUser GetLoggedUser()
         {
             LoggedUser result = new LoggedUser()
             {
-                Authenticated = false
+                Authenticated = false,
             };
             try
             {
@@ -39,8 +39,11 @@ namespace LoccarApplication
                     string beraerToken = GetBearerToken();
                     if (((TokenHandler)new JwtSecurityTokenHandler()).ReadToken(beraerToken) is JwtSecurityToken jwtSecurityToken)
                     {
-                        Claim claim = jwtSecurityToken.Claims.FirstOrDefault((Claim n) => n.Type.Equals("name"));
-                        if (claim != null) result = JsonSerializer.Deserialize<LoggedUser>(claim.Value);
+                        Claim claim = jwtSecurityToken.Claims.FirstOrDefault((Claim n) => n.Type.Equals("name", StringComparison.Ordinal));
+                        if (claim != null)
+                        {
+                            result = JsonSerializer.Deserialize<LoggedUser>(claim.Value);
+                        }
                     }
                 }
             }
@@ -50,12 +53,13 @@ namespace LoccarApplication
 
             return result;
         }
+
         private string GetBearerToken()
         {
             string text = _httpContextAccessor.HttpContext.Request.Headers["Authorization"];
-            text = ((text == null) ? "" : text);
-            return text.Replace("Bearer", "").Replace(" ", "").Replace("bearer", "")
-                .Replace(" ", "");
+            text = (text == null) ? string.Empty : text;
+            return text.Replace("Bearer", string.Empty).Replace(" ", string.Empty).Replace("bearer", string.Empty)
+                .Replace(" ", string.Empty);
         }
     }
 }

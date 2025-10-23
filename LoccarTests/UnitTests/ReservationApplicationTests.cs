@@ -36,7 +36,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task CreateReservation_WhenUserNotAuthenticated_ReturnsUnauthorized()
+        public async Task CreateReservationWhenUserNotAuthenticatedReturnsUnauthorized()
         {
             // Arrange
             var reservation = new Reservation
@@ -44,7 +44,7 @@ namespace LoccarTests.UnitTests
                 Idcustomer = 1,
                 Idvehicle = 1,
                 RentalDate = DateTime.Now,
-                ReturnDate = DateTime.Now.AddDays(5)
+                ReturnDate = DateTime.Now.AddDays(5),
             };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns((LoggedUser)null);
 
@@ -57,7 +57,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task CreateReservation_WhenVehicleNotFound_ReturnsNotFound()
+        public async Task CreateReservationWhenVehicleNotFoundReturnsNotFound()
         {
             // Arrange
             var reservation = new Reservation
@@ -65,10 +65,10 @@ namespace LoccarTests.UnitTests
                 Idcustomer = 1,
                 Idvehicle = 1,
                 RentalDate = DateTime.Now,
-                ReturnDate = DateTime.Now.AddDays(5)
+                ReturnDate = DateTime.Now.AddDays(5),
             };
             var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" } };
-            
+
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
             _mockVehicleRepository.Setup(x => x.GetVehicleById(reservation.Idvehicle))
                 .ReturnsAsync((LoccarInfra.ORM.model.Vehicle)null);
@@ -82,7 +82,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task CreateReservation_WhenVehicleNotAvailable_ReturnsBadRequest()
+        public async Task CreateReservationWhenVehicleNotAvailableReturnsBadRequest()
         {
             // Arrange
             var reservation = new Reservation
@@ -90,7 +90,7 @@ namespace LoccarTests.UnitTests
                 Idcustomer = 1,
                 Idvehicle = 1,
                 RentalDate = DateTime.Now,
-                ReturnDate = DateTime.Now.AddDays(5)
+                ReturnDate = DateTime.Now.AddDays(5),
             };
             var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" } };
             var vehicle = new LoccarInfra.ORM.model.Vehicle { Reserved = true };
@@ -108,7 +108,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task CreateReservation_WhenCustomerNotFound_ReturnsNotFound()
+        public async Task CreateReservationWhenCustomerNotFoundReturnsNotFound()
         {
             // Arrange
             var reservation = new Reservation
@@ -116,7 +116,7 @@ namespace LoccarTests.UnitTests
                 Idcustomer = 1,
                 Idvehicle = 1,
                 RentalDate = DateTime.Now,
-                ReturnDate = DateTime.Now.AddDays(5)
+                ReturnDate = DateTime.Now.AddDays(5),
             };
             var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" } };
             var vehicle = new LoccarInfra.ORM.model.Vehicle { Reserved = false };
@@ -136,7 +136,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task CreateReservation_WhenValidData_CreatesReservationSuccessfully()
+        public async Task CreateReservationWhenValidDataCreatesReservationSuccessfully()
         {
             // Arrange
             var reservation = new Reservation
@@ -146,16 +146,16 @@ namespace LoccarTests.UnitTests
                 RentalDate = DateTime.Now,
                 ReturnDate = DateTime.Now.AddDays(5),
                 RentalDays = 5,
-                DailyRate = 100.0m
+                DailyRate = 100.0m,
             };
             var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" } };
             var vehicle = new LoccarInfra.ORM.model.Vehicle { Reserved = false };
             var customer = new LoccarInfra.ORM.model.Customer { Idcustomer = reservation.Idcustomer };
-            var tbReservation = new LoccarInfra.ORM.model.Reservation 
-            { 
+            var tbReservation = new LoccarInfra.ORM.model.Reservation
+            {
                 Reservationnumber = 123456,
                 Idcustomer = reservation.Idcustomer,
-                Idvehicle = reservation.Idvehicle
+                Idvehicle = reservation.Idvehicle,
             };
 
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
@@ -182,7 +182,7 @@ namespace LoccarTests.UnitTests
         [InlineData(100.0, 5, 500.0)]
         [InlineData(80.0, 3, 240.0)]
         [InlineData(150.0, 1, 150.0)]
-        public async Task CalculateTotalCost_WithDifferentRates_CalculatesCorrectly(
+        public async Task CalculateTotalCostWithDifferentRatesCalculatesCorrectly(
             decimal dailyRate, int rentalDays, decimal expectedTotal)
         {
             // Arrange
@@ -193,7 +193,7 @@ namespace LoccarTests.UnitTests
                 DailyRate = dailyRate,
                 InsuranceVehicle = null,
                 InsuranceThirdParty = null,
-                TaxAmount = null
+                TaxAmount = null,
             };
             var vehicle = new LoccarInfra.ORM.model.Vehicle { DailyRate = dailyRate };
 
@@ -211,7 +211,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task CalculateTotalCost_WhenReservationNotFound_ReturnsNotFound()
+        public async Task CalculateTotalCostWhenReservationNotFoundReturnsNotFound()
         {
             // Arrange
             _mockReservationRepository.Setup(x => x.GetReservationById(1))
@@ -229,13 +229,13 @@ namespace LoccarTests.UnitTests
         [InlineData("ADMIN", true)]
         [InlineData("EMPLOYEE", true)]
         [InlineData("COMMON_USER", false)]
-        public async Task RegisterDamage_WithDifferentRoles_ReturnsExpectedResult(
+        public async Task RegisterDamageWithDifferentRolesReturnsExpectedResult(
             string role, bool shouldSucceed)
         {
             // Arrange
             var loggedUser = new LoggedUser { Roles = new List<string> { role } };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
-            
+
             if (shouldSucceed)
             {
                 _mockReservationRepository.Setup(x => x.RegisterDamage(It.IsAny<int>(), It.IsAny<string>()))
@@ -260,7 +260,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task CancelReservation_WhenUserAuthenticated_CancelsSuccessfully()
+        public async Task CancelReservationWhenUserAuthenticatedCancelsSuccessfully()
         {
             // Arrange
             var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" } };
@@ -278,7 +278,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task GetReservationHistory_WhenCustomerHasReservations_ReturnsHistory()
+        public async Task GetReservationHistoryWhenCustomerHasReservationsReturnsHistory()
         {
             // Arrange
             var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" } };
@@ -290,8 +290,8 @@ namespace LoccarTests.UnitTests
                     Idcustomer = 1,
                     Idvehicle = 1,
                     RentalDate = DateTime.Now.AddDays(-10),
-                    ReturnDate = DateTime.Now.AddDays(-5)
-                }
+                    ReturnDate = DateTime.Now.AddDays(-5),
+                },
             };
 
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
@@ -309,7 +309,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task UpdateReservation_WhenAuthorizedUser_UpdatesSuccessfully()
+        public async Task UpdateReservationWhenAuthorizedUserUpdatesSuccessfully()
         {
             // Arrange
             var reservation = new Reservation
@@ -320,14 +320,14 @@ namespace LoccarTests.UnitTests
                 RentalDate = DateTime.Now,
                 ReturnDate = DateTime.Now.AddDays(5),
                 RentalDays = 5,
-                DailyRate = 100.0m
+                DailyRate = 100.0m,
             };
             var loggedUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
-            var updatedTbReservation = new LoccarInfra.ORM.model.Reservation 
-            { 
-                Reservationnumber = reservation.Reservationnumber 
+            var updatedTbReservation = new LoccarInfra.ORM.model.Reservation
+            {
+                Reservationnumber = reservation.Reservationnumber,
             };
-            
+
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
             _mockReservationRepository.Setup(x => x.UpdateReservation(It.IsAny<LoccarInfra.ORM.model.Reservation>()))
                 .ReturnsAsync(updatedTbReservation);
@@ -342,7 +342,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task UpdateReservation_WhenUnauthorizedUser_ReturnsUnauthorized()
+        public async Task UpdateReservationWhenUnauthorizedUserReturnsUnauthorized()
         {
             // Arrange
             var reservation = new Reservation
@@ -351,7 +351,7 @@ namespace LoccarTests.UnitTests
                 Idcustomer = 1,
                 Idvehicle = 1,
                 RentalDate = DateTime.Now,
-                ReturnDate = DateTime.Now.AddDays(5)
+                ReturnDate = DateTime.Now.AddDays(5),
             };
             var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" } };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);

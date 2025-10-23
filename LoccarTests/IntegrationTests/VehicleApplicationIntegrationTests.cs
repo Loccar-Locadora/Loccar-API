@@ -32,7 +32,7 @@ namespace LoccarTests.IntegrationTests
         }
 
         [Fact]
-        public async Task RegisterVehicle_WhenValidData_SavesToDatabase()
+        public async Task RegisterVehicleWhenValidDataSavesToDatabase()
         {
             // Arrange
             var loggedUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
@@ -56,8 +56,8 @@ namespace LoccarTests.IntegrationTests
                     PassengerCapacity = 5,
                     Tv = true,
                     AirConditioning = true,
-                    PowerSteering = true
-                }
+                    PowerSteering = true,
+                },
             };
 
             // Act
@@ -74,7 +74,7 @@ namespace LoccarTests.IntegrationTests
         }
 
         [Fact]
-        public async Task ListAvailableVehicles_WhenVehiclesExist_ReturnsFromDatabase()
+        public async Task ListAvailableVehiclesWhenVehiclesExistReturnsFromDatabase()
         {
             // Arrange
             var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" } };
@@ -86,7 +86,7 @@ namespace LoccarTests.IntegrationTests
                 Brand = "Honda",
                 Model = "Civic",
                 DailyRate = 90.0m,
-                Reserved = false
+                Reserved = false,
             };
 
             var vehicle2 = new LoccarInfra.ORM.model.Vehicle
@@ -94,7 +94,7 @@ namespace LoccarTests.IntegrationTests
                 Brand = "Ford",
                 Model = "Focus",
                 DailyRate = 85.0m,
-                Reserved = true // Este nao deve aparecer na lista de disponiveis
+                Reserved = true, // Este nao deve aparecer na lista de disponiveis
             };
 
             _context.Vehicles.AddRange(vehicle1, vehicle2);
@@ -111,7 +111,7 @@ namespace LoccarTests.IntegrationTests
         }
 
         [Fact]
-        public async Task GetVehicleById_WhenVehicleExists_ReturnsFromDatabase()
+        public async Task GetVehicleByIdWhenVehicleExistsReturnsFromDatabase()
         {
             // Arrange
             var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" } };
@@ -122,7 +122,7 @@ namespace LoccarTests.IntegrationTests
                 Brand = "Nissan",
                 Model = "Sentra",
                 DailyRate = 95.0m,
-                Reserved = false
+                Reserved = false,
             };
 
             _context.Vehicles.Add(vehicle);
@@ -139,7 +139,7 @@ namespace LoccarTests.IntegrationTests
         }
 
         [Fact]
-        public async Task UpdateVehicle_WhenValidData_UpdatesInDatabase()
+        public async Task UpdateVehicleWhenValidDataUpdatesInDatabase()
         {
             // Arrange
             var loggedUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
@@ -150,7 +150,7 @@ namespace LoccarTests.IntegrationTests
                 Brand = "Volkswagen",
                 Model = "Gol",
                 DailyRate = 80.0m,
-                Reserved = false
+                Reserved = false,
             };
 
             _context.Vehicles.Add(vehicle);
@@ -162,7 +162,7 @@ namespace LoccarTests.IntegrationTests
                 Brand = "Volkswagen",
                 Model = "Gol Updated",
                 DailyRate = 85.0m,
-                Reserved = false
+                Reserved = false,
             };
 
             // Act
@@ -179,7 +179,7 @@ namespace LoccarTests.IntegrationTests
         }
 
         [Fact]
-        public async Task DeleteVehicle_WhenVehicleExists_RemovesFromDatabase()
+        public async Task DeleteVehicleWhenVehicleExistsRemovesFromDatabase()
         {
             // Arrange
             var loggedUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
@@ -190,7 +190,7 @@ namespace LoccarTests.IntegrationTests
                 Brand = "Chevrolet",
                 Model = "Onix",
                 DailyRate = 75.0m,
-                Reserved = false
+                Reserved = false,
             };
 
             _context.Vehicles.Add(vehicle);
@@ -212,7 +212,7 @@ namespace LoccarTests.IntegrationTests
         [InlineData("ADMIN", true)]
         [InlineData("EMPLOYEE", true)]
         [InlineData("COMMON_USER", false)]
-        public async Task SetVehicleMaintenance_WithDifferentRoles_BehavesCorrectly(string role, bool shouldSucceed)
+        public async Task SetVehicleMaintenanceWithDifferentRolesBehavesCorrectly(string role, bool shouldSucceed)
         {
             // Arrange
             var loggedUser = new LoggedUser { Roles = new List<string> { role } };
@@ -223,7 +223,7 @@ namespace LoccarTests.IntegrationTests
                 Brand = "Hyundai",
                 Model = "HB20",
                 DailyRate = 70.0m,
-                Reserved = false
+                Reserved = false,
             };
 
             _context.Vehicles.Add(vehicle);

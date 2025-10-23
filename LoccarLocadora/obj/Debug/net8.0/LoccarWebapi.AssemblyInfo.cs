@@ -11,11 +11,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("LoccarWebapi")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("Loccar Locadora")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyCopyrightAttribute("Copyright © Loccar Locadora 2024")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e2f8ff88965c59537c11e70c74632da6f9a37b34")]
-[assembly: System.Reflection.AssemblyProductAttribute("LoccarWebapi")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+53be69d00d016d62019f8c984350baff7e4ee6ee")]
+[assembly: System.Reflection.AssemblyProductAttribute("Loccar API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LoccarWebapi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 

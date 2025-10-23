@@ -1,13 +1,13 @@
 using FluentAssertions;
 using LoccarApplication;
 using LoccarApplication.Interfaces;
-using DomainCustomer = LoccarDomain.Customer.Models.Customer;
 using LoccarDomain.LoggedUser.Models;
 using LoccarInfra.ORM.model;
 using LoccarInfra.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
+using DomainCustomer = LoccarDomain.Customer.Models.Customer;
 
 namespace LoccarTests.IntegrationTests
 {
@@ -29,7 +29,7 @@ namespace LoccarTests.IntegrationTests
         }
 
         [Fact]
-        public async Task RegisterCustomer_WhenValidData_SavesToDatabase()
+        public async Task RegisterCustomerWhenValidDataSavesToDatabase()
         {
             // Arrange
             var customer = new DomainCustomer
@@ -37,7 +37,7 @@ namespace LoccarTests.IntegrationTests
                 Username = "Joao Silva",
                 Email = "joao@email.com",
                 Cellphone = "11999999999",
-                DriverLicense = "12345678901"
+                DriverLicense = "12345678901",
             };
 
             // Act
@@ -55,7 +55,7 @@ namespace LoccarTests.IntegrationTests
         }
 
         [Fact]
-        public async Task GetCustomerById_WhenCustomerExists_ReturnsFromDatabase()
+        public async Task GetCustomerByIdWhenCustomerExistsReturnsFromDatabase()
         {
             // Arrange
             var customer = new Customer
@@ -64,7 +64,7 @@ namespace LoccarTests.IntegrationTests
                 Email = "maria@email.com",
                 Phone = "11888888888",
                 DriverLicense = "98765432109",
-                Created = DateTime.Now
+                Created = DateTime.Now,
             };
 
             _context.Customers.Add(customer);
@@ -81,7 +81,7 @@ namespace LoccarTests.IntegrationTests
         }
 
         [Fact]
-        public async Task UpdateCustomer_WhenValidData_UpdatesInDatabase()
+        public async Task UpdateCustomerWhenValidDataUpdatesInDatabase()
         {
             // Arrange
             var customer = new Customer
@@ -90,7 +90,7 @@ namespace LoccarTests.IntegrationTests
                 Email = "pedro@email.com",
                 Phone = "11777777777",
                 DriverLicense = "11111111111",
-                Created = DateTime.Now
+                Created = DateTime.Now,
             };
 
             _context.Customers.Add(customer);
@@ -102,7 +102,7 @@ namespace LoccarTests.IntegrationTests
                 Username = "Pedro Oliveira Updated",
                 Email = "pedro.updated@email.com",
                 Cellphone = "11666666666",
-                DriverLicense = "22222222222"
+                DriverLicense = "22222222222",
             };
 
             // Act
@@ -119,7 +119,7 @@ namespace LoccarTests.IntegrationTests
         }
 
         [Fact]
-        public async Task DeleteCustomer_WhenCustomerExists_RemovesFromDatabase()
+        public async Task DeleteCustomerWhenCustomerExistsRemovesFromDatabase()
         {
             // Arrange
             var customer = new Customer
@@ -128,7 +128,7 @@ namespace LoccarTests.IntegrationTests
                 Email = "ana@email.com",
                 Phone = "11555555555",
                 DriverLicense = "33333333333",
-                Created = DateTime.Now
+                Created = DateTime.Now,
             };
 
             _context.Customers.Add(customer);
@@ -147,7 +147,7 @@ namespace LoccarTests.IntegrationTests
         }
 
         [Fact]
-        public async Task ListAllCustomers_WhenCustomersExist_ReturnsFromDatabase()
+        public async Task ListAllCustomersWhenCustomersExistReturnsFromDatabase()
         {
             // Arrange
             var customers = new[]
@@ -158,7 +158,7 @@ namespace LoccarTests.IntegrationTests
                     Email = "cliente1@email.com",
                     Phone = "11111111111",
                     DriverLicense = "44444444444",
-                    Created = DateTime.Now
+                    Created = DateTime.Now,
                 },
                 new Customer
                 {
@@ -166,8 +166,8 @@ namespace LoccarTests.IntegrationTests
                     Email = "cliente2@email.com",
                     Phone = "11222222222",
                     DriverLicense = "55555555555",
-                    Created = DateTime.Now
-                }
+                    Created = DateTime.Now,
+                },
             };
 
             _context.Customers.AddRange(customers);
@@ -188,12 +188,12 @@ namespace LoccarTests.IntegrationTests
         [InlineData("invalid-email", false)]
         [InlineData("", false)]
         [InlineData(null, false)]
-        public void ValidateEmailFormat_WithDifferentInputs_ReturnsExpectedResult(string email, bool expected)
+        public void ValidateEmailFormatWithDifferentInputsReturnsExpectedResult(string email, bool expected)
         {
             // Act
-            bool isValid = !string.IsNullOrWhiteSpace(email) && 
-                          email.Contains("@") && 
-                          email.Contains(".") &&
+            bool isValid = !string.IsNullOrWhiteSpace(email) &&
+                          email.Contains('@') &&
+                          email.Contains('.') &&
                           email.IndexOf("@") > 0 &&
                           email.LastIndexOf(".") > email.IndexOf("@");
 

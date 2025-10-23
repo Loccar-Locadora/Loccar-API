@@ -13,10 +13,10 @@ namespace LoccarTests.Configuration
             var builder = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    {"Jwt:Key", "test-key-for-loccar-integration-tests-must-be-long-enough"},
-                    {"Jwt:Issuer", "TestIssuer"},
-                    {"Jwt:Audience", "TestAudience"},
-                    {"ConnectionStrings:DefaultConnection", "InMemoryTestDatabase"}
+                    { "Jwt:Key", "test-key-for-loccar-integration-tests-must-be-long-enough" },
+                    { "Jwt:Issuer", "TestIssuer" },
+                    { "Jwt:Audience", "TestAudience" },
+                    { "ConnectionStrings:DefaultConnection", "InMemoryTestDatabase" },
                 });
 
             Configuration = builder.Build();
@@ -34,7 +34,7 @@ namespace LoccarTests.Configuration
         public const string AdminUserId = "1";
         public const string EmployeeUserId = "2";
         public const string CommonUserId = "3";
-        
+
         public const string AdminEmail = "admin@test.com";
         public const string EmployeeEmail = "employee@test.com";
         public const string CommonUserEmail = "user@test.com";

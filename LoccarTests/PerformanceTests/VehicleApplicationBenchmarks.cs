@@ -49,7 +49,7 @@ namespace LoccarTests.PerformanceTests
                     ManufacturingYear = 2020 + (i % 4),
                     ModelYear = 2020 + (i % 4),
                     DailyRate = 100 + (i % 100),
-                    Reserved = i % 10 == 0 // 10% reserved
+                    Reserved = i % 10 == 0, // 10% reserved
                 });
             }
         }
@@ -58,14 +58,14 @@ namespace LoccarTests.PerformanceTests
         [InlineData(10)]
         [InlineData(100)]
         [InlineData(1000)]
-        public async Task ListAvailableVehicles_Performance(int vehicleCount)
+        public async Task ListAvailableVehiclesPerformance(int vehicleCount)
         {
             // Reduzir carga em ambiente CI
             if (Environment.GetEnvironmentVariable("CI") == "true")
             {
                 vehicleCount = Math.Min(vehicleCount, 10);
             }
-            
+
             // Arrange
             var vehicles = _vehiclesList.Take(vehicleCount).ToList();
             _mockVehicleRepository.Setup(x => x.ListAvailableVehicles())
@@ -73,25 +73,25 @@ namespace LoccarTests.PerformanceTests
 
             // Act
             var result = await _vehicleApplication.ListAvailableVehicles();
-            
+
             // Assert
             result.Should().NotBeNull();
             result.Code.Should().Be("200");
         }
 
         [Fact]
-        public async Task RegisterVehicle_SingleVehicle()
+        public async Task RegisterVehicleSingleVehicle()
         {
             // Arrange
             var adminUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(adminUser);
-            
+
             var vehicle = new Vehicle
             {
                 Brand = "Toyota",
                 Model = "Corolla",
                 Type = VehicleType.Passenger,
-                PassengerVehicle = new PassengerVehicle()
+                PassengerVehicle = new PassengerVehicle(),
             };
 
             var tbVehicle = new LoccarInfra.ORM.model.Vehicle { Idvehicle = 1 };
@@ -104,7 +104,7 @@ namespace LoccarTests.PerformanceTests
 
             // Act
             var result = await _vehicleApplication.RegisterVehicle(vehicle);
-            
+
             // Assert
             result.Should().NotBeNull();
             result.Code.Should().Be("201");
@@ -114,14 +114,14 @@ namespace LoccarTests.PerformanceTests
         [InlineData(10)]
         [InlineData(50)]
         [InlineData(100)]
-        public async Task GetVehicleById_MultipleCalls(int callCount)
+        public async Task GetVehicleByIdMultipleCalls(int callCount)
         {
             // Reduzir carga em ambiente CI
             if (Environment.GetEnvironmentVariable("CI") == "true")
             {
                 callCount = Math.Min(callCount, 10);
             }
-            
+
             // Arrange
             var vehicle = _vehiclesList.FirstOrDefault();
             vehicle.Should().NotBeNull(); // Garantir que temos dados
@@ -135,18 +135,19 @@ namespace LoccarTests.PerformanceTests
             {
                 tasks.Add(_vehicleApplication.GetVehicleById(1));
             }
+
             await Task.WhenAll(tasks);
-            
-            // Assert - apenas verificar que não houve exceção
+
+            // Assert - apenas verificar que nÃ£o houve exceÃ§Ã£o
             Assert.True(true);
         }
 
         [Fact]
-        public void CreateVehicleObject_Performance()
+        public void CreateVehicleObjectPerformance()
         {
-            // Reduzir iterações em ambiente CI
+            // Reduzir iteraÃ§Ãµes em ambiente CI
             int iterations = Environment.GetEnvironmentVariable("CI") == "true" ? 100 : 1000;
-            
+
             // Act
             for (int i = 0; i < iterations; i++)
             {
@@ -162,12 +163,12 @@ namespace LoccarTests.PerformanceTests
                     {
                         PassengerCapacity = 5,
                         AirConditioning = true,
-                        PowerSteering = true
-                    }
+                        PowerSteering = true,
+                    },
                 };
             }
-            
-            // Assert - apenas verificar que não houve exceção
+
+            // Assert - apenas verificar que nÃ£o houve exceÃ§Ã£o
             Assert.True(true);
         }
     }
@@ -205,7 +206,7 @@ namespace LoccarTests.PerformanceTests
                     ManufacturingYear = 2020 + (i % 4),
                     ModelYear = 2020 + (i % 4),
                     DailyRate = 100 + (i % 100),
-                    Reserved = i % 10 == 0
+                    Reserved = i % 10 == 0,
                 });
             }
 
@@ -221,7 +222,7 @@ namespace LoccarTests.PerformanceTests
     }
 
     // Classe para executar os benchmarks manualmente
-    public class BenchmarkRunnerHelper
+    public static class BenchmarkRunnerHelper
     {
         public static void RunBenchmarks()
         {

@@ -1,4 +1,4 @@
-﻿using LoccarApplication.Interfaces;
+using LoccarApplication.Interfaces;
 using LoccarDomain;
 using LoccarDomain.Reservation.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +9,7 @@ namespace LoccarWebapi.Controllers
     [Route("api/reservation")]
     [ApiController]
     [Authorize]
-    public class ReservationController : Controller
+    public class ReservationController : ControllerBase
     {
         private readonly IReservationApplication _reservationApplication;
 
@@ -68,4 +68,3 @@ namespace LoccarWebapi.Controllers
         }
     }
 }
-

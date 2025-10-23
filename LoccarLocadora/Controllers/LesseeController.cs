@@ -1,8 +1,8 @@
-﻿using LoccarDomain.Customer.Models;
-using Microsoft.AspNetCore.Mvc;
-using LoccarDomain;
 using LoccarApplication.Interfaces;
+using LoccarDomain;
+using LoccarDomain.Customer.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LoccarWebapi.Controllers
 {
@@ -10,10 +10,11 @@ namespace LoccarWebapi.Controllers
     [ApiController]
     public class LesseeController : ControllerBase
     {
-        readonly ICustomerApplication _customerApplication;
-        public LesseeController(ICustomerApplication CustomerApplication)
+        private readonly ICustomerApplication _customerApplication;
+
+        public LesseeController(ICustomerApplication customerApplication)
         {
-            _customerApplication = CustomerApplication;
+            _customerApplication = customerApplication;
         }
 
         [HttpPost("register")]
@@ -45,5 +46,5 @@ namespace LoccarWebapi.Controllers
         {
             return await _customerApplication.ListAllCustomers();
         }
-    } 
+    }
 }

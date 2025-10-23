@@ -24,7 +24,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task RegisterCustomer_WhenValidCustomer_ReturnsSuccess()
+        public async Task RegisterCustomerWhenValidCustomerReturnsSuccess()
         {
             // Arrange
             var customer = new Customer
@@ -32,7 +32,7 @@ namespace LoccarTests.UnitTests
                 Username = "Joao Silva",
                 Email = "joao@email.com",
                 Cellphone = "11999999999",
-                DriverLicense = "12345678901"
+                DriverLicense = "12345678901",
             };
             var tbCustomer = new LoccarInfra.ORM.model.Customer
             {
@@ -40,7 +40,7 @@ namespace LoccarTests.UnitTests
                 Email = customer.Email,
                 Phone = customer.Cellphone,
                 DriverLicense = customer.DriverLicense,
-                Created = DateTime.Now
+                Created = DateTime.Now,
             };
 
             _mockCustomerRepository.Setup(x => x.RegisterCustomer(It.IsAny<LoccarInfra.ORM.model.Customer>()))
@@ -57,7 +57,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task RegisterCustomer_WhenExceptionOccurs_ReturnsServerError()
+        public async Task RegisterCustomerWhenExceptionOccursReturnsServerError()
         {
             // Arrange
             var customer = new Customer
@@ -65,7 +65,7 @@ namespace LoccarTests.UnitTests
                 Username = "Test User",
                 Email = "test@email.com",
                 Cellphone = "11999999999",
-                DriverLicense = "12345678901"
+                DriverLicense = "12345678901",
             };
             _mockCustomerRepository.Setup(x => x.RegisterCustomer(It.IsAny<LoccarInfra.ORM.model.Customer>()))
                 .ThrowsAsync(new Exception("Database error"));
@@ -80,7 +80,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task UpdateCustomer_WhenCustomerExists_UpdatesSuccessfully()
+        public async Task UpdateCustomerWhenCustomerExistsUpdatesSuccessfully()
         {
             // Arrange
             var customer = new Customer
@@ -89,7 +89,7 @@ namespace LoccarTests.UnitTests
                 Username = "Test User",
                 Email = "test@email.com",
                 Cellphone = "11999999999",
-                DriverLicense = "12345678901"
+                DriverLicense = "12345678901",
             };
             var tbCustomer = new LoccarInfra.ORM.model.Customer
             {
@@ -98,7 +98,7 @@ namespace LoccarTests.UnitTests
                 Email = customer.Email,
                 Phone = customer.Cellphone,
                 DriverLicense = customer.DriverLicense,
-                Created = DateTime.Now
+                Created = DateTime.Now,
             };
 
             _mockCustomerRepository.Setup(x => x.UpdateCustomer(It.IsAny<LoccarInfra.ORM.model.Customer>()))
@@ -115,7 +115,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task UpdateCustomer_WhenCustomerNotFound_ReturnsNotFound()
+        public async Task UpdateCustomerWhenCustomerNotFoundReturnsNotFound()
         {
             // Arrange
             var customer = new Customer
@@ -124,7 +124,7 @@ namespace LoccarTests.UnitTests
                 Username = "Test User",
                 Email = "test@email.com",
                 Cellphone = "11999999999",
-                DriverLicense = "12345678901"
+                DriverLicense = "12345678901",
             };
             _mockCustomerRepository.Setup(x => x.UpdateCustomer(It.IsAny<LoccarInfra.ORM.model.Customer>()))
                 .ReturnsAsync((LoccarInfra.ORM.model.Customer)null);
@@ -141,7 +141,7 @@ namespace LoccarTests.UnitTests
         [Theory]
         [InlineData(1, true, "200", "Customer deleted successfully.")]
         [InlineData(2, false, "404", "Customer not found.")]
-        public async Task DeleteCustomer_WithDifferentScenarios_ReturnsExpectedResult(
+        public async Task DeleteCustomerWithDifferentScenariosReturnsExpectedResult(
             int customerId, bool deleteSuccess, string expectedCode, string expectedMessage)
         {
             // Arrange
@@ -158,7 +158,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task DeleteCustomer_WhenExceptionOccurs_ReturnsServerError()
+        public async Task DeleteCustomerWhenExceptionOccursReturnsServerError()
         {
             // Arrange
             _mockCustomerRepository.Setup(x => x.DeleteCustomer(It.IsAny<int>()))
@@ -174,7 +174,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task GetCustomerById_WhenCustomerExists_ReturnsCustomer()
+        public async Task GetCustomerByIdWhenCustomerExistsReturnsCustomer()
         {
             // Arrange
             var tbCustomer = new LoccarInfra.ORM.model.Customer
@@ -184,7 +184,7 @@ namespace LoccarTests.UnitTests
                 Email = "joao@email.com",
                 Phone = "11999999999",
                 DriverLicense = "123456789",
-                Created = DateTime.Now
+                Created = DateTime.Now,
             };
 
             _mockCustomerRepository.Setup(x => x.GetCustomerById(1))
@@ -202,7 +202,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task GetCustomerById_WhenCustomerNotFound_ReturnsNotFound()
+        public async Task GetCustomerByIdWhenCustomerNotFoundReturnsNotFound()
         {
             // Arrange
             _mockCustomerRepository.Setup(x => x.GetCustomerById(1))
@@ -218,7 +218,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task ListAllCustomers_WhenCustomersExist_ReturnsCustomers()
+        public async Task ListAllCustomersWhenCustomersExistReturnsCustomers()
         {
             // Arrange
             var tbCustomers = new List<LoccarInfra.ORM.model.Customer>
@@ -230,7 +230,7 @@ namespace LoccarTests.UnitTests
                     Email = "joao@email.com",
                     Phone = "11999999999",
                     DriverLicense = "123456789",
-                    Created = DateTime.Now
+                    Created = DateTime.Now,
                 },
                 new LoccarInfra.ORM.model.Customer
                 {
@@ -239,8 +239,8 @@ namespace LoccarTests.UnitTests
                     Email = "maria@email.com",
                     Phone = "11888888888",
                     DriverLicense = "987654321",
-                    Created = DateTime.Now
-                }
+                    Created = DateTime.Now,
+                },
             };
 
             _mockCustomerRepository.Setup(x => x.ListAllCustomers())
@@ -257,7 +257,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task ListAllCustomers_WhenNoCustomersFound_ReturnsNotFound()
+        public async Task ListAllCustomersWhenNoCustomersFoundReturnsNotFound()
         {
             // Arrange
             _mockCustomerRepository.Setup(x => x.ListAllCustomers())
@@ -273,7 +273,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Fact]
-        public async Task ListAllCustomers_WhenExceptionOccurs_ReturnsServerError()
+        public async Task ListAllCustomersWhenExceptionOccursReturnsServerError()
         {
             // Arrange
             string errorMessage = "Database connection failed";

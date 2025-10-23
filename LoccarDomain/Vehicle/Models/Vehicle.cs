@@ -1,4 +1,4 @@
-﻿namespace LoccarDomain.Vehicle.Models
+namespace LoccarDomain.Vehicle.Models
 {
     public class Vehicle
     {
@@ -23,13 +23,17 @@
         public decimal? MonthlyRate { get; set; }
 
         public decimal? CompanyDailyRate { get; set; }
+
         public bool? Reserved { get; set; }
 
         public VehicleType Type { get; set; }
 
         public CargoVehicle? CargoVehicle { get; set; }
+
         public Motorcycle? Motorcycle { get; set; }
+
         public PassengerVehicle? PassengerVehicle { get; set; }
+
         public LeisureVehicle? LeisureVehicle { get; set; }
     }
 
@@ -38,6 +42,6 @@
         Cargo = 0,
         Motorcycle = 1,
         Passenger = 2,
-        Leisure = 3
+        Leisure = 3,
     }
 }

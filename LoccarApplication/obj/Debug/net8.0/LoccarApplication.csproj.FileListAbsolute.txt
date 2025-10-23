@@ -37,3 +37,7 @@ C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarApplication\obj\Debu
 C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarApplication\obj\Debug\net8.0\LoccarApplication.pdb
 C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarApplication\obj\Debug\net8.0\LoccarApplication.genruntimeconfig.cache
 C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarApplication\obj\Debug\net8.0\ref\LoccarApplication.dll
+C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarApplication\obj\Debug\net8.0\LoccarApplication.xml
+C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarApplication\bin\Debug\net8.0\LoccarApplication.xml
+C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarApplication\bin\Debug\net8.0\LoccarDomain.xml
+C:\Users\barre\source\repos\LoccarLocadora\Loccar-API\LoccarApplication\bin\Debug\net8.0\LoccarInfra.xml

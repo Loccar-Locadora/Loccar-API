@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LoccarInfra.ORM.model;
@@ -47,7 +47,9 @@ namespace LoccarInfra.Repositories
                 .FirstOrDefaultAsync(r => r.Reservationnumber == reservationNumber);
 
             if (reservation == null)
+            {
                 return false;
+            }
 
             _context.Reservations.Remove(reservation);
             await _context.SaveChangesAsync();
@@ -59,7 +61,10 @@ namespace LoccarInfra.Repositories
             var reservation = await _context.Reservations
                 .FirstOrDefaultAsync(r => r.Reservationnumber == reservationNumber);
 
-            if (reservation == null) return false;
+            if (reservation == null)
+            {
+                return false;
+            }
 
             reservation.DamageDescription = damageDescription;
             await _context.SaveChangesAsync();
@@ -79,8 +84,11 @@ namespace LoccarInfra.Repositories
         {
             var existingReservation = await _context.Reservations
                 .FirstOrDefaultAsync(r => r.Reservationnumber == reservation.Reservationnumber);
-                
-            if (existingReservation == null) return null;
+
+            if (existingReservation == null)
+            {
+                return null;
+            }
 
             existingReservation.RentalDate = reservation.RentalDate;
             existingReservation.ReturnDate = reservation.ReturnDate;

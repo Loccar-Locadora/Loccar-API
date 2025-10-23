@@ -1,4 +1,4 @@
-﻿namespace LoccarDomain.Vehicle.Models
+namespace LoccarDomain.Vehicle.Models
 {
     public class CargoVehicle : Vehicle
     {
@@ -9,6 +9,7 @@
         public decimal? TareWeight { get; set; }
 
         public string? CargoCompartmentSize { get; set; }
+
         public int? IdVehicle { get; set; }
     }
 }

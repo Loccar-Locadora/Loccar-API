@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using LoccarDomain;
 using LoccarDomain.LoggedUser.Models;
@@ -22,6 +22,7 @@ namespace LoccarInfra.Repositories.Interfaces
 
         // Novos métodos CRUD
         Task<List<Reservation>> ListAllReservations();
+
         Task<Reservation> UpdateReservation(Reservation reservation);
     }
 }

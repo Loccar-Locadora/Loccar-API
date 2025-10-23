@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,28 +11,33 @@ namespace LoccarInfra.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {
-        readonly DataBaseContext _dbContext;
+        private readonly DataBaseContext _dbContext;
+
         public CustomerRepository(DataBaseContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<Customer> RegisterCustomer(Customer Customer)
+        public async Task<Customer> RegisterCustomer(Customer customer)
         {
-            await _dbContext.Customers.AddAsync(Customer);
+            await _dbContext.Customers.AddAsync(customer);
             await _dbContext.SaveChangesAsync();
 
-            return Customer;
+            return customer;
         }
 
         public async Task<Customer> GetRegistrationByEmail(string email)
         {
-            return await _dbContext.Customers.Where(n => n.Email.Equals(email)).FirstOrDefaultAsync();
+            return await _dbContext.Customers.Where(n => n.Email.Equals(email, StringComparison.Ordinal)).FirstOrDefaultAsync();
         }
+
         public async Task<Customer?> UpdateCustomer(Customer customer)
         {
             var existing = await _dbContext.Customers.FirstOrDefaultAsync(c => c.Idcustomer == customer.Idcustomer);
-            if (existing == null) return null;
+            if (existing == null)
+            {
+                return null;
+            }
 
             existing.Name = customer.Name;
             existing.Email = customer.Email;
@@ -46,7 +51,10 @@ namespace LoccarInfra.Repositories
         public async Task<bool> DeleteCustomer(int customerId)
         {
             var existing = await _dbContext.Customers.FirstOrDefaultAsync(c => c.Idcustomer == customerId);
-            if (existing == null) return false;
+            if (existing == null)
+            {
+                return false;
+            }
 
             _dbContext.Customers.Remove(existing);
             await _dbContext.SaveChangesAsync();
