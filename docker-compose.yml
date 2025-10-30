@@ -1,4 +1,4 @@
-﻿version: "3.9"
+version: "3.9"
 
 services:
   loccar-locadora:
@@ -9,21 +9,8 @@ services:
     ports:
       - "5001:8080"
     environment:
-      - ConnectionStrings__DefaultConnection=Host=db;Port=5433;Database=loccardb_locadora;Username=postgres;Password=postgres
-    depends_on:
-      - db
-
-  db:
-    image: postgres:16
-    container_name: postgres-locadora
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-    ports:
-      - "5433:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Host=loccar-db;Port=5432;Database=loccardb;Username=postgres;Password=postgres;Pooling=true;
+      - Jwt__Issuer=http://localhost
+      - Jwt__Audience=http://localhost
+      - Jwt__Key=7c83ca9b462e5932a0c506fee8cec2ac38edef8c1fec346c0eeb8471ad7bf84d
