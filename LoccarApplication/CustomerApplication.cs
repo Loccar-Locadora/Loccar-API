@@ -64,7 +64,7 @@ namespace LoccarApplication
             {
                 LoccarInfra.ORM.model.Customer tabelaCustomer = new LoccarInfra.ORM.model.Customer()
                 {
-                    Idcustomer = (int)customer.IdCustomer,
+                    IdCustomer = (int)customer.IdCustomer,
                     Name = customer.Username,
                     Email = customer.Email,
                     Phone = customer.Cellphone,
@@ -143,7 +143,7 @@ namespace LoccarApplication
 
                 Customer customerResponse = new Customer()
                 {
-                    IdCustomer = tabelaCustomer.Idcustomer,
+                    IdCustomer = tabelaCustomer.IdCustomer,
                     Username = tabelaCustomer.Name,
                     Email = tabelaCustomer.Email,
                     Cellphone = tabelaCustomer.Phone,
@@ -184,7 +184,7 @@ namespace LoccarApplication
                 {
                     customers.Add(new Customer()
                     {
-                        IdCustomer = tabelaCustomer.Idcustomer,
+                        IdCustomer = tabelaCustomer.IdCustomer,
                         Username = tabelaCustomer.Name,
                         Email = tabelaCustomer.Email,
                         Cellphone = tabelaCustomer.Phone,

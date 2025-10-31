@@ -71,7 +71,7 @@ namespace LoccarTests.IntegrationTests
             await _context.SaveChangesAsync();
 
             // Act
-            var result = await _customerApplication.GetCustomerById(customer.Idcustomer);
+            var result = await _customerApplication.GetCustomerById(customer.IdCustomer);
 
             // Assert
             result.Code.Should().Be("200");
@@ -98,7 +98,7 @@ namespace LoccarTests.IntegrationTests
 
             var updatedCustomer = new DomainCustomer
             {
-                IdCustomer = customer.Idcustomer,
+                IdCustomer = customer.IdCustomer,
                 Username = "Pedro Oliveira Updated",
                 Email = "pedro.updated@email.com",
                 Cellphone = "11666666666",
@@ -112,7 +112,7 @@ namespace LoccarTests.IntegrationTests
             result.Code.Should().Be("200");
             result.Message.Should().Be("Customer updated successfully.");
 
-            var customerInDb = await _context.Customers.FindAsync(customer.Idcustomer);
+            var customerInDb = await _context.Customers.FindAsync(customer.IdCustomer);
             customerInDb.Should().NotBeNull();
             customerInDb.Name.Should().Be("Pedro Oliveira Updated");
             customerInDb.Email.Should().Be("pedro.updated@email.com");
@@ -135,14 +135,14 @@ namespace LoccarTests.IntegrationTests
             await _context.SaveChangesAsync();
 
             // Act
-            var result = await _customerApplication.DeleteCustomer(customer.Idcustomer);
+            var result = await _customerApplication.DeleteCustomer(customer.IdCustomer);
 
             // Assert
             result.Code.Should().Be("200");
             result.Data.Should().BeTrue();
             result.Message.Should().Be("Customer deleted successfully.");
 
-            var customerInDb = await _context.Customers.FindAsync(customer.Idcustomer);
+            var customerInDb = await _context.Customers.FindAsync(customer.IdCustomer);
             customerInDb.Should().BeNull();
         }
 

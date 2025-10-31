@@ -129,7 +129,7 @@ namespace LoccarTests.IntegrationTests
             await _context.SaveChangesAsync();
 
             // Act
-            var result = await _vehicleApplication.GetVehicleById(vehicle.Idvehicle);
+            var result = await _vehicleApplication.GetVehicleById(vehicle.IdVehicle);
 
             // Assert
             result.Code.Should().Be("200");
@@ -158,7 +158,7 @@ namespace LoccarTests.IntegrationTests
 
             var updatedVehicle = new LoccarDomain.Vehicle.Models.Vehicle
             {
-                Idvehicle = vehicle.Idvehicle,
+                IdVehicle = vehicle.IdVehicle,
                 Brand = "Volkswagen",
                 Model = "Gol Updated",
                 DailyRate = 85.0m,
@@ -172,7 +172,7 @@ namespace LoccarTests.IntegrationTests
             result.Code.Should().Be("200");
             result.Message.Should().Be("Vehicle updated successfully");
 
-            var vehicleInDb = await _context.Vehicles.FindAsync(vehicle.Idvehicle);
+            var vehicleInDb = await _context.Vehicles.FindAsync(vehicle.IdVehicle);
             vehicleInDb.Should().NotBeNull();
             vehicleInDb.Model.Should().Be("Gol Updated");
             vehicleInDb.DailyRate.Should().Be(85.0m);
@@ -197,14 +197,14 @@ namespace LoccarTests.IntegrationTests
             await _context.SaveChangesAsync();
 
             // Act
-            var result = await _vehicleApplication.DeleteVehicle(vehicle.Idvehicle);
+            var result = await _vehicleApplication.DeleteVehicle(vehicle.IdVehicle);
 
             // Assert
             result.Code.Should().Be("200");
             result.Data.Should().BeTrue();
             result.Message.Should().Be("Vehicle deleted successfully.");
 
-            var vehicleInDb = await _context.Vehicles.FindAsync(vehicle.Idvehicle);
+            var vehicleInDb = await _context.Vehicles.FindAsync(vehicle.IdVehicle);
             vehicleInDb.Should().BeNull();
         }
 
@@ -230,7 +230,7 @@ namespace LoccarTests.IntegrationTests
             await _context.SaveChangesAsync();
 
             // Act
-            var result = await _vehicleApplication.SetVehicleMaintenance(vehicle.Idvehicle, true);
+            var result = await _vehicleApplication.SetVehicleMaintenance(vehicle.IdVehicle, true);
 
             // Assert
             if (shouldSucceed)

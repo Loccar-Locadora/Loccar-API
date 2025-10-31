@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace LoccarInfra.ORM.model;
 
 public partial class Vehicle
 {
-    public int Idvehicle { get; set; }
+    public int IdVehicle { get; set; }
 
     public string? Brand { get; set; }
 

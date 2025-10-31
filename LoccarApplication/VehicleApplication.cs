@@ -31,8 +31,9 @@ namespace LoccarApplication
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
-                // Corrigindo a lógica de autorização - usuário deve ter role ADMIN ou EMPLOYEE
-                if (loggedUser?.Roles == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
+                // Corrigindo a lógica de autorização - usuário deve ter role CLIENT_ADMIN ou CLIENT_EMPLOYEE
+                if (loggedUser?.Roles == null || 
+                    (!loggedUser.Roles.Contains("CLIENT_ADMIN") && !loggedUser.Roles.Contains("CLIENT_EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized.";
@@ -63,7 +64,7 @@ namespace LoccarApplication
                     case VehicleType.Cargo:
                         if (vehicle.CargoVehicle != null)
                         {
-                            vehicle.CargoVehicle.Idvehicle = tbVehicle.Idvehicle;
+                            vehicle.CargoVehicle.IdVehicle = tbVehicle.IdVehicle;
                             var cargoResult = await RegisterCargoVehicle(vehicle.CargoVehicle);
                             if (cargoResult.Code == "201")
                             {
@@ -75,7 +76,7 @@ namespace LoccarApplication
                     case VehicleType.Motorcycle:
                         if (vehicle.Motorcycle != null)
                         {
-                            vehicle.Motorcycle.Idvehicle = tbVehicle.Idvehicle;
+                            vehicle.Motorcycle.IdVehicle = tbVehicle.IdVehicle;
                             var motorcycleResult = await RegisterMotorcycleVehicle(vehicle.Motorcycle);
                             if (motorcycleResult.Code == "201")
                             {
@@ -87,7 +88,7 @@ namespace LoccarApplication
                     case VehicleType.Leisure:
                         if (vehicle.LeisureVehicle != null)
                         {
-                            vehicle.LeisureVehicle.Idvehicle = tbVehicle.Idvehicle;
+                            vehicle.LeisureVehicle.IdVehicle = tbVehicle.IdVehicle;
                             var leisureResult = await RegisterLeisureVehicle(vehicle.LeisureVehicle);
                             if (leisureResult.Code == "201")
                             {
@@ -99,7 +100,7 @@ namespace LoccarApplication
                     case VehicleType.Passenger:
                         if (vehicle.PassengerVehicle != null)
                         {
-                            vehicle.PassengerVehicle.Idvehicle = tbVehicle.Idvehicle;
+                            vehicle.PassengerVehicle.IdVehicle = tbVehicle.IdVehicle;
                             var passengerResult = await RegisterPassengerVehicle(vehicle.PassengerVehicle);
                             if (passengerResult.Code == "201")
                             {
@@ -141,7 +142,7 @@ namespace LoccarApplication
                     CargoCompartmentSize = cargoVehicle.CargoCompartmentSize,
                     CargoType = cargoVehicle.CargoType,
                     TareWeight = cargoVehicle.TareWeight,
-                    Idvehicle = cargoVehicle.Idvehicle,
+                    IdVehicle = cargoVehicle.IdVehicle,
                 };
 
                 await _vehicleRepository.RegisterCargoVehicle(tbCargoVehicle);
@@ -170,7 +171,7 @@ namespace LoccarApplication
                     PowerSteering = leisureVehicle.PowerSteering,
                     AirConditioning = leisureVehicle.AirConditioning,
                     Category = leisureVehicle.Category,
-                    Idvehicle = leisureVehicle.Idvehicle,
+                    IdVehicle = leisureVehicle.IdVehicle,
                 };
 
                 await _vehicleRepository.RegisterLeisureVehicle(tbLeisureVehicle);
@@ -198,7 +199,7 @@ namespace LoccarApplication
                     TractionControl = motorcycle.TractionControl,
                     AbsBrakes = motorcycle.AbsBrakes,
                     CruiseControl = motorcycle.CruiseControl,
-                    Idvehicle = motorcycle.Idvehicle,
+                    IdVehicle = motorcycle.IdVehicle,
                 };
 
                 await _vehicleRepository.RegisterMotorcycleVehicle(tbMotorcycle);
@@ -227,7 +228,7 @@ namespace LoccarApplication
                     Tv = passengerVehicle.Tv,
                     AirConditioning = passengerVehicle.AirConditioning,
                     PowerSteering = passengerVehicle.PowerSteering,
-                    Idvehicle = passengerVehicle.Idvehicle,
+                    IdVehicle = passengerVehicle.IdVehicle,
                 };
 
                 await _vehicleRepository.RegisterPassengerVehicle(tbPassengerVehicle);
@@ -253,7 +254,7 @@ namespace LoccarApplication
             {
                 LoggedUser user = _authApplication.GetLoggedUser();
 
-                if (user == null)
+                if (user == null || !user.Authenticated)
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized";
@@ -289,7 +290,7 @@ namespace LoccarApplication
                         // CargoVehicle
                         CargoVehicle = tbVehicle.CargoVehicle != null ? new CargoVehicle()
                         {
-                            IdVehicle = tbVehicle.CargoVehicle.Idvehicle,
+                            IdVehicle = tbVehicle.CargoVehicle.IdVehicle,
                             CargoCapacity = tbVehicle.CargoVehicle.CargoCapacity,
                             CargoType = tbVehicle.CargoVehicle.CargoType,
                             TareWeight = tbVehicle.CargoVehicle.TareWeight,
@@ -300,7 +301,7 @@ namespace LoccarApplication
                         // PassengerVehicle
                         PassengerVehicle = tbVehicle.PassengerVehicle != null ? new PassengerVehicle()
                         {
-                            IdVehicle = tbVehicle.PassengerVehicle.Idvehicle,
+                            IdVehicle = tbVehicle.PassengerVehicle.IdVehicle,
                             PassengerCapacity = tbVehicle.PassengerVehicle.PassengerCapacity,
                             Tv = tbVehicle.PassengerVehicle.Tv,
                             AirConditioning = tbVehicle.PassengerVehicle.AirConditioning,
@@ -311,7 +312,7 @@ namespace LoccarApplication
                         // LeisureVehicle
                         LeisureVehicle = tbVehicle.LeisureVehicle != null ? new LeisureVehicle()
                         {
-                            IdVehicle = tbVehicle.LeisureVehicle.Idvehicle,
+                            IdVehicle = tbVehicle.LeisureVehicle.IdVehicle,
                             Automatic = tbVehicle.LeisureVehicle.Automatic,
                             PowerSteering = tbVehicle.LeisureVehicle.PowerSteering,
                             AirConditioning = tbVehicle.LeisureVehicle.AirConditioning,
@@ -322,7 +323,7 @@ namespace LoccarApplication
                         // Motorcycle
                         Motorcycle = tbVehicle.Motorcycle != null ? new Motorcycle()
                         {
-                            IdVehicle = tbVehicle.Motorcycle.Idvehicle,
+                            IdVehicle = tbVehicle.Motorcycle.IdVehicle,
                             TractionControl = tbVehicle.Motorcycle.TractionControl,
                             AbsBrakes = tbVehicle.Motorcycle.AbsBrakes,
                             CruiseControl = tbVehicle.Motorcycle.CruiseControl,
@@ -354,8 +355,9 @@ namespace LoccarApplication
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
-                // Corrigindo para permitir ADMIN e EMPLOYEE
-                if (loggedUser?.Roles == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
+                // Corrigindo para permitir CLIENT_ADMIN e CLIENT_EMPLOYEE
+                if (loggedUser?.Roles == null || 
+                    (!loggedUser.Roles.Contains("CLIENT_ADMIN") && !loggedUser.Roles.Contains("CLIENT_EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized.";
@@ -388,7 +390,7 @@ namespace LoccarApplication
             {
                 LoggedUser user = _authApplication.GetLoggedUser();
 
-                if (user == null)
+                if (user == null || !user.Authenticated)
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized";
@@ -406,7 +408,7 @@ namespace LoccarApplication
 
                 Vehicle vehicle = new Vehicle()
                 {
-                    Idvehicle = tbVehicle.Idvehicle,
+                    IdVehicle = tbVehicle.IdVehicle,
                     Brand = tbVehicle.Brand,
                     Model = tbVehicle.Model,
                     ManufacturingYear = tbVehicle.ManufacturingYear,
@@ -422,7 +424,7 @@ namespace LoccarApplication
                     // CargoVehicle
                     CargoVehicle = tbVehicle.CargoVehicle != null ? new CargoVehicle()
                     {
-                        IdVehicle = tbVehicle.CargoVehicle.Idvehicle,
+                        IdVehicle = tbVehicle.CargoVehicle.IdVehicle,
                         CargoCapacity = tbVehicle.CargoVehicle.CargoCapacity,
                         CargoType = tbVehicle.CargoVehicle.CargoType,
                         TareWeight = tbVehicle.CargoVehicle.TareWeight,
@@ -433,7 +435,7 @@ namespace LoccarApplication
                     // PassengerVehicle
                     PassengerVehicle = tbVehicle.PassengerVehicle != null ? new PassengerVehicle()
                     {
-                        IdVehicle = tbVehicle.PassengerVehicle.Idvehicle,
+                        IdVehicle = tbVehicle.PassengerVehicle.IdVehicle,
                         PassengerCapacity = tbVehicle.PassengerVehicle.PassengerCapacity,
                         Tv = tbVehicle.PassengerVehicle.Tv,
                         AirConditioning = tbVehicle.PassengerVehicle.AirConditioning,
@@ -444,7 +446,7 @@ namespace LoccarApplication
                     // LeisureVehicle
                     LeisureVehicle = tbVehicle.LeisureVehicle != null ? new LeisureVehicle()
                     {
-                        IdVehicle = tbVehicle.LeisureVehicle.Idvehicle,
+                        IdVehicle = tbVehicle.LeisureVehicle.IdVehicle,
                         Automatic = tbVehicle.LeisureVehicle.Automatic,
                         PowerSteering = tbVehicle.LeisureVehicle.PowerSteering,
                         AirConditioning = tbVehicle.LeisureVehicle.AirConditioning,
@@ -455,7 +457,7 @@ namespace LoccarApplication
                     // Motorcycle
                     Motorcycle = tbVehicle.Motorcycle != null ? new Motorcycle()
                     {
-                        IdVehicle = tbVehicle.Motorcycle.Idvehicle,
+                        IdVehicle = tbVehicle.Motorcycle.IdVehicle,
                         TractionControl = tbVehicle.Motorcycle.TractionControl,
                         AbsBrakes = tbVehicle.Motorcycle.AbsBrakes,
                         CruiseControl = tbVehicle.Motorcycle.CruiseControl,
@@ -484,7 +486,8 @@ namespace LoccarApplication
             {
                 LoggedUser user = _authApplication.GetLoggedUser();
 
-                if (user == null || (!user.Roles.Contains("ADMIN") && !user.Roles.Contains("EMPLOYEE")))
+                if (user?.Roles == null || 
+                    (!user.Roles.Contains("CLIENT_ADMIN") && !user.Roles.Contains("CLIENT_EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized";
@@ -505,7 +508,7 @@ namespace LoccarApplication
                 {
                     Vehicle vehicle = new Vehicle()
                     {
-                        Idvehicle = tbVehicle.Idvehicle,
+                        IdVehicle = tbVehicle.IdVehicle,
                         Brand = tbVehicle.Brand,
                         Model = tbVehicle.Model,
                         ManufacturingYear = tbVehicle.ManufacturingYear,
@@ -521,7 +524,7 @@ namespace LoccarApplication
                         // CargoVehicle
                         CargoVehicle = tbVehicle.CargoVehicle != null ? new CargoVehicle()
                         {
-                            IdVehicle = tbVehicle.CargoVehicle.Idvehicle,
+                            IdVehicle = tbVehicle.CargoVehicle.IdVehicle,
                             CargoCapacity = tbVehicle.CargoVehicle.CargoCapacity,
                             CargoType = tbVehicle.CargoVehicle.CargoType,
                             TareWeight = tbVehicle.CargoVehicle.TareWeight,
@@ -532,7 +535,7 @@ namespace LoccarApplication
                         // PassengerVehicle
                         PassengerVehicle = tbVehicle.PassengerVehicle != null ? new PassengerVehicle()
                         {
-                            IdVehicle = tbVehicle.PassengerVehicle.Idvehicle,
+                            IdVehicle = tbVehicle.PassengerVehicle.IdVehicle,
                             PassengerCapacity = tbVehicle.PassengerVehicle.PassengerCapacity,
                             Tv = tbVehicle.PassengerVehicle.Tv,
                             AirConditioning = tbVehicle.PassengerVehicle.AirConditioning,
@@ -543,7 +546,7 @@ namespace LoccarApplication
                         // LeisureVehicle
                         LeisureVehicle = tbVehicle.LeisureVehicle != null ? new LeisureVehicle()
                         {
-                            IdVehicle = tbVehicle.LeisureVehicle.Idvehicle,
+                            IdVehicle = tbVehicle.LeisureVehicle.IdVehicle,
                             Automatic = tbVehicle.LeisureVehicle.Automatic,
                             PowerSteering = tbVehicle.LeisureVehicle.PowerSteering,
                             AirConditioning = tbVehicle.LeisureVehicle.AirConditioning,
@@ -554,7 +557,7 @@ namespace LoccarApplication
                         // Motorcycle
                         Motorcycle = tbVehicle.Motorcycle != null ? new Motorcycle()
                         {
-                            IdVehicle = tbVehicle.Motorcycle.Idvehicle,
+                            IdVehicle = tbVehicle.Motorcycle.IdVehicle,
                             TractionControl = tbVehicle.Motorcycle.TractionControl,
                             AbsBrakes = tbVehicle.Motorcycle.AbsBrakes,
                             CruiseControl = tbVehicle.Motorcycle.CruiseControl,
@@ -587,7 +590,8 @@ namespace LoccarApplication
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
                 // Corrigindo lógica de autorização
-                if (loggedUser?.Roles == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
+                if (loggedUser?.Roles == null || 
+                    (!loggedUser.Roles.Contains("CLIENT_ADMIN") && !loggedUser.Roles.Contains("CLIENT_EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized.";
@@ -596,7 +600,7 @@ namespace LoccarApplication
 
                 LoccarInfra.ORM.model.Vehicle tbVehicle = new LoccarInfra.ORM.model.Vehicle()
                 {
-                    Idvehicle = vehicle.Idvehicle,
+                    IdVehicle = vehicle.IdVehicle,
                     Brand = vehicle.Brand,
                     Model = vehicle.Model,
                     ManufacturingYear = vehicle.ManufacturingYear,
@@ -641,7 +645,8 @@ namespace LoccarApplication
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
                 // Corrigindo lógica de autorização
-                if (loggedUser?.Roles == null || (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
+                if (loggedUser?.Roles == null || 
+                    (!loggedUser.Roles.Contains("CLIENT_ADMIN") && !loggedUser.Roles.Contains("CLIENT_EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized.";

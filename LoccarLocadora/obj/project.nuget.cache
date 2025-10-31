@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "I/vDPVjbyIY=",
+  "dgSpecHash": "4xGh1pOU9p0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\barre\\Source\\Repos\\Loccar-API\\LoccarLocadora\\LoccarWebapi.csproj",
+  "projectFilePath": "C:\\Users\\barre\\source\\repos\\Loccar-API\\LoccarLocadora\\LoccarWebapi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\barre\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\barre\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.20\\microsoft.aspnetcore.authentication.jwtbearer.8.0.20.nupkg.sha512",

@@ -1,11 +1,11 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Minha API",
+    "title": "Loccar API",
     "version": "v1"
   },
   "paths": {
-    "/api/Customer/register": {
+    "/api/customer/register": {
       "post": {
         "tags": [
           "Lessee"
@@ -53,7 +53,7 @@
         }
       }
     },
-    "/api/Customer/update": {
+    "/api/customer/update": {
       "put": {
         "tags": [
           "Lessee"
@@ -101,7 +101,7 @@
         }
       }
     },
-    "/api/Customer/delete/{id}": {
+    "/api/customer/delete/{id}": {
       "delete": {
         "tags": [
           "Lessee"
@@ -141,7 +141,7 @@
         }
       }
     },
-    "/api/Customer/{id}": {
+    "/api/customer/{id}": {
       "get": {
         "tags": [
           "Lessee"
@@ -181,7 +181,7 @@
         }
       }
     },
-    "/api/Customer/list/all": {
+    "/api/customer/list/all": {
       "get": {
         "tags": [
           "Lessee"
@@ -1029,11 +1029,11 @@
             "type": "integer",
             "format": "int32"
           },
-          "idcustomer": {
+          "idCustomer": {
             "type": "integer",
             "format": "int32"
           },
-          "idvehicle": {
+          "idVehicle": {
             "type": "integer",
             "format": "int32"
           },
@@ -1087,7 +1087,7 @@
       "LoccarDomain.Vehicle.Models.CargoVehicle": {
         "type": "object",
         "properties": {
-          "idvehicle": {
+          "idVehicle": {
             "type": "integer",
             "format": "int32"
           },
@@ -1174,11 +1174,6 @@
           "cargoCompartmentSize": {
             "type": "string",
             "nullable": true
-          },
-          "idVehicle": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1186,7 +1181,7 @@
       "LoccarDomain.Vehicle.Models.LeisureVehicle": {
         "type": "object",
         "properties": {
-          "idvehicle": {
+          "idVehicle": {
             "type": "integer",
             "format": "int32"
           },
@@ -1255,11 +1250,6 @@
           },
           "leisureVehicle": {
             "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.LeisureVehicle"
-          },
-          "idVehicle": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
           },
           "automatic": {
             "type": "boolean",
@@ -1283,7 +1273,7 @@
       "LoccarDomain.Vehicle.Models.Motorcycle": {
         "type": "object",
         "properties": {
-          "idvehicle": {
+          "idVehicle": {
             "type": "integer",
             "format": "int32"
           },
@@ -1352,11 +1342,6 @@
           },
           "leisureVehicle": {
             "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.LeisureVehicle"
-          },
-          "idVehicle": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
           },
           "tractionControl": {
             "type": "boolean",
@@ -1376,7 +1361,7 @@
       "LoccarDomain.Vehicle.Models.PassengerVehicle": {
         "type": "object",
         "properties": {
-          "idvehicle": {
+          "idVehicle": {
             "type": "integer",
             "format": "int32"
           },
@@ -1445,11 +1430,6 @@
           },
           "leisureVehicle": {
             "$ref": "#/components/schemas/LoccarDomain.Vehicle.Models.LeisureVehicle"
-          },
-          "idVehicle": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
           },
           "passengerCapacity": {
             "type": "integer",
@@ -1474,7 +1454,7 @@
       "LoccarDomain.Vehicle.Models.Vehicle": {
         "type": "object",
         "properties": {
-          "idvehicle": {
+          "idVehicle": {
             "type": "integer",
             "format": "int32"
           },

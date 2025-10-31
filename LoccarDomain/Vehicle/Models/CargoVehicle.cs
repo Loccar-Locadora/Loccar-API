@@ -9,7 +9,5 @@ namespace LoccarDomain.Vehicle.Models
         public decimal? TareWeight { get; set; }
 
         public string? CargoCompartmentSize { get; set; }
-
-        public int? IdVehicle { get; set; }
     }
 }

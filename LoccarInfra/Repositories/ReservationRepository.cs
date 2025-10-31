@@ -26,17 +26,17 @@ namespace LoccarInfra.Repositories
         public async Task<Reservation> GetReservationById(int reservationId)
         {
             return await _context.Reservations
-                .Include(r => r.IdcustomerNavigation)
-                .Include(r => r.IdvehicleNavigation)
+                .Include(r => r.IdCustomerNavigation)
+                .Include(r => r.IdVehicleNavigation)
                 .FirstOrDefaultAsync(r => r.Reservationnumber == reservationId);
         }
 
         public async Task<List<Reservation>> GetReservationHistory(int customerId)
         {
             return await _context.Reservations
-                .Include(r => r.IdcustomerNavigation)
-                .Include(r => r.IdvehicleNavigation)
-                .Where(r => r.Idcustomer == customerId)
+                .Include(r => r.IdCustomerNavigation)
+                .Include(r => r.IdVehicleNavigation)
+                .Where(r => r.IdCustomer == customerId)
                 .OrderByDescending(r => r.RentalDate)
                 .ToListAsync();
         }
@@ -75,8 +75,8 @@ namespace LoccarInfra.Repositories
         public async Task<List<Reservation>> ListAllReservations()
         {
             return await _context.Reservations
-                .Include(r => r.IdcustomerNavigation)
-                .Include(r => r.IdvehicleNavigation)
+                .Include(r => r.IdCustomerNavigation)
+                .Include(r => r.IdVehicleNavigation)
                 .ToListAsync();
         }
 

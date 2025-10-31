@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace LoccarInfra.ORM.model;
 
 public partial class Customer
 {
-    public int Idcustomer { get; set; }
+    public int IdCustomer { get; set; }
 
     public string Name { get; set; } = null!;
 

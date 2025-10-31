@@ -54,7 +54,7 @@ namespace LoccarTests.ParameterizedTests
             // Arrange
             var tbReservation = new LoccarInfra.ORM.model.Reservation
             {
-                Idvehicle = 1,
+                IdVehicle = 1,
                 RentalDays = rentalDays,
                 DailyRate = dailyRate,
                 InsuranceVehicle = insuranceVehicle,
@@ -96,8 +96,8 @@ namespace LoccarTests.ParameterizedTests
             // Arrange
             var reservation = new Reservation
             {
-                Idcustomer = 1,
-                Idvehicle = 1,
+                IdCustomer = 1,
+                IdVehicle = 1,
                 RentalDate = DateTime.Now,
                 ReturnDate = DateTime.Now.AddDays(5),
             };
@@ -130,8 +130,8 @@ namespace LoccarTests.ParameterizedTests
             // Arrange
             var reservation = new Reservation
             {
-                Idcustomer = 1,
-                Idvehicle = 1,
+                IdCustomer = 1,
+                IdVehicle = 1,
                 RentalDate = DateTime.Now,
                 ReturnDate = DateTime.Now.AddDays(5),
             };
@@ -140,12 +140,12 @@ namespace LoccarTests.ParameterizedTests
             var vehicle = new LoccarInfra.ORM.model.Vehicle { Reserved = vehicleReserved };
 
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
-            _mockVehicleRepository.Setup(x => x.GetVehicleById(reservation.Idvehicle))
+            _mockVehicleRepository.Setup(x => x.GetVehicleById(reservation.IdVehicle))
                 .ReturnsAsync(vehicle);
 
             if (!vehicleReserved)
             {
-                _mockCustomerRepository.Setup(x => x.GetCustomerById(reservation.Idcustomer))
+                _mockCustomerRepository.Setup(x => x.GetCustomerById(reservation.IdCustomer))
                     .ReturnsAsync((LoccarInfra.ORM.model.Customer)null);
             }
 
@@ -272,8 +272,8 @@ namespace LoccarTests.ParameterizedTests
                 tbReservations.Add(new LoccarInfra.ORM.model.Reservation
                 {
                     Reservationnumber = 100000 + i,
-                    Idcustomer = 1,
-                    Idvehicle = i + 1,
+                    IdCustomer = 1,
+                    IdVehicle = i + 1,
                     RentalDate = DateTime.Now.AddDays(-10 - i),
                     ReturnDate = DateTime.Now.AddDays(-5 - i),
                 });

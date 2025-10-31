@@ -68,8 +68,8 @@ namespace LoccarTests.UnitTests
             };
 
             var loggedUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
-            var tbVehicle = new LoccarInfra.ORM.model.Vehicle { Idvehicle = 1 };
-            var tbCargoVehicle = new LoccarInfra.ORM.model.CargoVehicle { Idvehicle = 1 };
+            var tbVehicle = new LoccarInfra.ORM.model.Vehicle { IdVehicle = 1 };
+            var tbCargoVehicle = new LoccarInfra.ORM.model.CargoVehicle { IdVehicle = 1 };
 
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
             _mockVehicleRepository.Setup(x => x.RegisterVehicle(It.IsAny<LoccarInfra.ORM.model.Vehicle>()))
@@ -149,7 +149,7 @@ namespace LoccarTests.UnitTests
             {
                 new LoccarInfra.ORM.model.Vehicle
                 {
-                    Idvehicle = 1,
+                    IdVehicle = 1,
                     Brand = "Toyota",
                     Model = "Corolla",
                     Reserved = false,
@@ -209,7 +209,7 @@ namespace LoccarTests.UnitTests
             var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" } };
             var tbVehicle = new LoccarInfra.ORM.model.Vehicle
             {
-                Idvehicle = 1,
+                IdVehicle = 1,
                 Brand = "Toyota",
                 Model = "Corolla",
             };
@@ -268,13 +268,13 @@ namespace LoccarTests.UnitTests
             // Arrange
             var vehicle = new Vehicle
             {
-                Idvehicle = 1,
+                IdVehicle = 1,
                 Brand = "Toyota",
                 Model = "Corolla",
                 DailyRate = 100.0m,
             };
             var loggedUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
-            var updatedTbVehicle = new LoccarInfra.ORM.model.Vehicle { Idvehicle = vehicle.Idvehicle };
+            var updatedTbVehicle = new LoccarInfra.ORM.model.Vehicle { IdVehicle = vehicle.IdVehicle };
 
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
             _mockVehicleRepository.Setup(x => x.UpdateVehicle(It.IsAny<LoccarInfra.ORM.model.Vehicle>()))

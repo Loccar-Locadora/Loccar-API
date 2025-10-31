@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LoccarWebapi.Controllers
 {
-    [Route("api/Customer")]
+    [Route("api/customer")]
     [ApiController]
     public class LesseeController : ControllerBase
     {

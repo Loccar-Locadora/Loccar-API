@@ -43,7 +43,7 @@ namespace LoccarTests.PerformanceTests
             {
                 _vehiclesList.Add(new LoccarInfra.ORM.model.Vehicle
                 {
-                    Idvehicle = i + 1,
+                    IdVehicle = i + 1,
                     Brand = $"Brand{i}",
                     Model = $"Model{i}",
                     ManufacturingYear = 2020 + (i % 4),
@@ -94,8 +94,8 @@ namespace LoccarTests.PerformanceTests
                 PassengerVehicle = new PassengerVehicle(),
             };
 
-            var tbVehicle = new LoccarInfra.ORM.model.Vehicle { Idvehicle = 1 };
-            var tbPassengerVehicle = new LoccarInfra.ORM.model.PassengerVehicle { Idvehicle = 1 };
+            var tbVehicle = new LoccarInfra.ORM.model.Vehicle { IdVehicle = 1 };
+            var tbPassengerVehicle = new LoccarInfra.ORM.model.PassengerVehicle { IdVehicle = 1 };
 
             _mockVehicleRepository.Setup(x => x.RegisterVehicle(It.IsAny<LoccarInfra.ORM.model.Vehicle>()))
                 .ReturnsAsync(tbVehicle);
@@ -200,7 +200,7 @@ namespace LoccarTests.PerformanceTests
             {
                 _vehiclesList.Add(new LoccarInfra.ORM.model.Vehicle
                 {
-                    Idvehicle = i + 1,
+                    IdVehicle = i + 1,
                     Brand = $"Brand{i}",
                     Model = $"Model{i}",
                     ManufacturingYear = 2020 + (i % 4),

@@ -9,9 +9,9 @@ namespace LoccarDomain.LoggedUser.Models
 {
     public class LoggedUser
     {
-        public int Id { get; set; }
+        public int id { get; set; }
 
-        public string Email { get; set; }
+        public string name { get; set; }
 
         public List<string> Roles { get; set; }
 

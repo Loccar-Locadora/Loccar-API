@@ -36,13 +36,45 @@ namespace LoccarApplication
             {
                 if (_httpContextAccessor != null && _httpContextAccessor.HttpContext != null)
                 {
-                    string beraerToken = GetBearerToken();
-                    if (((TokenHandler)new JwtSecurityTokenHandler()).ReadToken(beraerToken) is JwtSecurityToken jwtSecurityToken)
+                    string bearerToken = GetBearerToken();
+                    if (!string.IsNullOrEmpty(bearerToken) && 
+                        ((TokenHandler)new JwtSecurityTokenHandler()).ReadToken(bearerToken) is JwtSecurityToken jwtSecurityToken)
                     {
-                        Claim claim = jwtSecurityToken.Claims.FirstOrDefault((Claim n) => n.Type.Equals("name", StringComparison.Ordinal));
-                        if (claim != null)
+                        // Extract name from claims
+                        Claim nameClaim = jwtSecurityToken.Claims.FirstOrDefault(c => 
+                            c.Type.Equals("name", StringComparison.OrdinalIgnoreCase) || 
+                            c.Type.Equals(ClaimTypes.Name, StringComparison.OrdinalIgnoreCase));
+                        
+                        // Extract id from claims
+                        Claim idClaim = jwtSecurityToken.Claims.FirstOrDefault(c => 
+                            c.Type.Equals("id", StringComparison.OrdinalIgnoreCase) || 
+                            c.Type.Equals("sub", StringComparison.OrdinalIgnoreCase) ||
+                            c.Type.Equals(ClaimTypes.NameIdentifier, StringComparison.OrdinalIgnoreCase));
+                        
+                        // Extract roles from claims
+                        var roleClaims = jwtSecurityToken.Claims.Where(c => 
+                            c.Type.Equals("role", StringComparison.OrdinalIgnoreCase) || 
+                            c.Type.Equals("roles", StringComparison.OrdinalIgnoreCase) ||
+                            c.Type.Equals(ClaimTypes.Role, StringComparison.OrdinalIgnoreCase));
+
+                        if (nameClaim != null)
                         {
-                            result = JsonSerializer.Deserialize<LoggedUser>(claim.Value);
+                            result.name = nameClaim.Value;
+                            result.Authenticated = true;
+                        }
+
+                        if (idClaim != null && int.TryParse(idClaim.Value, out int userId))
+                        {
+                            result.id = userId;
+                        }
+
+                        if (roleClaims.Any())
+                        {
+                            result.Roles = roleClaims.Select(r => r.Value).ToList();
+                        }
+                        else
+                        {
+                            result.Roles = new List<string>();
                         }
                     }
                 }

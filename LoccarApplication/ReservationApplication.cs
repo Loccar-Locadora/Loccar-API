@@ -37,7 +37,7 @@ namespace LoccarApplication
                 }
 
                 // Validar se o veículo existe e está disponível
-                var vehicle = await _vehicleRepository.GetVehicleById(reservation.Idvehicle);
+                var vehicle = await _vehicleRepository.GetVehicleById(reservation.IdVehicle);
                 if (vehicle == null)
                 {
                     baseReturn.Code = "404";
@@ -53,7 +53,7 @@ namespace LoccarApplication
                 }
 
                 // Validar se o cliente existe
-                var customer = await _customerRepository.GetCustomerById(reservation.Idcustomer);
+                var customer = await _customerRepository.GetCustomerById(reservation.IdCustomer);
                 if (customer == null)
                 {
                     baseReturn.Code = "404";
@@ -63,8 +63,8 @@ namespace LoccarApplication
 
                 LoccarInfra.ORM.model.Reservation tbReservation = new LoccarInfra.ORM.model.Reservation()
                 {
-                    Idcustomer = reservation.Idcustomer,
-                    Idvehicle = reservation.Idvehicle,
+                    IdCustomer = reservation.IdCustomer,
+                    IdVehicle = reservation.IdVehicle,
                     RentalDate = reservation.RentalDate,
                     ReturnDate = reservation.ReturnDate,
                     RentalDays = reservation.RentalDays,
@@ -87,8 +87,8 @@ namespace LoccarApplication
                 baseReturn.Data = new Reservation()
                 {
                     Reservationnumber = createdReservation.Reservationnumber,
-                    Idcustomer = createdReservation.Idcustomer,
-                    Idvehicle = createdReservation.Idvehicle,
+                    IdCustomer = createdReservation.IdCustomer,
+                    IdVehicle = createdReservation.IdVehicle,
                     RentalDate = createdReservation.RentalDate,
                     ReturnDate = createdReservation.ReturnDate,
                     RentalDays = createdReservation.RentalDays,
@@ -124,7 +124,7 @@ namespace LoccarApplication
                     return baseReturn;
                 }
 
-                var vehicle = await _vehicleRepository.GetVehicleById(reservation.Idvehicle);
+                var vehicle = await _vehicleRepository.GetVehicleById(reservation.IdVehicle);
                 if (vehicle == null)
                 {
                     baseReturn.Code = "404";
@@ -232,8 +232,8 @@ namespace LoccarApplication
                     reservations.Add(new Reservation()
                     {
                         Reservationnumber = tbReservation.Reservationnumber,
-                        Idcustomer = tbReservation.Idcustomer,
-                        Idvehicle = tbReservation.Idvehicle,
+                        IdCustomer = tbReservation.IdCustomer,
+                        IdVehicle = tbReservation.IdVehicle,
                         RentalDate = tbReservation.RentalDate,
                         ReturnDate = tbReservation.ReturnDate,
                         RentalDays = tbReservation.RentalDays,
@@ -317,8 +317,8 @@ namespace LoccarApplication
                 Reservation reservation = new Reservation()
                 {
                     Reservationnumber = tbReservation.Reservationnumber,
-                    Idcustomer = tbReservation.Idcustomer,
-                    Idvehicle = tbReservation.Idvehicle,
+                    IdCustomer = tbReservation.IdCustomer,
+                    IdVehicle = tbReservation.IdVehicle,
                     RentalDate = tbReservation.RentalDate,
                     ReturnDate = tbReservation.ReturnDate,
                     RentalDays = tbReservation.RentalDays,
@@ -372,8 +372,8 @@ namespace LoccarApplication
                     reservations.Add(new Reservation()
                     {
                         Reservationnumber = tbReservation.Reservationnumber,
-                        Idcustomer = tbReservation.Idcustomer,
-                        Idvehicle = tbReservation.Idvehicle,
+                        IdCustomer = tbReservation.IdCustomer,
+                        IdVehicle = tbReservation.IdVehicle,
                         RentalDate = tbReservation.RentalDate,
                         ReturnDate = tbReservation.ReturnDate,
                         RentalDays = tbReservation.RentalDays,
@@ -416,8 +416,8 @@ namespace LoccarApplication
                 LoccarInfra.ORM.model.Reservation tbReservation = new LoccarInfra.ORM.model.Reservation()
                 {
                     Reservationnumber = reservation.Reservationnumber,
-                    Idcustomer = reservation.Idcustomer,
-                    Idvehicle = reservation.Idvehicle,
+                    IdCustomer = reservation.IdCustomer,
+                    IdVehicle = reservation.IdVehicle,
                     RentalDate = reservation.RentalDate,
                     ReturnDate = reservation.ReturnDate,
                     RentalDays = reservation.RentalDays,

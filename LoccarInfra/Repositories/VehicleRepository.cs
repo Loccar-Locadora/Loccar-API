@@ -61,7 +61,7 @@ namespace LoccarInfra.Repositories
 
         public async Task<bool> SetVehicleMaintenance(int vehicleId, bool inMaintenance)
         {
-            var vehicle = await _dbContext.Vehicles.FirstOrDefaultAsync(v => v.Idvehicle == vehicleId);
+            var vehicle = await _dbContext.Vehicles.FirstOrDefaultAsync(v => v.IdVehicle == vehicleId);
             if (vehicle == null)
             {
                 return false;
@@ -80,7 +80,7 @@ namespace LoccarInfra.Repositories
                 .Include(i => i.LeisureVehicle)
                 .Include(i => i.PassengerVehicle)
                 .Include(i => i.Motorcycle)
-                .FirstOrDefaultAsync(v => v.Idvehicle == vehicleId);
+                .FirstOrDefaultAsync(v => v.IdVehicle == vehicleId);
         }
 
         public async Task<List<Vehicle>> ListAllVehicles()
@@ -95,7 +95,7 @@ namespace LoccarInfra.Repositories
 
         public async Task<Vehicle> UpdateVehicle(Vehicle vehicle)
         {
-            var existingVehicle = await _dbContext.Vehicles.FirstOrDefaultAsync(v => v.Idvehicle == vehicle.Idvehicle);
+            var existingVehicle = await _dbContext.Vehicles.FirstOrDefaultAsync(v => v.IdVehicle == vehicle.IdVehicle);
             if (existingVehicle == null)
             {
                 return null;
@@ -124,7 +124,7 @@ namespace LoccarInfra.Repositories
                 .Include(v => v.LeisureVehicle)
                 .Include(v => v.PassengerVehicle)
                 .Include(v => v.Motorcycle)
-                .FirstOrDefaultAsync(v => v.Idvehicle == vehicleId);
+                .FirstOrDefaultAsync(v => v.IdVehicle == vehicleId);
 
             if (vehicle == null)
             {

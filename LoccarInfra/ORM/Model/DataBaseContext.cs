@@ -27,24 +27,25 @@ public partial class DataBaseContext : DbContext
 
     public virtual DbSet<Reservation> Reservations { get; set; }
 
+    public virtual DbSet<Role> Roles { get; set; }
+
+    public virtual DbSet<User> Users { get; set; }
+
     public virtual DbSet<Vehicle> Vehicles { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        // Method intentionally left empty.
-    }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CargoVehicle>(entity =>
         {
-            entity.HasKey(e => e.Idvehicle).HasName("cargo_vehicle_pkey");
+            entity.HasKey(e => e.IdVehicle).HasName("cargo_vehicle_pkey");
 
             entity.ToTable("cargo_vehicle");
 
-            entity.Property(e => e.Idvehicle)
+            entity.Property(e => e.IdVehicle)
                 .ValueGeneratedNever()
-                .HasColumnName("idvehicle");
+                .HasColumnName("id_vehicle");
             entity.Property(e => e.CargoCapacity)
                 .HasPrecision(10, 2)
                 .HasColumnName("cargo_capacity");
@@ -58,19 +59,19 @@ public partial class DataBaseContext : DbContext
                 .HasPrecision(10, 2)
                 .HasColumnName("tare_weight");
 
-            entity.HasOne(d => d.IdvehicleNavigation).WithOne(p => p.CargoVehicle)
-                .HasForeignKey<CargoVehicle>(d => d.Idvehicle)
+            entity.HasOne(d => d.IdVehicleNavigation).WithOne(p => p.CargoVehicle)
+                .HasForeignKey<CargoVehicle>(d => d.IdVehicle)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("cargo_vehicle_idvehicle_fkey");
+                .HasConstraintName("cargo_vehicle_id_vehicle_fkey");
         });
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.Idcustomer).HasName("customer_pkey");
+            entity.HasKey(e => e.IdCustomer).HasName("customer_pkey");
 
             entity.ToTable("customer");
 
-            entity.Property(e => e.Idcustomer).HasColumnName("idcustomer");
+            entity.Property(e => e.IdCustomer).HasColumnName("id_customer");
             entity.Property(e => e.Created)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("created");
@@ -90,13 +91,13 @@ public partial class DataBaseContext : DbContext
 
         modelBuilder.Entity<LeisureVehicle>(entity =>
         {
-            entity.HasKey(e => e.Idvehicle).HasName("leisure_vehicle_pkey");
+            entity.HasKey(e => e.IdVehicle).HasName("leisure_vehicle_pkey");
 
             entity.ToTable("leisure_vehicle");
 
-            entity.Property(e => e.Idvehicle)
+            entity.Property(e => e.IdVehicle)
                 .ValueGeneratedNever()
-                .HasColumnName("idvehicle");
+                .HasColumnName("id_vehicle");
             entity.Property(e => e.AirConditioning).HasColumnName("air_conditioning");
             entity.Property(e => e.Automatic).HasColumnName("automatic");
             entity.Property(e => e.Category)
@@ -104,49 +105,49 @@ public partial class DataBaseContext : DbContext
                 .HasColumnName("category");
             entity.Property(e => e.PowerSteering).HasColumnName("power_steering");
 
-            entity.HasOne(d => d.IdvehicleNavigation).WithOne(p => p.LeisureVehicle)
-                .HasForeignKey<LeisureVehicle>(d => d.Idvehicle)
+            entity.HasOne(d => d.IdVehicleNavigation).WithOne(p => p.LeisureVehicle)
+                .HasForeignKey<LeisureVehicle>(d => d.IdVehicle)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("leisure_vehicle_idvehicle_fkey");
+                .HasConstraintName("leisure_vehicle_id_vehicle_fkey");
         });
 
         modelBuilder.Entity<Motorcycle>(entity =>
         {
-            entity.HasKey(e => e.Idvehicle).HasName("motorcycle_pkey");
+            entity.HasKey(e => e.IdVehicle).HasName("motorcycle_pkey");
 
             entity.ToTable("motorcycle");
 
-            entity.Property(e => e.Idvehicle)
+            entity.Property(e => e.IdVehicle)
                 .ValueGeneratedNever()
-                .HasColumnName("idvehicle");
+                .HasColumnName("id_vehicle");
             entity.Property(e => e.AbsBrakes).HasColumnName("abs_brakes");
             entity.Property(e => e.CruiseControl).HasColumnName("cruise_control");
             entity.Property(e => e.TractionControl).HasColumnName("traction_control");
 
-            entity.HasOne(d => d.IdvehicleNavigation).WithOne(p => p.Motorcycle)
-                .HasForeignKey<Motorcycle>(d => d.Idvehicle)
+            entity.HasOne(d => d.IdVehicleNavigation).WithOne(p => p.Motorcycle)
+                .HasForeignKey<Motorcycle>(d => d.IdVehicle)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("motorcycle_idvehicle_fkey");
+                .HasConstraintName("motorcycle_id_vehicle_fkey");
         });
 
         modelBuilder.Entity<PassengerVehicle>(entity =>
         {
-            entity.HasKey(e => e.Idvehicle).HasName("passenger_vehicle_pkey");
+            entity.HasKey(e => e.IdVehicle).HasName("passenger_vehicle_pkey");
 
             entity.ToTable("passenger_vehicle");
 
-            entity.Property(e => e.Idvehicle)
+            entity.Property(e => e.IdVehicle)
                 .ValueGeneratedNever()
-                .HasColumnName("idvehicle");
+                .HasColumnName("id_vehicle");
             entity.Property(e => e.AirConditioning).HasColumnName("air_conditioning");
             entity.Property(e => e.PassengerCapacity).HasColumnName("passenger_capacity");
             entity.Property(e => e.PowerSteering).HasColumnName("power_steering");
             entity.Property(e => e.Tv).HasColumnName("tv");
 
-            entity.HasOne(d => d.IdvehicleNavigation).WithOne(p => p.PassengerVehicle)
-                .HasForeignKey<PassengerVehicle>(d => d.Idvehicle)
+            entity.HasOne(d => d.IdVehicleNavigation).WithOne(p => p.PassengerVehicle)
+                .HasForeignKey<PassengerVehicle>(d => d.IdVehicle)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("passenger_vehicle_idvehicle_fkey");
+                .HasConstraintName("passenger_vehicle_id_vehicle_fkey");
         });
 
         modelBuilder.Entity<Reservation>(entity =>
@@ -155,16 +156,16 @@ public partial class DataBaseContext : DbContext
 
             entity.ToTable("reservation");
 
-            entity.HasIndex(e => e.Idcustomer, "ix_reservation_idcustomer");
+            entity.HasIndex(e => e.IdCustomer, "ix_reservation_id_customer");
 
-            entity.HasIndex(e => e.Idvehicle, "ix_reservation_idvehicle");
+            entity.HasIndex(e => e.IdVehicle, "ix_reservation_id_vehicle");
 
             entity.Property(e => e.Reservationnumber).HasColumnName("reservationnumber");
             entity.Property(e => e.DailyRate)
                 .HasPrecision(10, 2)
                 .HasColumnName("daily_rate");
-            entity.Property(e => e.Idcustomer).HasColumnName("idcustomer");
-            entity.Property(e => e.Idvehicle).HasColumnName("idvehicle");
+            entity.Property(e => e.IdCustomer).HasColumnName("id_customer");
+            entity.Property(e => e.IdVehicle).HasColumnName("id_vehicle");
             entity.Property(e => e.InsuranceThirdParty)
                 .HasPrecision(10, 2)
                 .HasColumnName("insurance_third_party");
@@ -184,30 +185,88 @@ public partial class DataBaseContext : DbContext
             entity.Property(e => e.TaxAmount)
                 .HasPrecision(10, 2)
                 .HasColumnName("tax_amount");
-            entity.Property(e => e.DamageDescription)
-                .HasMaxLength(20)
-                .HasColumnName("damage_description");
-            entity.HasOne(d => d.IdcustomerNavigation).WithMany(p => p.Reservations)
-                .HasForeignKey(d => d.Idcustomer)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("reservation_idcustomer_fkey");
 
-            entity.HasOne(d => d.IdvehicleNavigation).WithMany(p => p.Reservations)
-                .HasForeignKey(d => d.Idvehicle)
+            entity.HasOne(d => d.IdCustomerNavigation).WithMany(p => p.Reservations)
+                .HasForeignKey(d => d.IdCustomer)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("reservation_idvehicle_fkey");
+                .HasConstraintName("reservation_id_customer_fkey");
+
+            entity.HasOne(d => d.IdVehicleNavigation).WithMany(p => p.Reservations)
+                .HasForeignKey(d => d.IdVehicle)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("reservation_id_vehicle_fkey");
+        });
+
+        modelBuilder.Entity<Role>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("roles_pkey");
+
+            entity.ToTable("roles");
+
+            entity.HasIndex(e => e.Name, "roles_name_key").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .HasColumnName("name");
+        });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("users_pkey");
+
+            entity.ToTable("users");
+
+            entity.HasIndex(e => e.Email, "users_email_key").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created_at");
+            entity.Property(e => e.Email)
+                .HasMaxLength(255)
+                .HasColumnName("email");
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true)
+                .HasColumnName("is_active");
+            entity.Property(e => e.PasswordHash).HasColumnName("password_hash");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated_at");
+            entity.Property(e => e.Username)
+                .HasMaxLength(100)
+                .HasColumnName("username");
+
+            entity.HasMany(d => d.Roles).WithMany(p => p.Users)
+                .UsingEntity<Dictionary<string, object>>(
+                    "UserRole",
+                    r => r.HasOne<Role>().WithMany()
+                        .HasForeignKey("RoleId")
+                        .HasConstraintName("user_roles_role_id_fkey"),
+                    l => l.HasOne<User>().WithMany()
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("user_roles_user_id_fkey"),
+                    j =>
+                    {
+                        j.HasKey("UserId", "RoleId").HasName("user_roles_pkey");
+                        j.ToTable("user_roles");
+                        j.IndexerProperty<int>("UserId").HasColumnName("user_id");
+                        j.IndexerProperty<int>("RoleId").HasColumnName("role_id");
+                    });
         });
 
         modelBuilder.Entity<Vehicle>(entity =>
         {
-            entity.HasKey(e => e.Idvehicle).HasName("vehicle_pkey");
+            entity.HasKey(e => e.IdVehicle).HasName("vehicle_pkey");
 
             entity.ToTable("vehicle");
 
             entity.HasIndex(e => e.Vin, "vehicle_vin_key").IsUnique();
 
-            entity.Property(e => e.Idvehicle).HasColumnName("idvehicle");
-            entity.Property(e => e.Reserved).HasColumnName("reserved");
+            entity.Property(e => e.IdVehicle).HasColumnName("id_vehicle");
             entity.Property(e => e.Brand)
                 .HasMaxLength(50)
                 .HasColumnName("brand");
@@ -229,16 +288,11 @@ public partial class DataBaseContext : DbContext
             entity.Property(e => e.ReducedDailyRate)
                 .HasPrecision(10, 2)
                 .HasColumnName("reduced_daily_rate");
+            entity.Property(e => e.Reserved).HasColumnName("reserved");
             entity.Property(e => e.Vin)
                 .HasMaxLength(11)
                 .HasColumnName("vin");
         });
-        modelBuilder.HasSequence("customer_idcustomer_seq");
-        modelBuilder.HasSequence("locatario_idlocatario_seq");
-        modelBuilder.HasSequence("reserva_numeroreserva_seq");
-        modelBuilder.HasSequence("reservation_reservationnumber_seq");
-        modelBuilder.HasSequence("vehicle_idvehicle_seq");
-        modelBuilder.HasSequence("veiculo_idveiculo_seq");
 
         OnModelCreatingPartial(modelBuilder);
     }

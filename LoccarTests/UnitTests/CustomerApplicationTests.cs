@@ -93,7 +93,7 @@ namespace LoccarTests.UnitTests
             };
             var tbCustomer = new LoccarInfra.ORM.model.Customer
             {
-                Idcustomer = 1,
+                IdCustomer = 1,
                 Name = customer.Username,
                 Email = customer.Email,
                 Phone = customer.Cellphone,
@@ -179,7 +179,7 @@ namespace LoccarTests.UnitTests
             // Arrange
             var tbCustomer = new LoccarInfra.ORM.model.Customer
             {
-                Idcustomer = 1,
+                IdCustomer = 1,
                 Name = "Joao Silva",
                 Email = "joao@email.com",
                 Phone = "11999999999",
@@ -225,7 +225,7 @@ namespace LoccarTests.UnitTests
             {
                 new LoccarInfra.ORM.model.Customer
                 {
-                    Idcustomer = 1,
+                    IdCustomer = 1,
                     Name = "Joao Silva",
                     Email = "joao@email.com",
                     Phone = "11999999999",
@@ -234,7 +234,7 @@ namespace LoccarTests.UnitTests
                 },
                 new LoccarInfra.ORM.model.Customer
                 {
-                    Idcustomer = 2,
+                    IdCustomer = 2,
                     Name = "Maria Santos",
                     Email = "maria@email.com",
                     Phone = "11888888888",

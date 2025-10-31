@@ -33,7 +33,7 @@ namespace LoccarInfra.Repositories
 
         public async Task<Customer?> UpdateCustomer(Customer customer)
         {
-            var existing = await _dbContext.Customers.FirstOrDefaultAsync(c => c.Idcustomer == customer.Idcustomer);
+            var existing = await _dbContext.Customers.FirstOrDefaultAsync(c => c.IdCustomer == customer.IdCustomer);
             if (existing == null)
             {
                 return null;
@@ -50,7 +50,7 @@ namespace LoccarInfra.Repositories
 
         public async Task<bool> DeleteCustomer(int customerId)
         {
-            var existing = await _dbContext.Customers.FirstOrDefaultAsync(c => c.Idcustomer == customerId);
+            var existing = await _dbContext.Customers.FirstOrDefaultAsync(c => c.IdCustomer == customerId);
             if (existing == null)
             {
                 return false;
@@ -64,7 +64,7 @@ namespace LoccarInfra.Repositories
         // Novos métodos CRUD
         public async Task<Customer> GetCustomerById(int customerId)
         {
-            return await _dbContext.Customers.FirstOrDefaultAsync(c => c.Idcustomer == customerId);
+            return await _dbContext.Customers.FirstOrDefaultAsync(c => c.IdCustomer == customerId);
         }
 
         public async Task<List<Customer>> ListAllCustomers()

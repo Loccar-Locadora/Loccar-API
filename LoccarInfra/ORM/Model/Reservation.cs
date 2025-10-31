@@ -7,9 +7,9 @@ public partial class Reservation
 {
     public int Reservationnumber { get; set; }
 
-    public int Idcustomer { get; set; }
+    public int IdCustomer { get; set; }
 
-    public int Idvehicle { get; set; }
+    public int IdVehicle { get; set; }
 
     public DateTime RentalDate { get; set; }
 
@@ -29,7 +29,7 @@ public partial class Reservation
 
     public string? DamageDescription { get; set; }
 
-    public virtual Customer IdcustomerNavigation { get; set; } = null!;
+    public virtual Customer IdCustomerNavigation { get; set; } = null!;
 
-    public virtual Vehicle IdvehicleNavigation { get; set; } = null!;
+    public virtual Vehicle IdVehicleNavigation { get; set; } = null!;
 }

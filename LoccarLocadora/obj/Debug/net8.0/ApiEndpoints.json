@@ -2,7 +2,7 @@
   {
     "ContainingType": "LoccarWebapi.Controllers.LesseeController",
     "Method": "GetCustomerById",
-    "RelativePath": "api/Customer/{id}",
+    "RelativePath": "api/customer/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -28,7 +28,7 @@
   {
     "ContainingType": "LoccarWebapi.Controllers.LesseeController",
     "Method": "DeleteCustomer",
-    "RelativePath": "api/Customer/delete/{id}",
+    "RelativePath": "api/customer/delete/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -54,7 +54,7 @@
   {
     "ContainingType": "LoccarWebapi.Controllers.LesseeController",
     "Method": "ListAllCustomers",
-    "RelativePath": "api/Customer/list/all",
+    "RelativePath": "api/customer/list/all",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -74,7 +74,7 @@
   {
     "ContainingType": "LoccarWebapi.Controllers.LesseeController",
     "Method": "RegisterCustomer",
-    "RelativePath": "api/Customer/register",
+    "RelativePath": "api/customer/register",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -100,7 +100,7 @@
   {
     "ContainingType": "LoccarWebapi.Controllers.LesseeController",
     "Method": "UpdateCustomer",
-    "RelativePath": "api/Customer/update",
+    "RelativePath": "api/customer/update",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -462,7 +462,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Vehicle",
+        "Name": "vehicle",
         "Type": "LoccarDomain.Vehicle.Models.Vehicle",
         "IsRequired": true
       }

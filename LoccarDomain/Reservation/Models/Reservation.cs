@@ -6,9 +6,9 @@ public class Reservation
 {
     public int Reservationnumber { get; set; }
 
-    public int Idcustomer { get; set; }
+    public int IdCustomer { get; set; }
 
-    public int Idvehicle { get; set; }
+    public int IdVehicle { get; set; }
 
     public DateTime RentalDate { get; set; }
 

@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace LoccarInfra.ORM.model;
 
 public partial class Motorcycle
 {
-    public int Idvehicle { get; set; }
+    public int IdVehicle { get; set; }
 
     public bool? TractionControl { get; set; }
 
@@ -13,5 +13,5 @@ public partial class Motorcycle
 
     public bool? CruiseControl { get; set; }
 
-    public virtual Vehicle IdvehicleNavigation { get; set; } = null!;
+    public virtual Vehicle IdVehicleNavigation { get; set; } = null!;
 }

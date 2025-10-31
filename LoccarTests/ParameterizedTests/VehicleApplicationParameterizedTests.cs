@@ -53,8 +53,8 @@ namespace LoccarTests.ParameterizedTests
 
             if (shouldSucceed)
             {
-                var tbVehicle = new LoccarInfra.ORM.model.Vehicle { Idvehicle = 1 };
-                var tbPassengerVehicle = new LoccarInfra.ORM.model.PassengerVehicle { Idvehicle = 1 };
+                var tbVehicle = new LoccarInfra.ORM.model.Vehicle { IdVehicle = 1 };
+                var tbPassengerVehicle = new LoccarInfra.ORM.model.PassengerVehicle { IdVehicle = 1 };
 
                 _mockVehicleRepository.Setup(x => x.RegisterVehicle(It.IsAny<LoccarInfra.ORM.model.Vehicle>()))
                     .ReturnsAsync(tbVehicle);
@@ -112,7 +112,7 @@ namespace LoccarTests.ParameterizedTests
             var loggedUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
 
-            var tbVehicle = new LoccarInfra.ORM.model.Vehicle { Idvehicle = 1 };
+            var tbVehicle = new LoccarInfra.ORM.model.Vehicle { IdVehicle = 1 };
             _mockVehicleRepository.Setup(x => x.RegisterVehicle(It.IsAny<LoccarInfra.ORM.model.Vehicle>()))
                 .ReturnsAsync(tbVehicle);
 
@@ -121,19 +121,19 @@ namespace LoccarTests.ParameterizedTests
             {
                 case VehicleType.Cargo:
                     _mockVehicleRepository.Setup(x => x.RegisterCargoVehicle(It.IsAny<LoccarInfra.ORM.model.CargoVehicle>()))
-                        .ReturnsAsync(new LoccarInfra.ORM.model.CargoVehicle { Idvehicle = 1 });
+                        .ReturnsAsync(new LoccarInfra.ORM.model.CargoVehicle { IdVehicle = 1 });
                     break;
                 case VehicleType.Motorcycle:
                     _mockVehicleRepository.Setup(x => x.RegisterMotorcycleVehicle(It.IsAny<LoccarInfra.ORM.model.Motorcycle>()))
-                        .ReturnsAsync(new LoccarInfra.ORM.model.Motorcycle { Idvehicle = 1 });
+                        .ReturnsAsync(new LoccarInfra.ORM.model.Motorcycle { IdVehicle = 1 });
                     break;
                 case VehicleType.Passenger:
                     _mockVehicleRepository.Setup(x => x.RegisterPassengerVehicle(It.IsAny<LoccarInfra.ORM.model.PassengerVehicle>()))
-                        .ReturnsAsync(new LoccarInfra.ORM.model.PassengerVehicle { Idvehicle = 1 });
+                        .ReturnsAsync(new LoccarInfra.ORM.model.PassengerVehicle { IdVehicle = 1 });
                     break;
                 case VehicleType.Leisure:
                     _mockVehicleRepository.Setup(x => x.RegisterLeisureVehicle(It.IsAny<LoccarInfra.ORM.model.LeisureVehicle>()))
-                        .ReturnsAsync(new LoccarInfra.ORM.model.LeisureVehicle { Idvehicle = 1 });
+                        .ReturnsAsync(new LoccarInfra.ORM.model.LeisureVehicle { IdVehicle = 1 });
                     break;
             }
 
@@ -243,7 +243,7 @@ namespace LoccarTests.ParameterizedTests
             {
                 tbVehicles.Add(new LoccarInfra.ORM.model.Vehicle
                 {
-                    Idvehicle = i + 1,
+                    IdVehicle = i + 1,
                     Brand = $"Brand{i}",
                     Model = $"Model{i}",
                     Reserved = false,

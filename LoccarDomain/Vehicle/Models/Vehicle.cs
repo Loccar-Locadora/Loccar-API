@@ -2,7 +2,7 @@ namespace LoccarDomain.Vehicle.Models
 {
     public class Vehicle
     {
-        public int Idvehicle { get; set; }
+        public int IdVehicle { get; set; }
 
         public string? Brand { get; set; }
 

@@ -41,8 +41,8 @@ namespace LoccarTests.UnitTests
             // Arrange
             var reservation = new Reservation
             {
-                Idcustomer = 1,
-                Idvehicle = 1,
+                IdCustomer = 1,
+                IdVehicle = 1,
                 RentalDate = DateTime.Now,
                 ReturnDate = DateTime.Now.AddDays(5),
             };
@@ -62,15 +62,15 @@ namespace LoccarTests.UnitTests
             // Arrange
             var reservation = new Reservation
             {
-                Idcustomer = 1,
-                Idvehicle = 1,
+                IdCustomer = 1,
+                IdVehicle = 1,
                 RentalDate = DateTime.Now,
                 ReturnDate = DateTime.Now.AddDays(5),
             };
             var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" } };
 
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
-            _mockVehicleRepository.Setup(x => x.GetVehicleById(reservation.Idvehicle))
+            _mockVehicleRepository.Setup(x => x.GetVehicleById(reservation.IdVehicle))
                 .ReturnsAsync((LoccarInfra.ORM.model.Vehicle)null);
 
             // Act
@@ -87,8 +87,8 @@ namespace LoccarTests.UnitTests
             // Arrange
             var reservation = new Reservation
             {
-                Idcustomer = 1,
-                Idvehicle = 1,
+                IdCustomer = 1,
+                IdVehicle = 1,
                 RentalDate = DateTime.Now,
                 ReturnDate = DateTime.Now.AddDays(5),
             };
@@ -96,7 +96,7 @@ namespace LoccarTests.UnitTests
             var vehicle = new LoccarInfra.ORM.model.Vehicle { Reserved = true };
 
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
-            _mockVehicleRepository.Setup(x => x.GetVehicleById(reservation.Idvehicle))
+            _mockVehicleRepository.Setup(x => x.GetVehicleById(reservation.IdVehicle))
                 .ReturnsAsync(vehicle);
 
             // Act
@@ -113,8 +113,8 @@ namespace LoccarTests.UnitTests
             // Arrange
             var reservation = new Reservation
             {
-                Idcustomer = 1,
-                Idvehicle = 1,
+                IdCustomer = 1,
+                IdVehicle = 1,
                 RentalDate = DateTime.Now,
                 ReturnDate = DateTime.Now.AddDays(5),
             };
@@ -122,9 +122,9 @@ namespace LoccarTests.UnitTests
             var vehicle = new LoccarInfra.ORM.model.Vehicle { Reserved = false };
 
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
-            _mockVehicleRepository.Setup(x => x.GetVehicleById(reservation.Idvehicle))
+            _mockVehicleRepository.Setup(x => x.GetVehicleById(reservation.IdVehicle))
                 .ReturnsAsync(vehicle);
-            _mockCustomerRepository.Setup(x => x.GetCustomerById(reservation.Idcustomer))
+            _mockCustomerRepository.Setup(x => x.GetCustomerById(reservation.IdCustomer))
                 .ReturnsAsync((LoccarInfra.ORM.model.Customer)null);
 
             // Act
@@ -141,8 +141,8 @@ namespace LoccarTests.UnitTests
             // Arrange
             var reservation = new Reservation
             {
-                Idcustomer = 1,
-                Idvehicle = 1,
+                IdCustomer = 1,
+                IdVehicle = 1,
                 RentalDate = DateTime.Now,
                 ReturnDate = DateTime.Now.AddDays(5),
                 RentalDays = 5,
@@ -150,18 +150,18 @@ namespace LoccarTests.UnitTests
             };
             var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" } };
             var vehicle = new LoccarInfra.ORM.model.Vehicle { Reserved = false };
-            var customer = new LoccarInfra.ORM.model.Customer { Idcustomer = reservation.Idcustomer };
+            var customer = new LoccarInfra.ORM.model.Customer { IdCustomer = reservation.IdCustomer };
             var tbReservation = new LoccarInfra.ORM.model.Reservation
             {
                 Reservationnumber = 123456,
-                Idcustomer = reservation.Idcustomer,
-                Idvehicle = reservation.Idvehicle,
+                IdCustomer = reservation.IdCustomer,
+                IdVehicle = reservation.IdVehicle,
             };
 
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
-            _mockVehicleRepository.Setup(x => x.GetVehicleById(reservation.Idvehicle))
+            _mockVehicleRepository.Setup(x => x.GetVehicleById(reservation.IdVehicle))
                 .ReturnsAsync(vehicle);
-            _mockCustomerRepository.Setup(x => x.GetCustomerById(reservation.Idcustomer))
+            _mockCustomerRepository.Setup(x => x.GetCustomerById(reservation.IdCustomer))
                 .ReturnsAsync(customer);
             _mockReservationRepository.Setup(x => x.CreateReservation(It.IsAny<LoccarInfra.ORM.model.Reservation>()))
                 .ReturnsAsync(tbReservation);
@@ -188,7 +188,7 @@ namespace LoccarTests.UnitTests
             // Arrange
             var tbReservation = new LoccarInfra.ORM.model.Reservation
             {
-                Idvehicle = 1,
+                IdVehicle = 1,
                 RentalDays = rentalDays,
                 DailyRate = dailyRate,
                 InsuranceVehicle = null,
@@ -287,8 +287,8 @@ namespace LoccarTests.UnitTests
                 new LoccarInfra.ORM.model.Reservation
                 {
                     Reservationnumber = 123456,
-                    Idcustomer = 1,
-                    Idvehicle = 1,
+                    IdCustomer = 1,
+                    IdVehicle = 1,
                     RentalDate = DateTime.Now.AddDays(-10),
                     ReturnDate = DateTime.Now.AddDays(-5),
                 },
@@ -315,8 +315,8 @@ namespace LoccarTests.UnitTests
             var reservation = new Reservation
             {
                 Reservationnumber = 123456,
-                Idcustomer = 1,
-                Idvehicle = 1,
+                IdCustomer = 1,
+                IdVehicle = 1,
                 RentalDate = DateTime.Now,
                 ReturnDate = DateTime.Now.AddDays(5),
                 RentalDays = 5,
@@ -348,8 +348,8 @@ namespace LoccarTests.UnitTests
             var reservation = new Reservation
             {
                 Reservationnumber = 123456,
-                Idcustomer = 1,
-                Idvehicle = 1,
+                IdCustomer = 1,
+                IdVehicle = 1,
                 RentalDate = DateTime.Now,
                 ReturnDate = DateTime.Now.AddDays(5),
             };
