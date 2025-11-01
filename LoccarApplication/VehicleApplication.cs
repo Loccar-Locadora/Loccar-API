@@ -31,9 +31,9 @@ namespace LoccarApplication
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
-                // Corrigindo a lógica de autorização - usuário deve ter role CLIENT_ADMIN ou CLIENT_EMPLOYEE
+                // Corrigindo a lógica de autorização - usuário deve ter role ADMIN ou EMPLOYEE
                 if (loggedUser?.Roles == null || 
-                    (!loggedUser.Roles.Contains("CLIENT_ADMIN") && !loggedUser.Roles.Contains("CLIENT_EMPLOYEE")))
+                    (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized.";
@@ -254,7 +254,7 @@ namespace LoccarApplication
             {
                 LoggedUser user = _authApplication.GetLoggedUser();
 
-                if (user == null || !user.Authenticated)
+                if (user == null || user.Roles == null || !user.Roles.Any())
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized";
@@ -355,9 +355,9 @@ namespace LoccarApplication
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
-                // Corrigindo para permitir CLIENT_ADMIN e CLIENT_EMPLOYEE
+                // Corrigindo para permitir ADMIN e EMPLOYEE
                 if (loggedUser?.Roles == null || 
-                    (!loggedUser.Roles.Contains("CLIENT_ADMIN") && !loggedUser.Roles.Contains("CLIENT_EMPLOYEE")))
+                    (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized.";
@@ -390,7 +390,7 @@ namespace LoccarApplication
             {
                 LoggedUser user = _authApplication.GetLoggedUser();
 
-                if (user == null || !user.Authenticated)
+                if (user == null || user.Roles == null || !user.Roles.Any())
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized";
@@ -487,7 +487,7 @@ namespace LoccarApplication
                 LoggedUser user = _authApplication.GetLoggedUser();
 
                 if (user?.Roles == null || 
-                    (!user.Roles.Contains("CLIENT_ADMIN") && !user.Roles.Contains("CLIENT_EMPLOYEE")))
+                    (!user.Roles.Contains("ADMIN") && !user.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized";
@@ -591,7 +591,7 @@ namespace LoccarApplication
 
                 // Corrigindo lógica de autorização
                 if (loggedUser?.Roles == null || 
-                    (!loggedUser.Roles.Contains("CLIENT_ADMIN") && !loggedUser.Roles.Contains("CLIENT_EMPLOYEE")))
+                    (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized.";
@@ -646,7 +646,7 @@ namespace LoccarApplication
 
                 // Corrigindo lógica de autorização
                 if (loggedUser?.Roles == null || 
-                    (!loggedUser.Roles.Contains("CLIENT_ADMIN") && !loggedUser.Roles.Contains("CLIENT_EMPLOYEE")))
+                    (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized.";
