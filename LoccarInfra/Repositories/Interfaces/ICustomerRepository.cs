@@ -20,5 +20,8 @@ namespace LoccarInfra.Repositories.Interfaces
         Task<Customer> GetCustomerById(int customerId);
 
         Task<List<Customer>> ListAllCustomers();
+
+        // Métodos de estatísticas
+        Task<int> GetTotalCustomersCount();
     }
 }

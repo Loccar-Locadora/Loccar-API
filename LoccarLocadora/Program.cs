@@ -14,6 +14,30 @@ var builder = WebApplication.CreateBuilder(args);
 // Configurar para escutar em todas as interfaces quando em container
 builder.WebHost.UseUrls("http://0.0.0.0:8080");
 
+// Configuração do CORS
+var corsOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() 
+    ?? new[] { "http://localhost:3000", "http://localhost:4200", "http://localhost:5173" };
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("LoccarCorsPolicy", policy =>
+    {
+        policy.WithOrigins(corsOrigins)
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials()
+              .SetIsOriginAllowedToAllowWildcardSubdomains();
+    });
+
+    // Política mais permissiva para desenvolvimento
+    options.AddPolicy("DevelopmentCorsPolicy", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -76,12 +100,23 @@ builder.Services.AddScoped<IAuthApplication, AuthApplication>();
 builder.Services.AddScoped<IVehicleApplication, VehicleApplication>();
 builder.Services.AddScoped<ICustomerApplication, CustomerApplication>();
 builder.Services.AddScoped<IReservationApplication, ReservationApplication>();
+builder.Services.AddScoped<IStatisticsApplication, StatisticsApplication>();
 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 
 var app = builder.Build();
+
+// Usar política CORS baseada no ambiente
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors("DevelopmentCorsPolicy");
+}
+else
+{
+    app.UseCors("LoccarCorsPolicy");
+}
 
 // Sempre habilitar Swagger para facilitar testes em container
 app.UseSwagger();

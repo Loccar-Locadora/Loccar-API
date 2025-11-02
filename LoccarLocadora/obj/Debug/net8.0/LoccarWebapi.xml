@@ -4,5 +4,71 @@
         <name>LoccarWebapi</name>
     </assembly>
     <members>
+        <member name="M:LoccarWebapi.Controllers.StatisticsController.GetTotalCustomersCount">
+            <summary>
+            Obtém o total de clientes cadastrados no sistema
+            </summary>
+            <returns>Número total de clientes</returns>
+        </member>
+        <member name="M:LoccarWebapi.Controllers.StatisticsController.GetTotalVehiclesCount">
+            <summary>
+            Obtém o total de veículos cadastrados no sistema
+            </summary>
+            <returns>Número total de veículos</returns>
+        </member>
+        <member name="M:LoccarWebapi.Controllers.StatisticsController.GetActiveReservationsCount">
+            <summary>
+            Obtém o total de reservas ativas no sistema
+            </summary>
+            <returns>Número de reservas ativas</returns>
+        </member>
+        <member name="M:LoccarWebapi.Controllers.StatisticsController.GetAvailableVehiclesCount">
+            <summary>
+            Obtém o total de veículos disponíveis para locação
+            </summary>
+            <returns>Número de veículos disponíveis</returns>
+        </member>
+        <member name="M:LoccarWebapi.Controllers.StatisticsController.GetSystemStatistics">
+            <summary>
+            Obtém todas as estatísticas do sistema em uma única chamada
+            </summary>
+            <returns>Objeto com todas as estatísticas do sistema</returns>
+        </member>
+        <member name="M:LoccarWebapi.Controllers.StatisticsController.GetMonthlyRevenue(System.Int32,System.Int32)">
+            <summary>
+            Obtém a receita de um mês específico
+            </summary>
+            <param name="year">Ano</param>
+            <param name="month">Mês (1-12)</param>
+            <returns>Receita mensal</returns>
+        </member>
+        <member name="M:LoccarWebapi.Controllers.StatisticsController.GetMonthlyRevenueDetailed(System.Int32,System.Int32)">
+            <summary>
+            Obtém a receita detalhada de um mês específico com breakdown por categoria
+            </summary>
+            <param name="year">Ano</param>
+            <param name="month">Mês (1-12)</param>
+            <returns>Receita mensal detalhada</returns>
+        </member>
+        <member name="M:LoccarWebapi.Controllers.StatisticsController.GetCurrentMonthRevenue">
+            <summary>
+            Obtém a receita do mês atual
+            </summary>
+            <returns>Receita do mês atual</returns>
+        </member>
+        <member name="M:LoccarWebapi.Controllers.StatisticsController.GetYearRevenue(System.Int32)">
+            <summary>
+            Obtém a receita total de um ano
+            </summary>
+            <param name="year">Ano</param>
+            <returns>Receita anual</returns>
+        </member>
+        <member name="M:LoccarWebapi.Controllers.StatisticsController.GetYearlyRevenueBreakdown(System.Int32)">
+            <summary>
+            Obtém o breakdown da receita por mês de um ano específico
+            </summary>
+            <param name="year">Ano</param>
+            <returns>Lista com receita de cada mês do ano</returns>
+        </member>
     </members>
 </doc>

@@ -103,5 +103,66 @@ namespace LoccarInfra.Repositories
             await _context.SaveChangesAsync();
             return existingReservation;
         }
+
+        // Métodos de estatísticas
+        public async Task<int> GetActiveReservationsCount()
+        {
+            return await _context.Reservations
+                .CountAsync(r => r.RentalDate <= DateTime.Now && r.ReturnDate >= DateTime.Now);
+        }
+
+        // Métodos de receita
+        public async Task<decimal> GetMonthlyRevenue(int year, int month)
+        {
+            var reservations = await GetReservationsByMonth(year, month);
+            return CalculateTotalRevenue(reservations);
+        }
+
+        public async Task<List<Reservation>> GetReservationsByMonth(int year, int month)
+        {
+            return await _context.Reservations
+                .Include(r => r.IdVehicleNavigation)
+                .Where(r => r.RentalDate.Year == year && r.RentalDate.Month == month)
+                .ToListAsync();
+        }
+
+        public async Task<decimal> GetCurrentMonthRevenue()
+        {
+            var now = DateTime.Now;
+            return await GetMonthlyRevenue(now.Year, now.Month);
+        }
+
+        public async Task<decimal> GetYearRevenue(int year)
+        {
+            var reservations = await _context.Reservations
+                .Include(r => r.IdVehicleNavigation)
+                .Where(r => r.RentalDate.Year == year)
+                .ToListAsync();
+
+            return CalculateTotalRevenue(reservations);
+        }
+
+        private decimal CalculateTotalRevenue(List<Reservation> reservations)
+        {
+            decimal totalRevenue = 0;
+
+            foreach (var reservation in reservations)
+            {
+                // Calcular receita base
+                int days = reservation.RentalDays ?? (reservation.ReturnDate - reservation.RentalDate).Days;
+                if (days <= 0) days = 1;
+
+                decimal dailyRate = reservation.DailyRate ?? reservation.IdVehicleNavigation?.DailyRate ?? 0;
+                decimal baseRevenue = days * dailyRate;
+
+                // Adicionar seguros e taxas
+                decimal insuranceRevenue = (reservation.InsuranceVehicle ?? 0) + (reservation.InsuranceThirdParty ?? 0);
+                decimal taxRevenue = reservation.TaxAmount ?? 0;
+
+                totalRevenue += baseRevenue + insuranceRevenue + taxRevenue;
+            }
+
+            return totalRevenue;
+        }
     }
 }

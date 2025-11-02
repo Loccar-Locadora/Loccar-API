@@ -71,5 +71,11 @@ namespace LoccarInfra.Repositories
         {
             return await _dbContext.Customers.ToListAsync();
         }
+
+        // Métodos de estatísticas
+        public async Task<int> GetTotalCustomersCount()
+        {
+            return await _dbContext.Customers.CountAsync();
+        }
     }
 }

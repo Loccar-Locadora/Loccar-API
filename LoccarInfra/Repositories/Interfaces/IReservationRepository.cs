@@ -24,5 +24,14 @@ namespace LoccarInfra.Repositories.Interfaces
         Task<List<Reservation>> ListAllReservations();
 
         Task<Reservation> UpdateReservation(Reservation reservation);
+
+        // Métodos de estatísticas
+        Task<int> GetActiveReservationsCount();
+
+        // Métodos de receita
+        Task<decimal> GetMonthlyRevenue(int year, int month);
+        Task<List<Reservation>> GetReservationsByMonth(int year, int month);
+        Task<decimal> GetCurrentMonthRevenue();
+        Task<decimal> GetYearRevenue(int year);
     }
 }

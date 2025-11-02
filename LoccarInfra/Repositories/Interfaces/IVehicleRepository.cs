@@ -27,5 +27,9 @@ namespace LoccarInfra.Repositories.Interfaces
         Task<Vehicle> UpdateVehicle(Vehicle vehicle);
 
         Task<bool> DeleteVehicle(int vehicleId);
+
+        // Métodos de estatísticas
+        Task<int> GetTotalVehiclesCount();
+        Task<int> GetAvailableVehiclesCount();
     }
 }

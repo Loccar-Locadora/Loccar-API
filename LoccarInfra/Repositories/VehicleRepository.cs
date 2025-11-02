@@ -156,5 +156,16 @@ namespace LoccarInfra.Repositories
             await _dbContext.SaveChangesAsync();
             return true;
         }
+
+        // Métodos de estatísticas
+        public async Task<int> GetTotalVehiclesCount()
+        {
+            return await _dbContext.Vehicles.CountAsync();
+        }
+
+        public async Task<int> GetAvailableVehiclesCount()
+        {
+            return await _dbContext.Vehicles.CountAsync(v => v.Reserved == false);
+        }
     }
 }

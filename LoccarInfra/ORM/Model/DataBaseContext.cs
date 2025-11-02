@@ -185,7 +185,8 @@ public partial class DataBaseContext : DbContext
             entity.Property(e => e.TaxAmount)
                 .HasPrecision(10, 2)
                 .HasColumnName("tax_amount");
-
+            entity.Property(e => e.DamageDescription)
+                .HasColumnName("damage_description");
             entity.HasOne(d => d.IdCustomerNavigation).WithMany(p => p.Reservations)
                 .HasForeignKey(d => d.IdCustomer)
                 .OnDelete(DeleteBehavior.ClientSetNull)
