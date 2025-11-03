@@ -33,7 +33,7 @@ namespace LoccarApplication
 
                 // Corrigindo a lógica de autorização - usuário deve ter role ADMIN ou EMPLOYEE
                 if (loggedUser?.Roles == null || 
-                    (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
+                    (!loggedUser.Roles.Contains("CLIENT_ADMIN") && !loggedUser.Roles.Contains("CLIENT_EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized.";
@@ -53,6 +53,7 @@ namespace LoccarApplication
                     FuelTankCapacity = vehicle.FuelTankCapacity,
                     Vin = vehicle.Vin,
                     Reserved = false,
+                    ImgUrl = vehicle.ImgUrl
                 };
 
                 await _vehicleRepository.RegisterVehicle(tbVehicle);
@@ -286,6 +287,7 @@ namespace LoccarApplication
                         FuelTankCapacity = tbVehicle.FuelTankCapacity,
                         Vin = tbVehicle.Vin,
                         Reserved = tbVehicle.Reserved,
+                        ImgUrl = tbVehicle.ImgUrl,
 
                         // CargoVehicle
                         CargoVehicle = tbVehicle.CargoVehicle != null ? new CargoVehicle()
@@ -487,7 +489,7 @@ namespace LoccarApplication
                 LoggedUser user = _authApplication.GetLoggedUser();
 
                 if (user?.Roles == null || 
-                    (!user.Roles.Contains("ADMIN") && !user.Roles.Contains("EMPLOYEE")))
+                    (!user.Roles.Contains("CLIENT_ADMIN") && !user.Roles.Contains("CLIENT_EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized";
@@ -500,6 +502,129 @@ namespace LoccarApplication
                 {
                     baseReturn.Code = "404";
                     baseReturn.Message = "No vehicles found.";
+                    return baseReturn;
+                }
+
+                List<Vehicle> vehicles = new List<Vehicle>();
+                foreach (LoccarInfra.ORM.model.Vehicle tbVehicle in tbVehicles)
+                {
+                    Vehicle vehicle = new Vehicle()
+                    {
+                        IdVehicle = tbVehicle.IdVehicle,
+                        Brand = tbVehicle.Brand,
+                        Model = tbVehicle.Model,
+                        ManufacturingYear = tbVehicle.ManufacturingYear,
+                        ModelYear = tbVehicle.ModelYear,
+                        DailyRate = tbVehicle.DailyRate,
+                        MonthlyRate = tbVehicle.MonthlyRate,
+                        CompanyDailyRate = tbVehicle.CompanyDailyRate,
+                        ReducedDailyRate = tbVehicle.ReducedDailyRate,
+                        FuelTankCapacity = tbVehicle.FuelTankCapacity,
+                        Vin = tbVehicle.Vin,
+                        Reserved = tbVehicle.Reserved,
+                        ImgUrl = tbVehicle.ImgUrl,
+                        // CargoVehicle
+                        CargoVehicle = tbVehicle.CargoVehicle != null ? new CargoVehicle()
+                        {
+                            IdVehicle = tbVehicle.CargoVehicle.IdVehicle,
+                            CargoCapacity = tbVehicle.CargoVehicle.CargoCapacity,
+                            CargoType = tbVehicle.CargoVehicle.CargoType,
+                            TareWeight = tbVehicle.CargoVehicle.TareWeight,
+                            CargoCompartmentSize = tbVehicle.CargoVehicle.CargoCompartmentSize,
+                        }
+                        : null,
+
+                        // PassengerVehicle
+                        PassengerVehicle = tbVehicle.PassengerVehicle != null ? new PassengerVehicle()
+                        {
+                            IdVehicle = tbVehicle.PassengerVehicle.IdVehicle,
+                            PassengerCapacity = tbVehicle.PassengerVehicle.PassengerCapacity,
+                            Tv = tbVehicle.PassengerVehicle.Tv,
+                            AirConditioning = tbVehicle.PassengerVehicle.AirConditioning,
+                            PowerSteering = tbVehicle.PassengerVehicle.PowerSteering,
+                        }
+                        : null,
+
+                        // LeisureVehicle
+                        LeisureVehicle = tbVehicle.LeisureVehicle != null ? new LeisureVehicle()
+                        {
+                            IdVehicle = tbVehicle.LeisureVehicle.IdVehicle,
+                            Automatic = tbVehicle.LeisureVehicle.Automatic,
+                            PowerSteering = tbVehicle.LeisureVehicle.PowerSteering,
+                            AirConditioning = tbVehicle.LeisureVehicle.AirConditioning,
+                            Category = tbVehicle.LeisureVehicle.Category,
+                        }
+                        : null,
+
+                        // Motorcycle
+                        Motorcycle = tbVehicle.Motorcycle != null ? new Motorcycle()
+                        {
+                            IdVehicle = tbVehicle.Motorcycle.IdVehicle,
+                            TractionControl = tbVehicle.Motorcycle.TractionControl,
+                            AbsBrakes = tbVehicle.Motorcycle.AbsBrakes,
+                            CruiseControl = tbVehicle.Motorcycle.CruiseControl,
+                        }
+                        : null,
+                    };
+
+                    vehicles.Add(vehicle);
+                }
+
+                baseReturn.Code = "200";
+                baseReturn.Message = "All vehicles list:";
+                baseReturn.Data = vehicles;
+            }
+            catch (Exception ex)
+            {
+                baseReturn.Code = "500";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
+            }
+
+            return baseReturn;
+        }
+
+        public async Task<BaseReturn<VehicleListResponse>> ListAllVehiclesWithCounts()
+        {
+            BaseReturn<VehicleListResponse> baseReturn = new BaseReturn<VehicleListResponse>();
+
+            try
+            {
+                LoggedUser user = _authApplication.GetLoggedUser();
+
+                if (user?.Roles == null || 
+                    (!user.Roles.Contains("CLIENT_ADMIN") && !user.Roles.Contains("CLIENT_EMPLOYEE")))
+                {
+                    baseReturn.Code = "401";
+                    baseReturn.Message = "User not authorized";
+                    return baseReturn;
+                }
+
+                // Buscar dados em paralelo para melhor performance
+                var vehiclesTask = _vehicleRepository.ListAllVehicles();
+                var totalCountTask = _vehicleRepository.GetTotalVehiclesCount();
+                var availableCountTask = _vehicleRepository.GetAvailableVehiclesCount();
+
+                await Task.WhenAll(vehiclesTask, totalCountTask, availableCountTask);
+
+                List<LoccarInfra.ORM.model.Vehicle> tbVehicles = await vehiclesTask;
+                int totalVehicles = await totalCountTask;
+                int availableVehicles = await availableCountTask;
+                int reservedVehicles = totalVehicles - availableVehicles;
+
+                if (tbVehicles == null || !tbVehicles.Any())
+                {
+                    var emptyResponse = new VehicleListResponse
+                    {
+                        Vehicles = new List<Vehicle>(),
+                        TotalVehicles = 0,
+                        AvailableVehicles = 0,
+                        ReservedVehicles = 0,
+                        GeneratedAt = DateTime.Now
+                    };
+
+                    baseReturn.Code = "200";
+                    baseReturn.Message = "No vehicles found.";
+                    baseReturn.Data = emptyResponse;
                     return baseReturn;
                 }
 
@@ -568,9 +693,18 @@ namespace LoccarApplication
                     vehicles.Add(vehicle);
                 }
 
+                var response = new VehicleListResponse
+                {
+                    Vehicles = vehicles,
+                    TotalVehicles = totalVehicles,
+                    AvailableVehicles = availableVehicles,
+                    ReservedVehicles = reservedVehicles,
+                    GeneratedAt = DateTime.Now
+                };
+
                 baseReturn.Code = "200";
-                baseReturn.Message = "All vehicles list:";
-                baseReturn.Data = vehicles;
+                baseReturn.Message = $"Vehicle list with counts retrieved successfully. Total: {totalVehicles}, Available: {availableVehicles}, Reserved: {reservedVehicles}";
+                baseReturn.Data = response;
             }
             catch (Exception ex)
             {

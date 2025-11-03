@@ -18,6 +18,7 @@ namespace LoccarTests.UnitTests
         private readonly Mock<ICustomerRepository> _mockCustomerRepository;
         private readonly Mock<IVehicleRepository> _mockVehicleRepository;
         private readonly Mock<IReservationRepository> _mockReservationRepository;
+        private readonly Mock<IUserRepository> _mockUserRepository;
         private readonly StatisticsApplication _statisticsApplication;
 
         public StatisticsApplicationTests()
@@ -26,21 +27,23 @@ namespace LoccarTests.UnitTests
             _mockCustomerRepository = new Mock<ICustomerRepository>();
             _mockVehicleRepository = new Mock<IVehicleRepository>();
             _mockReservationRepository = new Mock<IReservationRepository>();
+            _mockUserRepository = new Mock<IUserRepository>();
 
             _statisticsApplication = new StatisticsApplication(
                 _mockAuthApplication.Object,
                 _mockCustomerRepository.Object,
                 _mockVehicleRepository.Object,
-                _mockReservationRepository.Object);
+                _mockReservationRepository.Object,
+                _mockUserRepository.Object);
         }
 
         [Theory]
-        [InlineData("ADMIN")]
-        [InlineData("admin")]
-        [InlineData("Admin")]
-        [InlineData("EMPLOYEE")]
-        [InlineData("employee")]
-        [InlineData("Employee")]
+        [InlineData("CLIENT_ADMIN")]
+        [InlineData("client_admin")]
+        [InlineData("Client_Admin")]
+        [InlineData("CLIENT_EMPLOYEE")]
+        [InlineData("client_employee")]
+        [InlineData("Client_Employee")]
         public async Task GetTotalCustomersCountWhenAuthorizedUserReturnsCount(string role)
         {
             // Arrange
@@ -62,8 +65,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Theory]
-        [InlineData("COMMON_USER")]
-        [InlineData("USER")]
+        [InlineData("CLIENT_USER")]
         [InlineData("GUEST")]
         [InlineData("")]
         public async Task GetTotalCustomersCountWhenUnauthorizedUserReturnsUnauthorized(string role)
@@ -142,7 +144,7 @@ namespace LoccarTests.UnitTests
             // Arrange
             var loggedUser = new LoggedUser 
             { 
-                Roles = new List<string> { "EMPLOYEE" },
+                Roles = new List<string> { "CLIENT_EMPLOYEE" },
                 Authenticated = true
             };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
@@ -163,7 +165,7 @@ namespace LoccarTests.UnitTests
             // Arrange
             var loggedUser = new LoggedUser 
             { 
-                Roles = new List<string> { "ADMIN" },
+                Roles = new List<string> { "CLIENT_ADMIN" },
                 Authenticated = true
             };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
@@ -179,8 +181,7 @@ namespace LoccarTests.UnitTests
         }
 
         [Theory]
-        [InlineData("COMMON_USER")]
-        [InlineData("USER")]
+        [InlineData("CLIENT_USER")]
         [InlineData("GUEST")]
         public async Task GetAvailableVehiclesCountWhenAuthenticatedUserReturnsCount(string role)
         {
@@ -208,7 +209,7 @@ namespace LoccarTests.UnitTests
             // Arrange
             var loggedUser = new LoggedUser 
             { 
-                Roles = new List<string> { "USER" },
+                Roles = new List<string> { "CLIENT_USER" },
                 Authenticated = false // Not authenticated
             };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
@@ -227,7 +228,7 @@ namespace LoccarTests.UnitTests
             // Arrange
             var loggedUser = new LoggedUser 
             { 
-                Roles = new List<string> { "ADMIN" },
+                Roles = new List<string> { "CLIENT_ADMIN" },
                 Authenticated = true
             };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
@@ -256,7 +257,7 @@ namespace LoccarTests.UnitTests
             // Arrange
             var loggedUser = new LoggedUser 
             { 
-                Roles = new List<string> { "ADMIN" },
+                Roles = new List<string> { "CLIENT_ADMIN" },
                 Authenticated = true
             };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
@@ -276,7 +277,7 @@ namespace LoccarTests.UnitTests
             // Arrange
             var loggedUser = new LoggedUser 
             { 
-                Roles = new List<string> { "USER", "ADMIN", "GUEST" },
+                Roles = new List<string> { "CLIENT_USER", "CLIENT_ADMIN", "GUEST" },
                 Authenticated = true
             };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);

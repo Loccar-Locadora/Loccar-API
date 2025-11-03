@@ -14,17 +14,20 @@ namespace LoccarApplication
         private readonly ICustomerRepository _customerRepository;
         private readonly IVehicleRepository _vehicleRepository;
         private readonly IReservationRepository _reservationRepository;
+        private readonly IUserRepository _userRepository;
 
         public StatisticsApplication(
             IAuthApplication authApplication,
             ICustomerRepository customerRepository,
             IVehicleRepository vehicleRepository,
-            IReservationRepository reservationRepository)
+            IReservationRepository reservationRepository,
+            IUserRepository userRepository)
         {
             _authApplication = authApplication;
             _customerRepository = customerRepository;
             _vehicleRepository = vehicleRepository;
             _reservationRepository = reservationRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<BaseReturn<int>> GetTotalCustomersCount()
@@ -167,20 +170,18 @@ namespace LoccarApplication
                     return baseReturn;
                 }
 
-                // Executar todas as consultas em paralelo para melhor performance
-                Task<int> totalCustomersTask = _customerRepository.GetTotalCustomersCount();
-                Task<int> totalVehiclesTask = _vehicleRepository.GetTotalVehiclesCount();
-                Task<int> activeReservationsTask = _reservationRepository.GetActiveReservationsCount();
-                Task<int> availableVehiclesTask = _vehicleRepository.GetAvailableVehiclesCount();
-
-                await Task.WhenAll(totalCustomersTask, totalVehiclesTask, activeReservationsTask, availableVehiclesTask);
+                // Executar consultas sequencialmente para evitar problemas de concorrência
+                int totalCustomers = await _customerRepository.GetTotalCustomersCount();
+                int totalVehicles = await _vehicleRepository.GetTotalVehiclesCount();
+                int activeReservations = await _reservationRepository.GetActiveReservationsCount();
+                int availableVehicles = await _vehicleRepository.GetAvailableVehiclesCount();
 
                 SystemStatistics statistics = new SystemStatistics
                 {
-                    TotalCustomers = totalCustomersTask.Result,
-                    TotalVehicles = totalVehiclesTask.Result,
-                    ActiveReservations = activeReservationsTask.Result,
-                    AvailableVehicles = availableVehiclesTask.Result,
+                    TotalCustomers = totalCustomers,
+                    TotalVehicles = totalVehicles,
+                    ActiveReservations = activeReservations,
+                    AvailableVehicles = availableVehicles,
                     GeneratedAt = DateTime.Now
                 };
 
@@ -417,6 +418,138 @@ namespace LoccarApplication
                 AverageRevenuePerReservation = reservations.Count > 0 ? totalRevenue / reservations.Count : 0,
                 GeneratedAt = DateTime.Now
             };
+        }
+
+        // Métodos de estatísticas de usuários
+        public async Task<BaseReturn<UserStatistics>> GetUserStatistics()
+        {
+            BaseReturn<UserStatistics> baseReturn = new BaseReturn<UserStatistics>();
+
+            try
+            {
+                LoggedUser loggedUser = _authApplication.GetLoggedUser();
+
+                // Apenas CLIENT_ADMIN pode acessar estatísticas de usuários
+                if (!AuthorizationHelper.IsAdmin(loggedUser))
+                {
+                    baseReturn.Code = "401";
+                    baseReturn.Message = "User not authorized. Only administrators can access user statistics.";
+                    return baseReturn;
+                }
+
+                // Usar método otimizado que faz uma única consulta
+                var statisticsData = await _userRepository.GetUserStatisticsData();
+
+                var userStats = new UserStatistics
+                {
+                    TotalUsers = statisticsData.TotalUsers,
+                    ActiveUsers = statisticsData.ActiveUsers,
+                    InactiveUsers = statisticsData.TotalUsers - statisticsData.ActiveUsers,
+                    AdminUsers = statisticsData.RoleCounts.GetValueOrDefault("CLIENT_ADMIN", 0),
+                    EmployeeUsers = statisticsData.RoleCounts.GetValueOrDefault("CLIENT_EMPLOYEE", 0),
+                    CommonUsers = statisticsData.RoleCounts.GetValueOrDefault("CLIENT_USER", 0),
+                    GeneratedAt = DateTime.Now
+                };
+
+                baseReturn.Code = "200";
+                baseReturn.Data = userStats;
+                baseReturn.Message = "User statistics retrieved successfully.";
+            }
+            catch (Exception ex)
+            {
+                baseReturn.Code = "500";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
+            }
+
+            return baseReturn;
+        }
+
+        public async Task<BaseReturn<DetailedUserStatistics>> GetDetailedUserStatistics()
+        {
+            BaseReturn<DetailedUserStatistics> baseReturn = new BaseReturn<DetailedUserStatistics>();
+
+            try
+            {
+                LoggedUser loggedUser = _authApplication.GetLoggedUser();
+
+                // Apenas CLIENT_ADMIN pode acessar estatísticas detalhadas de usuários
+                if (!AuthorizationHelper.IsAdmin(loggedUser))
+                {
+                    baseReturn.Code = "401";
+                    baseReturn.Message = "User not authorized. Only administrators can access detailed user statistics.";
+                    return baseReturn;
+                }
+
+                // Usar método otimizado que faz uma única consulta
+                var statisticsData = await _userRepository.GetUserStatisticsData();
+
+                var roleBreakdown = statisticsData.RoleCounts.Select(kvp => new UserRoleBreakdown
+                {
+                    RoleName = kvp.Key,
+                    UserCount = kvp.Value,
+                    Percentage = statisticsData.TotalUsers > 0 
+                        ? Math.Round((decimal)kvp.Value / statisticsData.TotalUsers * 100, 2) 
+                        : 0
+                }).ToList();
+
+                var detailedStats = new DetailedUserStatistics
+                {
+                    TotalUsers = statisticsData.TotalUsers,
+                    ActiveUsers = statisticsData.ActiveUsers,
+                    InactiveUsers = statisticsData.TotalUsers - statisticsData.ActiveUsers,
+                    RoleBreakdown = roleBreakdown,
+                    GeneratedAt = DateTime.Now
+                };
+
+                baseReturn.Code = "200";
+                baseReturn.Data = detailedStats;
+                baseReturn.Message = "Detailed user statistics retrieved successfully.";
+            }
+            catch (Exception ex)
+            {
+                baseReturn.Code = "500";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
+            }
+
+            return baseReturn;
+        }
+
+        public async Task<BaseReturn<int>> GetUsersByRoleCount(string roleName)
+        {
+            BaseReturn<int> baseReturn = new BaseReturn<int>();
+
+            try
+            {
+                LoggedUser loggedUser = _authApplication.GetLoggedUser();
+
+                // Apenas CLIENT_ADMIN pode acessar contagem por role
+                if (!AuthorizationHelper.IsAdmin(loggedUser))
+                {
+                    baseReturn.Code = "401";
+                    baseReturn.Message = "User not authorized. Only administrators can access user role statistics.";
+                    return baseReturn;
+                }
+
+                if (string.IsNullOrEmpty(roleName))
+                {
+                    baseReturn.Code = "400";
+                    baseReturn.Message = "Role name is required.";
+                    return baseReturn;
+                }
+
+                int count = await _userRepository.GetUsersByRoleCount(roleName.ToUpper());
+
+                baseReturn.Code = "200";
+                baseReturn.Data = count;
+                baseReturn.Message = $"Users with role '{roleName}' count retrieved successfully.";
+            }
+            catch (Exception ex)
+            {
+                baseReturn.Code = "500";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
+            }
+
+            return baseReturn;
         }
     }
 }

@@ -5,10 +5,10 @@ namespace LoccarApplication.Common
     public static class AuthorizationHelper
     {
         /// <summary>
-        /// Verifica se o usuário tem pelo menos uma das roles de administrador (ADMIN ou EMPLOYEE)
+        /// Verifica se o usuário tem pelo menos uma das roles de administrador (CLIENT_ADMIN ou CLIENT_EMPLOYEE)
         /// </summary>
         /// <param name="loggedUser">Usuário logado</param>
-        /// <returns>True se o usuário tem role de ADMIN ou EMPLOYEE</returns>
+        /// <returns>True se o usuário tem role de CLIENT_ADMIN ou CLIENT_EMPLOYEE</returns>
         public static bool HasAdminOrEmployeeRole(LoggedUser loggedUser)
         {
             if (loggedUser?.Roles == null || !loggedUser.Roles.Any())
@@ -64,23 +64,33 @@ namespace LoccarApplication.Common
         }
 
         /// <summary>
-        /// Verifica se o usuário é um administrador (ADMIN)
+        /// Verifica se o usuário é um administrador (CLIENT_ADMIN)
         /// </summary>
         /// <param name="loggedUser">Usuário logado</param>
-        /// <returns>True se o usuário tem role ADMIN</returns>
+        /// <returns>True se o usuário tem role CLIENT_ADMIN</returns>
         public static bool IsAdmin(LoggedUser loggedUser)
         {
-            return HasRole(loggedUser, "ADMIN");
+            return HasRole(loggedUser, "CLIENT_ADMIN");
         }
 
         /// <summary>
-        /// Verifica se o usuário é um funcionário (EMPLOYEE)
+        /// Verifica se o usuário é um funcionário (CLIENT_EMPLOYEE)
         /// </summary>
         /// <param name="loggedUser">Usuário logado</param>
-        /// <returns>True se o usuário tem role EMPLOYEE</returns>
+        /// <returns>True se o usuário tem role CLIENT_EMPLOYEE</returns>
         public static bool IsEmployee(LoggedUser loggedUser)
         {
-            return HasRole(loggedUser, "EMPLOYEE");
+            return HasRole(loggedUser, "CLIENT_EMPLOYEE");
+        }
+
+        /// <summary>
+        /// Verifica se o usuário é um usuário comum (CLIENT_USER)
+        /// </summary>
+        /// <param name="loggedUser">Usuário logado</param>
+        /// <returns>True se o usuário tem role CLIENT_USER</returns>
+        public static bool IsCommonUser(LoggedUser loggedUser)
+        {
+            return HasRole(loggedUser, "CLIENT_USER");
         }
     }
 }

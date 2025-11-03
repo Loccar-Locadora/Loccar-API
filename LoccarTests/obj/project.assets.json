@@ -10869,9 +10869,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\barre\\source\\repos\\Loccar-API\\LoccarTests\\LoccarTests.csproj",
+      "projectUniqueName": "C:\\Users\\barre\\Source\\Repos\\Loccar-API\\LoccarTests\\LoccarTests.csproj",
       "projectName": "LoccarTests",
-      "projectPath": "C:\\Users\\barre\\source\\repos\\Loccar-API\\LoccarTests\\LoccarTests.csproj",
+      "projectPath": "C:\\Users\\barre\\Source\\Repos\\Loccar-API\\LoccarTests\\LoccarTests.csproj",
       "packagesPath": "C:\\Users\\barre\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\barre\\Source\\Repos\\Loccar-API\\LoccarTests\\obj\\",
       "projectStyle": "PackageReference",
@@ -10895,14 +10895,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\barre\\source\\repos\\Loccar-API\\LoccarApplication\\LoccarApplication.csproj": {
-              "projectPath": "C:\\Users\\barre\\source\\repos\\Loccar-API\\LoccarApplication\\LoccarApplication.csproj"
+            "C:\\Users\\barre\\Source\\Repos\\Loccar-API\\LoccarApplication\\LoccarApplication.csproj": {
+              "projectPath": "C:\\Users\\barre\\Source\\Repos\\Loccar-API\\LoccarApplication\\LoccarApplication.csproj"
             },
-            "C:\\Users\\barre\\source\\repos\\Loccar-API\\LoccarDomain\\LoccarDomain.csproj": {
-              "projectPath": "C:\\Users\\barre\\source\\repos\\Loccar-API\\LoccarDomain\\LoccarDomain.csproj"
+            "C:\\Users\\barre\\Source\\Repos\\Loccar-API\\LoccarDomain\\LoccarDomain.csproj": {
+              "projectPath": "C:\\Users\\barre\\Source\\Repos\\Loccar-API\\LoccarDomain\\LoccarDomain.csproj"
             },
-            "C:\\Users\\barre\\source\\repos\\Loccar-API\\LoccarInfra\\LoccarInfra.csproj": {
-              "projectPath": "C:\\Users\\barre\\source\\repos\\Loccar-API\\LoccarInfra\\LoccarInfra.csproj"
+            "C:\\Users\\barre\\Source\\Repos\\Loccar-API\\LoccarInfra\\LoccarInfra.csproj": {
+              "projectPath": "C:\\Users\\barre\\Source\\Repos\\Loccar-API\\LoccarInfra\\LoccarInfra.csproj"
             }
           }
         }

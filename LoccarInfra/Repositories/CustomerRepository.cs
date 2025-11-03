@@ -28,7 +28,9 @@ namespace LoccarInfra.Repositories
 
         public async Task<Customer> GetRegistrationByEmail(string email)
         {
-            return await _dbContext.Customers.Where(n => n.Email.Equals(email, StringComparison.Ordinal)).FirstOrDefaultAsync();
+            return await _dbContext.Customers
+                .Where(c => c.Email == email)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<Customer?> UpdateCustomer(Customer customer)

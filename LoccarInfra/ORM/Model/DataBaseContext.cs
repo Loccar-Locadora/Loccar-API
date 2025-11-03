@@ -164,6 +164,9 @@ public partial class DataBaseContext : DbContext
             entity.Property(e => e.DailyRate)
                 .HasPrecision(10, 2)
                 .HasColumnName("daily_rate");
+            entity.Property(e => e.DamageDescription)
+                .HasColumnType("character varying")
+                .HasColumnName("damage_description");
             entity.Property(e => e.IdCustomer).HasColumnName("id_customer");
             entity.Property(e => e.IdVehicle).HasColumnName("id_vehicle");
             entity.Property(e => e.InsuranceThirdParty)
@@ -185,8 +188,7 @@ public partial class DataBaseContext : DbContext
             entity.Property(e => e.TaxAmount)
                 .HasPrecision(10, 2)
                 .HasColumnName("tax_amount");
-            entity.Property(e => e.DamageDescription)
-                .HasColumnName("damage_description");
+
             entity.HasOne(d => d.IdCustomerNavigation).WithMany(p => p.Reservations)
                 .HasForeignKey(d => d.IdCustomer)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -278,6 +280,9 @@ public partial class DataBaseContext : DbContext
                 .HasPrecision(10, 2)
                 .HasColumnName("daily_rate");
             entity.Property(e => e.FuelTankCapacity).HasColumnName("fuel_tank_capacity");
+            entity.Property(e => e.ImgUrl)
+                .HasColumnType("character varying")
+                .HasColumnName("img_url");
             entity.Property(e => e.ManufacturingYear).HasColumnName("manufacturing_year");
             entity.Property(e => e.Model)
                 .HasMaxLength(50)

@@ -29,6 +29,8 @@ public partial class Vehicle
 
     public bool? Reserved { get; set; }
 
+    public string? ImgUrl { get; set; }
+
     public virtual CargoVehicle? CargoVehicle { get; set; }
 
     public virtual LeisureVehicle? LeisureVehicle { get; set; }

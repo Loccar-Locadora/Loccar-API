@@ -123,5 +123,36 @@ namespace LoccarWebapi.Controllers
         {
             return await _statisticsApplication.GetYearlyRevenueBreakdown(year);
         }
+
+        /// <summary>
+        /// Obtém estatísticas básicas de usuários do sistema
+        /// </summary>
+        /// <returns>Estatísticas de usuários incluindo total, ativos, e contagem por role</returns>
+        [HttpGet("users")]
+        public async Task<BaseReturn<UserStatistics>> GetUserStatistics()
+        {
+            return await _statisticsApplication.GetUserStatistics();
+        }
+
+        /// <summary>
+        /// Obtém estatísticas detalhadas de usuários com breakdown por role
+        /// </summary>
+        /// <returns>Estatísticas detalhadas incluindo percentuais por role</returns>
+        [HttpGet("users/detailed")]
+        public async Task<BaseReturn<DetailedUserStatistics>> GetDetailedUserStatistics()
+        {
+            return await _statisticsApplication.GetDetailedUserStatistics();
+        }
+
+        /// <summary>
+        /// Obtém a contagem de usuários por role específica
+        /// </summary>
+        /// <param name="roleName">Nome da role (ADMIN, EMPLOYEE, COMMON_USER)</param>
+        /// <returns>Número de usuários com a role especificada</returns>
+        [HttpGet("users/role/{roleName}")]
+        public async Task<BaseReturn<int>> GetUsersByRoleCount(string roleName)
+        {
+            return await _statisticsApplication.GetUsersByRoleCount(roleName);
+        }
     }
 }

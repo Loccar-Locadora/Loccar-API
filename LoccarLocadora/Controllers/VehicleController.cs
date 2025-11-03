@@ -47,6 +47,19 @@ namespace LoccarWebapi.Controllers
             return await _vehicleApplication.ListAllVehicles();
         }
 
+        /// <summary>
+        /// Lista todos os veículos com contagem de totais, disponíveis e reservados
+        /// </summary>
+        /// <returns>Lista de veículos com estatísticas</returns>
+        /// <response code="200">Lista de veículos com contagens retornada com sucesso</response>
+        /// <response code="401">Usuário não autorizado (apenas ADMIN e EMPLOYEE)</response>
+        /// <response code="500">Erro interno do servidor</response>
+        [HttpGet("list/all-with-counts")]
+        public async Task<BaseReturn<VehicleListResponse>> ListAllVehiclesWithCounts()
+        {
+            return await _vehicleApplication.ListAllVehiclesWithCounts();
+        }
+
         [HttpPut("update")]
         public async Task<BaseReturn<Vehicle>> UpdateVehicle(Vehicle vehicle)
         {

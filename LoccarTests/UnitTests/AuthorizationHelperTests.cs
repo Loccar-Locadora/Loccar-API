@@ -9,12 +9,12 @@ namespace LoccarTests.UnitTests
     public class AuthorizationHelperTests
     {
         [Theory]
-        [InlineData("ADMIN", true)]
-        [InlineData("admin", true)]
-        [InlineData("Admin", true)]
-        [InlineData("EMPLOYEE", true)]
-        [InlineData("employee", true)]
-        [InlineData("Employee", true)]
+        [InlineData("CLIENT_ADMIN", true)]
+        [InlineData("client_admin", true)]
+        [InlineData("Client_Admin", true)]
+        [InlineData("CLIENT_EMPLOYEE", true)]
+        [InlineData("client_employee", true)]
+        [InlineData("Client_Employee", true)]
         [InlineData("USER", false)]
         [InlineData("GUEST", false)]
         [InlineData("", false)]
@@ -84,7 +84,7 @@ namespace LoccarTests.UnitTests
             // Arrange
             var loggedUser = new LoggedUser
             {
-                Roles = new List<string> { "USER", "ADMIN", "GUEST" },
+                Roles = new List<string> { "CLIENT_USER", "CLIENT_ADMIN", "GUEST" },
                 Authenticated = true
             };
 
@@ -123,12 +123,12 @@ namespace LoccarTests.UnitTests
             // Arrange
             var loggedUser = new LoggedUser
             {
-                Roles = new List<string> { "EMPLOYEE" },
+                Roles = new List<string> { "CLIENT_EMPLOYEE" },
                 Authenticated = true
             };
 
             // Act
-            var result = AuthorizationHelper.HasAnyRole(loggedUser, "ADMIN", "EMPLOYEE", "MANAGER");
+            var result = AuthorizationHelper.HasAnyRole(loggedUser, "CLIENT_ADMIN", "CLIENT_EMPLOYEE", "MANAGER");
 
             // Assert
             result.Should().BeTrue();
@@ -145,7 +145,7 @@ namespace LoccarTests.UnitTests
             };
 
             // Act
-            var result = AuthorizationHelper.HasAnyRole(loggedUser, "ADMIN", "EMPLOYEE", "MANAGER");
+            var result = AuthorizationHelper.HasAnyRole(loggedUser, "CLIENT_ADMIN", "CLIENT_EMPLOYEE", "MANAGER");
 
             // Assert
             result.Should().BeFalse();
@@ -183,9 +183,10 @@ namespace LoccarTests.UnitTests
         }
 
         [Theory]
-        [InlineData("ADMIN", true)]
-        [InlineData("admin", true)]
-        [InlineData("EMPLOYEE", false)]
+        [InlineData("CLIENT_ADMIN", true)]
+        [InlineData("client_admin", true)]
+        [InlineData("Client_Admin", true)]
+        [InlineData("CLIENT_EMPLOYEE", false)]
         [InlineData("USER", false)]
         public void IsAdminReturnsCorrectResult(string role, bool expected)
         {
@@ -204,8 +205,8 @@ namespace LoccarTests.UnitTests
         }
 
         [Theory]
-        [InlineData("EMPLOYEE", true)]
-        [InlineData("employee", true)]
+        [InlineData("CLIENT_EMPLOYEE", true)]
+        [InlineData("client_employee", true)]
         [InlineData("ADMIN", false)]
         [InlineData("USER", false)]
         public void IsEmployeeReturnsCorrectResult(string role, bool expected)

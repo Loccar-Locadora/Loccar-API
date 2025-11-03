@@ -25,6 +25,7 @@ namespace LoccarDomain.Vehicle.Models
         public decimal? CompanyDailyRate { get; set; }
 
         public bool? Reserved { get; set; }
+        public string? ImgUrl { get; set; }
 
         public VehicleType Type { get; set; }
 

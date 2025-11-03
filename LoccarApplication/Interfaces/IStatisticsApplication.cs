@@ -17,5 +17,10 @@ namespace LoccarApplication.Interfaces
         Task<BaseReturn<MonthlyRevenue>> GetCurrentMonthRevenue();
         Task<BaseReturn<decimal>> GetYearRevenue(int year);
         Task<BaseReturn<List<MonthlyRevenue>>> GetYearlyRevenueBreakdown(int year);
+
+        // Métodos de estatísticas de usuários
+        Task<BaseReturn<UserStatistics>> GetUserStatistics();
+        Task<BaseReturn<DetailedUserStatistics>> GetDetailedUserStatistics();
+        Task<BaseReturn<int>> GetUsersByRoleCount(string roleName);
     }
 }

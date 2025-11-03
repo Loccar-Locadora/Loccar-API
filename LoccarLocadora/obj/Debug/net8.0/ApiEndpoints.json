@@ -526,6 +526,72 @@
   },
   {
     "ContainingType": "LoccarWebapi.Controllers.StatisticsController",
+    "Method": "GetUserStatistics",
+    "RelativePath": "api/statistics/users",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "LoccarDomain.BaseReturn\u00601[[LoccarDomain.Statistics.Models.UserStatistics, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LoccarWebapi.Controllers.StatisticsController",
+    "Method": "GetDetailedUserStatistics",
+    "RelativePath": "api/statistics/users/detailed",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "LoccarDomain.BaseReturn\u00601[[LoccarDomain.Statistics.Models.DetailedUserStatistics, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LoccarWebapi.Controllers.StatisticsController",
+    "Method": "GetUsersByRoleCount",
+    "RelativePath": "api/statistics/users/role/{roleName}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "roleName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LoccarDomain.BaseReturn\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LoccarWebapi.Controllers.StatisticsController",
     "Method": "GetAvailableVehiclesCount",
     "RelativePath": "api/statistics/vehicles/available/count",
     "HttpMethod": "GET",
@@ -561,6 +627,53 @@
           "text/json"
         ],
         "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LoccarLocadora.Controllers.UserController",
+    "Method": "ListAllUsers",
+    "RelativePath": "api/user/list/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "LoccarDomain.BaseReturn\u00601[[System.Collections.Generic.List\u00601[[LoccarDomain.User.Models.User, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "LoccarDomain.BaseReturn\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 401
+      },
+      {
+        "Type": "LoccarDomain.BaseReturn\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      },
+      {
+        "Type": "LoccarDomain.BaseReturn\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 500
       }
     ]
   },
@@ -627,6 +740,26 @@
     "ReturnTypes": [
       {
         "Type": "LoccarDomain.BaseReturn\u00601[[System.Collections.Generic.List\u00601[[LoccarDomain.Vehicle.Models.Vehicle, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LoccarWebapi.Controllers.VehicleController",
+    "Method": "ListAllVehiclesWithCounts",
+    "RelativePath": "api/vehicle/list/all-with-counts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "LoccarDomain.BaseReturn\u00601[[LoccarDomain.Vehicle.Models.VehicleListResponse, LoccarDomain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

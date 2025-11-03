@@ -97,7 +97,7 @@ namespace LoccarApplication
                     InsuranceVehicle = createdReservation.InsuranceVehicle,
                     InsuranceThirdParty = createdReservation.InsuranceThirdParty,
                     TaxAmount = createdReservation.TaxAmount,
-                    DamageDescription = createdReservation.DamageDescription,
+                    DamageDescription = createdReservation.DamageDescription
                 };
             }
             catch (Exception ex)

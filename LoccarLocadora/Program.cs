@@ -60,9 +60,20 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddControllers();
 
-// DbContext - Scoped
+// DbContext - Configuração otimizada para evitar problemas de concorrência
 builder.Services.AddDbContext<DataBaseContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    
+    // Configurações de performance e thread-safety
+    options.EnableServiceProviderCaching(true);
+    options.EnableSensitiveDataLogging(builder.Environment.IsDevelopment());
+    
+    if (builder.Environment.IsDevelopment())
+    {
+        options.LogTo(Console.WriteLine, LogLevel.Information);
+    }
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -96,15 +107,20 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddHttpContextAccessor();
+
+// Registrar repositories primeiro
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+// Registrar applications (UserRepository agora depende de ICustomerRepository)
 builder.Services.AddScoped<IAuthApplication, AuthApplication>();
 builder.Services.AddScoped<IVehicleApplication, VehicleApplication>();
 builder.Services.AddScoped<ICustomerApplication, CustomerApplication>();
 builder.Services.AddScoped<IReservationApplication, ReservationApplication>();
 builder.Services.AddScoped<IStatisticsApplication, StatisticsApplication>();
-
-builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
-builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+builder.Services.AddScoped<IUserApplication, UserApplication>();
 
 var app = builder.Build();
 

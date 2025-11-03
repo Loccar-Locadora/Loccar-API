@@ -19,6 +19,7 @@ namespace LoccarTests.UnitTests
         private readonly Mock<ICustomerRepository> _mockCustomerRepository;
         private readonly Mock<IVehicleRepository> _mockVehicleRepository;
         private readonly Mock<IReservationRepository> _mockReservationRepository;
+        private readonly Mock<IUserRepository> _mockUserRepository;
         private readonly StatisticsApplication _statisticsApplication;
 
         public StatisticsApplicationRevenueTests()
@@ -27,12 +28,14 @@ namespace LoccarTests.UnitTests
             _mockCustomerRepository = new Mock<ICustomerRepository>();
             _mockVehicleRepository = new Mock<IVehicleRepository>();
             _mockReservationRepository = new Mock<IReservationRepository>();
+            _mockUserRepository = new Mock<IUserRepository>();
 
             _statisticsApplication = new StatisticsApplication(
                 _mockAuthApplication.Object,
                 _mockCustomerRepository.Object,
                 _mockVehicleRepository.Object,
-                _mockReservationRepository.Object);
+                _mockReservationRepository.Object,
+                _mockUserRepository.Object);
         }
 
         [Fact]
@@ -41,7 +44,7 @@ namespace LoccarTests.UnitTests
             // Arrange
             var loggedUser = new LoggedUser 
             { 
-                Roles = new List<string> { "ADMIN" },
+                Roles = new List<string> { "CLIENT_ADMIN" },
                 Authenticated = true
             };
             
@@ -92,7 +95,7 @@ namespace LoccarTests.UnitTests
             // Arrange
             var loggedUser = new LoggedUser 
             { 
-                Roles = new List<string> { "COMMON_USER" },
+                Roles = new List<string> { "CLIENT_USER" },
                 Authenticated = true
             };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
@@ -114,7 +117,7 @@ namespace LoccarTests.UnitTests
             // Arrange
             var loggedUser = new LoggedUser 
             { 
-                Roles = new List<string> { "ADMIN" },
+                Roles = new List<string> { "CLIENT_ADMIN" },
                 Authenticated = true
             };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
@@ -133,7 +136,7 @@ namespace LoccarTests.UnitTests
             // Arrange
             var loggedUser = new LoggedUser 
             { 
-                Roles = new List<string> { "EMPLOYEE" },
+                Roles = new List<string> { "CLIENT_EMPLOYEE" },
                 Authenticated = true
             };
 
@@ -175,7 +178,7 @@ namespace LoccarTests.UnitTests
             // Arrange
             var loggedUser = new LoggedUser 
             { 
-                Roles = new List<string> { "ADMIN" },
+                Roles = new List<string> { "CLIENT_ADMIN" },
                 Authenticated = true
             };
 
@@ -204,7 +207,7 @@ namespace LoccarTests.UnitTests
             // Arrange
             var loggedUser = new LoggedUser 
             { 
-                Roles = new List<string> { "ADMIN" },
+                Roles = new List<string> { "CLIENT_ADMIN" },
                 Authenticated = true
             };
 
@@ -227,7 +230,7 @@ namespace LoccarTests.UnitTests
             // Arrange
             var loggedUser = new LoggedUser 
             { 
-                Roles = new List<string> { "ADMIN" },
+                Roles = new List<string> { "CLIENT_ADMIN" },
                 Authenticated = true
             };
 
@@ -261,7 +264,7 @@ namespace LoccarTests.UnitTests
             // Arrange
             var loggedUser = new LoggedUser 
             { 
-                Roles = new List<string> { "ADMIN" },
+                Roles = new List<string> { "CLIENT_ADMIN" },
                 Authenticated = true
             };
 

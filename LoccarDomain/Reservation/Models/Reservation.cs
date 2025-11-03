@@ -27,6 +27,6 @@ public class Reservation
     public decimal? TaxAmount { get; set; }
 
     public string? DamageDescription { get; set; }
-
+    public string? ImgUrl { get; set; }
     public Vehicle.Models.Vehicle VehicleReserved { get; set; }
 }

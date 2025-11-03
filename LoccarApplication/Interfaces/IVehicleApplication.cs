@@ -21,6 +21,8 @@ namespace LoccarApplication.Interfaces
 
         Task<BaseReturn<List<Vehicle>>> ListAllVehicles();
 
+        Task<BaseReturn<VehicleListResponse>> ListAllVehiclesWithCounts();
+
         Task<BaseReturn<Vehicle>> UpdateVehicle(Vehicle vehicle);
 
         Task<BaseReturn<bool>> DeleteVehicle(int vehicleId);

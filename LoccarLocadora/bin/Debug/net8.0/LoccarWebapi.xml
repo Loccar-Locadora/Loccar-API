@@ -70,5 +70,43 @@
             <param name="year">Ano</param>
             <returns>Lista com receita de cada mês do ano</returns>
         </member>
+        <member name="M:LoccarWebapi.Controllers.StatisticsController.GetUserStatistics">
+            <summary>
+            Obtém estatísticas básicas de usuários do sistema
+            </summary>
+            <returns>Estatísticas de usuários incluindo total, ativos, e contagem por role</returns>
+        </member>
+        <member name="M:LoccarWebapi.Controllers.StatisticsController.GetDetailedUserStatistics">
+            <summary>
+            Obtém estatísticas detalhadas de usuários com breakdown por role
+            </summary>
+            <returns>Estatísticas detalhadas incluindo percentuais por role</returns>
+        </member>
+        <member name="M:LoccarWebapi.Controllers.StatisticsController.GetUsersByRoleCount(System.String)">
+            <summary>
+            Obtém a contagem de usuários por role específica
+            </summary>
+            <param name="roleName">Nome da role (ADMIN, EMPLOYEE, COMMON_USER)</param>
+            <returns>Número de usuários com a role especificada</returns>
+        </member>
+        <member name="M:LoccarWebapi.Controllers.VehicleController.ListAllVehiclesWithCounts">
+            <summary>
+            Lista todos os veículos com contagem de totais, disponíveis e reservados
+            </summary>
+            <returns>Lista de veículos com estatísticas</returns>
+            <response code="200">Lista de veículos com contagens retornada com sucesso</response>
+            <response code="401">Usuário não autorizado (apenas ADMIN e EMPLOYEE)</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
+        <member name="M:LoccarLocadora.Controllers.UserController.ListAllUsers">
+            <summary>
+            Lista todos os usuários ativos do sistema
+            </summary>
+            <returns>Lista de usuários com name, email e cellphone</returns>
+            <response code="200">Lista de usuários retornada com sucesso</response>
+            <response code="401">Usuário não autorizado (apenas ADMIN e EMPLOYEE)</response>
+            <response code="404">Nenhum usuário encontrado</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
     </members>
 </doc>
