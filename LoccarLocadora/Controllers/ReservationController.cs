@@ -66,5 +66,23 @@ namespace LoccarWebapi.Controllers
         {
             return await _reservationApplication.UpdateReservation(reservation);
         }
+
+        /// <summary>
+        /// Busca o resumo de reservas do usuário logado, incluindo quantidades por status e detalhes de cada reserva
+        /// </summary>
+        /// <returns>Resumo com contadores e detalhes das reservas ativas, concluídas e canceladas</returns>
+        /// <response code="200">Resumo de reservas obtido com sucesso</response>
+        /// <response code="401">Usuário não autorizado</response>
+        /// <response code="404">Usuário/Cliente não encontrado</response>
+        /// <response code="500">Erro interno do servidor</response>
+        [HttpGet("summary")]
+        [ProducesResponseType(typeof(BaseReturn<UserReservationSummary>), 200)]
+        [ProducesResponseType(typeof(BaseReturn<object>), 401)]
+        [ProducesResponseType(typeof(BaseReturn<object>), 404)]
+        [ProducesResponseType(typeof(BaseReturn<object>), 500)]
+        public async Task<BaseReturn<UserReservationSummary>> GetMyReservationSummary()
+        {
+            return await _reservationApplication.GetLoggedUserReservationSummary();
+        }
     }
 }

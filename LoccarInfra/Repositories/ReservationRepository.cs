@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LoccarDomain.Reservation.Models;
 using LoccarInfra.ORM.model;
 using LoccarInfra.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using DbReservation = LoccarInfra.ORM.model.Reservation;
 
 namespace LoccarInfra.Repositories
 {
@@ -16,14 +18,14 @@ namespace LoccarInfra.Repositories
             _context = context;
         }
 
-        public async Task<Reservation> CreateReservation(Reservation reservation)
+        public async Task<DbReservation> CreateReservation(DbReservation reservation)
         {
             _context.Reservations.Add(reservation);
             await _context.SaveChangesAsync();
             return reservation;
         }
 
-        public async Task<Reservation> GetReservationById(int reservationId)
+        public async Task<DbReservation> GetReservationById(int reservationId)
         {
             return await _context.Reservations
                 .Include(r => r.IdCustomerNavigation)
@@ -31,7 +33,7 @@ namespace LoccarInfra.Repositories
                 .FirstOrDefaultAsync(r => r.Reservationnumber == reservationId);
         }
 
-        public async Task<List<Reservation>> GetReservationHistory(int customerId)
+        public async Task<List<DbReservation>> GetReservationHistory(int customerId)
         {
             return await _context.Reservations
                 .Include(r => r.IdCustomerNavigation)
@@ -72,7 +74,7 @@ namespace LoccarInfra.Repositories
         }
 
         // Novos métodos CRUD
-        public async Task<List<Reservation>> ListAllReservations()
+        public async Task<List<DbReservation>> ListAllReservations()
         {
             return await _context.Reservations
                 .Include(r => r.IdCustomerNavigation)
@@ -80,7 +82,7 @@ namespace LoccarInfra.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Reservation> UpdateReservation(Reservation reservation)
+        public async Task<DbReservation> UpdateReservation(DbReservation reservation)
         {
             var existingReservation = await _context.Reservations
                 .FirstOrDefaultAsync(r => r.Reservationnumber == reservation.Reservationnumber);
@@ -118,7 +120,7 @@ namespace LoccarInfra.Repositories
             return CalculateTotalRevenue(reservations);
         }
 
-        public async Task<List<Reservation>> GetReservationsByMonth(int year, int month)
+        public async Task<List<DbReservation>> GetReservationsByMonth(int year, int month)
         {
             return await _context.Reservations
                 .Include(r => r.IdVehicleNavigation)
@@ -142,7 +144,7 @@ namespace LoccarInfra.Repositories
             return CalculateTotalRevenue(reservations);
         }
 
-        private decimal CalculateTotalRevenue(List<Reservation> reservations)
+        private decimal CalculateTotalRevenue(List<DbReservation> reservations)
         {
             decimal totalRevenue = 0;
 
@@ -163,6 +165,82 @@ namespace LoccarInfra.Repositories
             }
 
             return totalRevenue;
+        }
+
+        public async Task<UserReservationSummary> GetUserReservationSummary(int customerId)
+        {
+            var reservations = await _context.Reservations
+                .Include(r => r.IdVehicleNavigation)
+                .Where(r => r.IdCustomer == customerId)
+                .OrderByDescending(r => r.RentalDate)
+                .ToListAsync();
+
+            var summary = new UserReservationSummary();
+            foreach (var reservation in reservations)
+            {
+                var vehicle = _context.Vehicles.Where(v => v.IdVehicle == reservation.IdVehicle).First();
+                var detail = new UserReservationDetail
+                {
+                    Reservationnumber = reservation.Reservationnumber,
+                    IdVehicle = reservation.IdVehicle,
+                    VehicleBrand = reservation.IdVehicleNavigation?.Brand ?? "",
+                    VehicleModel = reservation.IdVehicleNavigation?.Model ?? "",
+                    RentalDate = reservation.RentalDate,
+                    ReturnDate = reservation.ReturnDate,
+                    RentalDays = reservation.RentalDays,
+                    DailyRate = reservation.DailyRate,
+                    RateType = reservation.RateType,
+                    InsuranceVehicle = reservation.InsuranceVehicle,
+                    InsuranceThirdParty = reservation.InsuranceThirdParty,
+                    TaxAmount = reservation.TaxAmount,
+                    DamageDescription = reservation.DamageDescription,
+                    Status = reservation.Status ?? "ACTIVE",
+                    ImgUrl = vehicle?.ImgUrl ?? null
+
+                };
+
+                // Calcular custo total
+                int days = reservation.RentalDays ?? (reservation.ReturnDate - reservation.RentalDate).Days;
+                if (days <= 0) days = 1;
+
+                decimal dailyRate = reservation.DailyRate ?? reservation.IdVehicleNavigation?.DailyRate ?? 0;
+                decimal totalCost = days * dailyRate;
+
+                if (reservation.InsuranceVehicle.HasValue)
+                    totalCost += reservation.InsuranceVehicle.Value;
+
+                if (reservation.InsuranceThirdParty.HasValue)
+                    totalCost += reservation.InsuranceThirdParty.Value;
+
+                if (reservation.TaxAmount.HasValue)
+                    totalCost += reservation.TaxAmount.Value;
+
+                detail.TotalCost = totalCost;
+
+                // Categorizar por status
+                switch (reservation.Status?.ToUpper())
+                {
+                    case "ACTIVE":
+                        summary.ActiveReservations.Add(detail);
+                        summary.ActiveCount++;
+                        break;
+                    case "COMPLETED":
+                        summary.CompletedReservations.Add(detail);
+                        summary.CompletedCount++;
+                        break;
+                    case "CANCELLED":
+                        summary.CancelledReservations.Add(detail);
+                        summary.CancelledCount++;
+                        break;
+                    default:
+                        // Se status for null ou não reconhecido, considerar como ativo
+                        summary.ActiveReservations.Add(detail);
+                        summary.ActiveCount++;
+                        break;
+                }
+            }
+
+            return summary;
         }
     }
 }

@@ -15,6 +15,8 @@ namespace LoccarInfra.Repositories.Interfaces
 
         Task<Customer?> UpdateCustomer(Customer customer);
 
+        Task<Customer?> UpdateCustomerOnly(Customer customer);
+
         Task<bool> DeleteCustomer(int customerId);
 
         Task<Customer> GetCustomerById(int customerId);

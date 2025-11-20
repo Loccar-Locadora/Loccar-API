@@ -29,6 +29,8 @@ public partial class Reservation
 
     public string? DamageDescription { get; set; }
 
+    public string? Status { get; set; }
+
     public virtual Customer IdCustomerNavigation { get; set; } = null!;
 
     public virtual Vehicle IdVehicleNavigation { get; set; } = null!;

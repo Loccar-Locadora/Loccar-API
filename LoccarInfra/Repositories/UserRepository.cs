@@ -8,12 +8,10 @@ namespace LoccarInfra.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly DataBaseContext _context;
-        private readonly ICustomerRepository _customerRepository;
 
-        public UserRepository(DataBaseContext context, ICustomerRepository customerRepository)
+        public UserRepository(DataBaseContext context)
         {
             _context = context;
-            _customerRepository = customerRepository;
         }
 
         public async Task<List<User>> GetAllUsers()
@@ -115,6 +113,51 @@ namespace LoccarInfra.Repositories
                 .Where(u => u.IsActive == true)
                 .OrderBy(u => u.Username)
                 .ToListAsync();
+        }
+
+        public async Task<User?> FindUserByEmail(string email)
+        {
+            return await _context.Users
+                .Include(u => u.Roles)
+                .FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<User?> UpdateUser(User user)
+        {
+            var existing = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+            if (existing == null)
+            {
+                return null;
+            }
+
+            existing.Username = user.Username;
+            existing.Email = user.Email;
+            existing.PasswordHash = user.PasswordHash;
+            existing.IsActive = user.IsActive;
+            existing.UpdatedAt = DateTime.Now; // Mudando de DateTime.UtcNow para DateTime.Now
+
+            await _context.SaveChangesAsync();
+            return existing;
+        }
+
+        public async Task<bool> DeleteUser(int userId)
+        {
+            var existing = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (existing == null)
+            {
+                return false;
+            }
+
+            _context.Users.Remove(existing);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await _context.Users
+                .Include(u => u.Roles)
+                .FirstOrDefaultAsync(u => u.Email == email);
         }
     }
 }

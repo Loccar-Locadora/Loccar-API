@@ -276,6 +276,7 @@ namespace LoccarApplication
                 {
                     Vehicle vehicle = new Vehicle()
                     {
+                        IdVehicle = tbVehicle.IdVehicle,
                         Brand = tbVehicle.Brand,
                         Model = tbVehicle.Model,
                         ManufacturingYear = tbVehicle.ManufacturingYear,
@@ -288,6 +289,7 @@ namespace LoccarApplication
                         Vin = tbVehicle.Vin,
                         Reserved = tbVehicle.Reserved,
                         ImgUrl = tbVehicle.ImgUrl,
+                        Type = DetermineVehicleType(tbVehicle),
 
                         // CargoVehicle
                         CargoVehicle = tbVehicle.CargoVehicle != null ? new CargoVehicle()
@@ -422,6 +424,8 @@ namespace LoccarApplication
                     FuelTankCapacity = tbVehicle.FuelTankCapacity,
                     Vin = tbVehicle.Vin,
                     Reserved = tbVehicle.Reserved,
+                    ImgUrl = tbVehicle.ImgUrl,
+                    Type = DetermineVehicleType(tbVehicle),
 
                     // CargoVehicle
                     CargoVehicle = tbVehicle.CargoVehicle != null ? new CargoVehicle()
@@ -488,8 +492,7 @@ namespace LoccarApplication
             {
                 LoggedUser user = _authApplication.GetLoggedUser();
 
-                if (user?.Roles == null || 
-                    (!user.Roles.Contains("CLIENT_ADMIN") && !user.Roles.Contains("CLIENT_EMPLOYEE")))
+                if (user == null)
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized";
@@ -523,6 +526,8 @@ namespace LoccarApplication
                         Vin = tbVehicle.Vin,
                         Reserved = tbVehicle.Reserved,
                         ImgUrl = tbVehicle.ImgUrl,
+                        Type = DetermineVehicleType(tbVehicle),
+                        
                         // CargoVehicle
                         CargoVehicle = tbVehicle.CargoVehicle != null ? new CargoVehicle()
                         {
@@ -645,6 +650,8 @@ namespace LoccarApplication
                         FuelTankCapacity = tbVehicle.FuelTankCapacity,
                         Vin = tbVehicle.Vin,
                         Reserved = tbVehicle.Reserved,
+                        // Tipo do veículo adicionado aqui
+                        Type = DetermineVehicleType(tbVehicle),
 
                         // CargoVehicle
                         CargoVehicle = tbVehicle.CargoVehicle != null ? new CargoVehicle()
@@ -725,13 +732,26 @@ namespace LoccarApplication
 
                 // Corrigindo lógica de autorização
                 if (loggedUser?.Roles == null || 
-                    (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
+                    (!loggedUser.Roles.Contains("CLIENT_ADMIN") && !loggedUser.Roles.Contains("CLIENT_EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized.";
                     return baseReturn;
                 }
 
+                // Buscar o veículo existente para verificar o tipo atual
+                var existingVehicle = await _vehicleRepository.GetVehicleById(vehicle.IdVehicle);
+                if (existingVehicle == null)
+                {
+                    baseReturn.Code = "404";
+                    baseReturn.Message = "Vehicle not found.";
+                    return baseReturn;
+                }
+
+                // Determinar o tipo atual do veículo
+                VehicleType currentType = DetermineVehicleType(existingVehicle);
+
+                // Atualizar propriedades básicas do veículo
                 LoccarInfra.ORM.model.Vehicle tbVehicle = new LoccarInfra.ORM.model.Vehicle()
                 {
                     IdVehicle = vehicle.IdVehicle,
@@ -746,20 +766,224 @@ namespace LoccarApplication
                     FuelTankCapacity = vehicle.FuelTankCapacity,
                     Vin = vehicle.Vin,
                     Reserved = vehicle.Reserved,
+                    ImgUrl = vehicle.ImgUrl
                 };
 
                 var updatedVehicle = await _vehicleRepository.UpdateVehicle(tbVehicle);
 
                 if (updatedVehicle == null)
                 {
-                    baseReturn.Code = "404";
-                    baseReturn.Message = "Vehicle not found.";
+                    baseReturn.Code = "500";
+                    baseReturn.Message = "Failed to update vehicle basic information.";
+                    return baseReturn;
+                }
+
+                // Se o tipo do veículo mudou, remover o tipo antigo
+                if (currentType != vehicle.Type)
+                {
+                    await RemoveCurrentVehicleType(vehicle.IdVehicle, currentType);
+                }
+
+                // Atualizar ou criar o novo tipo específico do veículo
+                bool typeUpdateSuccess = false;
+                switch (vehicle.Type)
+                {
+                    case VehicleType.Cargo:
+                        if (vehicle.CargoVehicle != null)
+                        {
+                            vehicle.CargoVehicle.IdVehicle = vehicle.IdVehicle;
+                            var cargoResult = await UpdateCargoVehicle(vehicle.CargoVehicle);
+                            typeUpdateSuccess = cargoResult.Code == "200";
+                        }
+                        break;
+
+                    case VehicleType.Motorcycle:
+                        if (vehicle.Motorcycle != null)
+                        {
+                            vehicle.Motorcycle.IdVehicle = vehicle.IdVehicle;
+                            var motorcycleResult = await UpdateMotorcycleVehicle(vehicle.Motorcycle);
+                            typeUpdateSuccess = motorcycleResult.Code == "200";
+                        }
+                        break;
+
+                    case VehicleType.Leisure:
+                        if (vehicle.LeisureVehicle != null)
+                        {
+                            vehicle.LeisureVehicle.IdVehicle = vehicle.IdVehicle;
+                            var leisureResult = await UpdateLeisureVehicle(vehicle.LeisureVehicle);
+                            typeUpdateSuccess = leisureResult.Code == "200";
+                        }
+                        break;
+
+                    case VehicleType.Passenger:
+                        if (vehicle.PassengerVehicle != null)
+                        {
+                            vehicle.PassengerVehicle.IdVehicle = vehicle.IdVehicle;
+                            var passengerResult = await UpdatePassengerVehicle(vehicle.PassengerVehicle);
+                            typeUpdateSuccess = passengerResult.Code == "200";
+                        }
+                        break;
+                }
+
+                if (!typeUpdateSuccess)
+                {
+                    baseReturn.Code = "400";
+                    baseReturn.Message = "Failed to update vehicle type-specific information.";
                     return baseReturn;
                 }
 
                 baseReturn.Code = "200";
                 baseReturn.Data = vehicle;
                 baseReturn.Message = "Vehicle updated successfully";
+            }
+            catch (Exception ex)
+            {
+                baseReturn.Code = "500";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
+            }
+
+            return baseReturn;
+        }
+
+        private VehicleType DetermineVehicleType(LoccarInfra.ORM.model.Vehicle vehicle)
+        {
+            if (vehicle.CargoVehicle != null)
+                return VehicleType.Cargo;
+            if (vehicle.Motorcycle != null)
+                return VehicleType.Motorcycle;
+            if (vehicle.PassengerVehicle != null)
+                return VehicleType.Passenger;
+            if (vehicle.LeisureVehicle != null)
+                return VehicleType.Leisure;
+            
+            // Valor padrão se não encontrar nenhum tipo específico
+            return VehicleType.Passenger;
+        }
+
+        private async Task RemoveCurrentVehicleType(int vehicleId, VehicleType currentType)
+        {
+            switch (currentType)
+            {
+                case VehicleType.Cargo:
+                    await _vehicleRepository.RemoveCargoVehicle(vehicleId);
+                    break;
+                case VehicleType.Motorcycle:
+                    await _vehicleRepository.RemoveMotorcycleVehicle(vehicleId);
+                    break;
+                case VehicleType.Passenger:
+                    await _vehicleRepository.RemovePassengerVehicle(vehicleId);
+                    break;
+                case VehicleType.Leisure:
+                    await _vehicleRepository.RemoveLeisureVehicle(vehicleId);
+                    break;
+            }
+        }
+
+        private async Task<BaseReturn<CargoVehicle>> UpdateCargoVehicle(CargoVehicle cargoVehicle)
+        {
+            BaseReturn<CargoVehicle> baseReturn = new BaseReturn<CargoVehicle>();
+            try
+            {
+                LoccarInfra.ORM.model.CargoVehicle tbCargoVehicle = new LoccarInfra.ORM.model.CargoVehicle()
+                {
+                    CargoCapacity = cargoVehicle.CargoCapacity,
+                    CargoCompartmentSize = cargoVehicle.CargoCompartmentSize,
+                    CargoType = cargoVehicle.CargoType,
+                    TareWeight = cargoVehicle.TareWeight,
+                    IdVehicle = cargoVehicle.IdVehicle,
+                };
+
+                await _vehicleRepository.UpdateCargoVehicle(tbCargoVehicle);
+
+                baseReturn.Code = "200";
+                baseReturn.Message = "Cargo vehicle updated.";
+                baseReturn.Data = cargoVehicle;
+            }
+            catch (Exception ex)
+            {
+                baseReturn.Code = "500";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
+            }
+
+            return baseReturn;
+        }
+
+        private async Task<BaseReturn<LeisureVehicle>> UpdateLeisureVehicle(LeisureVehicle leisureVehicle)
+        {
+            BaseReturn<LeisureVehicle> baseReturn = new BaseReturn<LeisureVehicle>();
+            try
+            {
+                LoccarInfra.ORM.model.LeisureVehicle tbLeisureVehicle = new LoccarInfra.ORM.model.LeisureVehicle()
+                {
+                    Automatic = leisureVehicle.Automatic,
+                    PowerSteering = leisureVehicle.PowerSteering,
+                    AirConditioning = leisureVehicle.AirConditioning,
+                    Category = leisureVehicle.Category,
+                    IdVehicle = leisureVehicle.IdVehicle,
+                };
+
+                await _vehicleRepository.UpdateLeisureVehicle(tbLeisureVehicle);
+
+                baseReturn.Code = "200";
+                baseReturn.Message = "Leisure vehicle updated.";
+                baseReturn.Data = leisureVehicle;
+            }
+            catch (Exception ex)
+            {
+                baseReturn.Code = "500";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
+            }
+
+            return baseReturn;
+        }
+
+        private async Task<BaseReturn<Motorcycle>> UpdateMotorcycleVehicle(Motorcycle motorcycle)
+        {
+            BaseReturn<Motorcycle> baseReturn = new BaseReturn<Motorcycle>();
+            try
+            {
+                LoccarInfra.ORM.model.Motorcycle tbMotorcycle = new LoccarInfra.ORM.model.Motorcycle()
+                {
+                    TractionControl = motorcycle.TractionControl,
+                    AbsBrakes = motorcycle.AbsBrakes,
+                    CruiseControl = motorcycle.CruiseControl,
+                    IdVehicle = motorcycle.IdVehicle,
+                };
+
+                await _vehicleRepository.UpdateMotorcycleVehicle(tbMotorcycle);
+
+                baseReturn.Code = "200";
+                baseReturn.Message = "Motorcycle updated.";
+                baseReturn.Data = motorcycle;
+            }
+            catch (Exception ex)
+            {
+                baseReturn.Code = "500";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
+            }
+
+            return baseReturn;
+        }
+
+        private async Task<BaseReturn<PassengerVehicle>> UpdatePassengerVehicle(PassengerVehicle passengerVehicle)
+        {
+            BaseReturn<PassengerVehicle> baseReturn = new BaseReturn<PassengerVehicle>();
+            try
+            {
+                LoccarInfra.ORM.model.PassengerVehicle tbPassengerVehicle = new LoccarInfra.ORM.model.PassengerVehicle()
+                {
+                    PassengerCapacity = passengerVehicle.PassengerCapacity,
+                    Tv = passengerVehicle.Tv,
+                    AirConditioning = passengerVehicle.AirConditioning,
+                    PowerSteering = passengerVehicle.PowerSteering,
+                    IdVehicle = passengerVehicle.IdVehicle,
+                };
+
+                await _vehicleRepository.UpdatePassengerVehicle(tbPassengerVehicle);
+
+                baseReturn.Code = "200";
+                baseReturn.Message = "Passenger vehicle updated.";
+                baseReturn.Data = passengerVehicle;
             }
             catch (Exception ex)
             {
@@ -780,7 +1004,7 @@ namespace LoccarApplication
 
                 // Corrigindo lógica de autorização
                 if (loggedUser?.Roles == null || 
-                    (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
+                    (!loggedUser.Roles.Contains("CLIENT_ADMIN") && !loggedUser.Roles.Contains("CLIENT_EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized.";
@@ -793,6 +1017,41 @@ namespace LoccarApplication
                 baseReturn.Code = success ? "200" : "404";
                 baseReturn.Data = success;
                 baseReturn.Message = success ? "Vehicle deleted successfully." : "Vehicle not found.";
+            }
+            catch (Exception ex)
+            {
+                baseReturn.Code = "500";
+                baseReturn.Message = $"An unexpected error occurred: {ex.Message}";
+                baseReturn.Data = false;
+            }
+
+            return baseReturn;
+        }
+
+        public async Task<BaseReturn<bool>> SetVehicleReserved(int vehicleId, bool reserved)
+        {
+            BaseReturn<bool> baseReturn = new BaseReturn<bool>();
+
+            try
+            {
+                LoggedUser loggedUser = _authApplication.GetLoggedUser();
+
+                // Permitir acesso para usuários autenticados (qualquer role)
+                if (loggedUser?.Roles == null || !loggedUser.Roles.Any())
+                {
+                    baseReturn.Code = "401";
+                    baseReturn.Message = "User not authorized.";
+                    baseReturn.Data = false;
+                    return baseReturn;
+                }
+
+                bool success = await _vehicleRepository.SetVehicleReserved(vehicleId, reserved);
+
+                baseReturn.Code = success ? "200" : "404";
+                baseReturn.Data = success;
+                baseReturn.Message = success 
+                    ? $"Vehicle {(reserved ? "reserved" : "released")} successfully." 
+                    : "Vehicle not found.";
             }
             catch (Exception ex)
             {

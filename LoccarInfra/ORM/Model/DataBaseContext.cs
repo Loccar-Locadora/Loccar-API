@@ -185,6 +185,9 @@ public partial class DataBaseContext : DbContext
             entity.Property(e => e.ReturnDate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("return_date");
+            entity.Property(e => e.Status)
+                .HasColumnType("character varying")
+                .HasColumnName("status");
             entity.Property(e => e.TaxAmount)
                 .HasPrecision(10, 2)
                 .HasColumnName("tax_amount");

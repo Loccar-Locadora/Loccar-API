@@ -31,5 +31,20 @@ namespace LoccarInfra.Repositories.Interfaces
         // Métodos de estatísticas
         Task<int> GetTotalVehiclesCount();
         Task<int> GetAvailableVehiclesCount();
+
+        // Métodos para atualizar tipos específicos de veículos
+        Task<CargoVehicle> UpdateCargoVehicle(CargoVehicle cargoVehicle);
+        Task<Motorcycle> UpdateMotorcycleVehicle(Motorcycle motorcycle);
+        Task<LeisureVehicle> UpdateLeisureVehicle(LeisureVehicle leisureVehicle);
+        Task<PassengerVehicle> UpdatePassengerVehicle(PassengerVehicle passengerVehicle);
+
+        // Métodos para remover tipos específicos de veículos
+        Task<bool> RemoveCargoVehicle(int vehicleId);
+        Task<bool> RemoveMotorcycleVehicle(int vehicleId);
+        Task<bool> RemoveLeisureVehicle(int vehicleId);
+        Task<bool> RemovePassengerVehicle(int vehicleId);
+
+        // Método para definir status de reserva
+        Task<bool> SetVehicleReserved(int vehicleId, bool reserved);
     }
 }

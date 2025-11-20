@@ -19,7 +19,7 @@ namespace LoccarWebapi.Controllers
 
         [HttpPost("register")]
         public async Task<BaseReturn<Customer>> RegisterCustomer(Customer customer)
-        {
+            {
             return await _customerApplication.RegisterCustomer(customer);
         }
 
@@ -33,12 +33,6 @@ namespace LoccarWebapi.Controllers
         public async Task<BaseReturn<bool>> DeleteCustomer(int id)
         {
             return await _customerApplication.DeleteCustomer(id);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<BaseReturn<Customer>> GetCustomerById(int id)
-        {
-            return await _customerApplication.GetCustomerById(id);
         }
 
         [HttpGet("list/all")]

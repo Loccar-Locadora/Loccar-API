@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyCopyrightAttribute("Copyright © Loccar Locadora 2024")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+518ecd035958a83397b956975e1419e1ce58a688")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6c3317434898b6e6dfcf070de6e32a44755adbb2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Loccar API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LoccarTests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

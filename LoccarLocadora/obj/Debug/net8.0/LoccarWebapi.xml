@@ -4,6 +4,16 @@
         <name>LoccarWebapi</name>
     </assembly>
     <members>
+        <member name="M:LoccarWebapi.Controllers.ReservationController.GetMyReservationSummary">
+            <summary>
+            Busca o resumo de reservas do usuário logado, incluindo quantidades por status e detalhes de cada reserva
+            </summary>
+            <returns>Resumo com contadores e detalhes das reservas ativas, concluídas e canceladas</returns>
+            <response code="200">Resumo de reservas obtido com sucesso</response>
+            <response code="401">Usuário não autorizado</response>
+            <response code="404">Usuário/Cliente não encontrado</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
         <member name="M:LoccarWebapi.Controllers.StatisticsController.GetTotalCustomersCount">
             <summary>
             Obtém o total de clientes cadastrados no sistema
@@ -98,6 +108,18 @@
             <response code="401">Usuário não autorizado (apenas ADMIN e EMPLOYEE)</response>
             <response code="500">Erro interno do servidor</response>
         </member>
+        <member name="M:LoccarWebapi.Controllers.VehicleController.SetVehicleReserved(System.Int32,System.Boolean)">
+            <summary>
+            Define o status de reserva de um veículo
+            </summary>
+            <param name="id">ID do veículo</param>
+            <param name="reserved">Status de reserva (true = reservado, false = disponível)</param>
+            <returns>Resultado da operação</returns>
+            <response code="200">Status de reserva atualizado com sucesso</response>
+            <response code="401">Usuário não autorizado</response>
+            <response code="404">Veículo não encontrado</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
         <member name="M:LoccarLocadora.Controllers.UserController.ListAllUsers">
             <summary>
             Lista todos os usuários ativos do sistema
@@ -106,6 +128,28 @@
             <response code="200">Lista de usuários retornada com sucesso</response>
             <response code="401">Usuário não autorizado (apenas ADMIN e EMPLOYEE)</response>
             <response code="404">Nenhum usuário encontrado</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
+        <member name="M:LoccarLocadora.Controllers.UserController.UpdateUser(System.Int32,LoccarDomain.Customer.Models.Customer)">
+            <summary>
+            Atualiza um usuário pelo ID do usuário
+            </summary>
+            <param name="userId">ID do usuário a ser atualizado</param>
+            <param name="customerData">Dados do cliente para atualização do usuário</param>
+            <returns>Usuário atualizado</returns>
+            <response code="200">Usuário atualizado com sucesso</response>
+            <response code="400">Dados inválidos</response>
+            <response code="404">Usuário não encontrado</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
+        <member name="M:LoccarLocadora.Controllers.UserController.DeleteUser(System.Int32)">
+            <summary>
+            Deleta um usuário pelo ID do usuário
+            </summary>
+            <param name="userId">ID do usuário a ser deletado</param>
+            <returns>Confirmação da deleção</returns>
+            <response code="200">Usuário deletado com sucesso</response>
+            <response code="404">Usuário não encontrado</response>
             <response code="500">Erro interno do servidor</response>
         </member>
     </members>

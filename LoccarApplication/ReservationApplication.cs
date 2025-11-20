@@ -12,13 +12,16 @@ namespace LoccarApplication
         private readonly IVehicleRepository _vehicleRepository;
         private readonly ICustomerRepository _customerRepository;
         private readonly IAuthApplication _authApplication;
+        private readonly IUserRepository _userRepository;
 
-        public ReservationApplication(IReservationRepository reservationRepository, IVehicleRepository vehicleRepository, ICustomerRepository customerRepository, IAuthApplication authApplication)
+        public ReservationApplication(IReservationRepository reservationRepository, IVehicleRepository vehicleRepository,
+            ICustomerRepository customerRepository, IAuthApplication authApplication, IUserRepository userRepository)
         {
             _reservationRepository = reservationRepository;
             _vehicleRepository = vehicleRepository;
             _customerRepository = customerRepository;
             _authApplication = authApplication;
+            _userRepository = userRepository;
         }
 
         // US05 - Cliente: Reservar veículo online
@@ -53,7 +56,8 @@ namespace LoccarApplication
                 }
 
                 // Validar se o cliente existe
-                var customer = await _customerRepository.GetCustomerById(reservation.IdCustomer);
+                var user = await _userRepository.GetUserById(loggedUser.id);
+                var customer = await _customerRepository.GetRegistrationByEmail(user.Email);
                 if (customer == null)
                 {
                     baseReturn.Code = "404";
@@ -63,7 +67,7 @@ namespace LoccarApplication
 
                 LoccarInfra.ORM.model.Reservation tbReservation = new LoccarInfra.ORM.model.Reservation()
                 {
-                    IdCustomer = reservation.IdCustomer,
+                    IdCustomer = customer.IdCustomer,
                     IdVehicle = reservation.IdVehicle,
                     RentalDate = reservation.RentalDate,
                     ReturnDate = reservation.ReturnDate,
@@ -441,6 +445,53 @@ namespace LoccarApplication
                 baseReturn.Code = "200";
                 baseReturn.Data = reservation;
                 baseReturn.Message = "Reservation updated successfully.";
+            }
+            catch (Exception ex)
+            {
+                baseReturn.Code = "500";
+                baseReturn.Message = $"Internal error: {ex.Message}";
+            }
+
+            return baseReturn;
+        }
+
+        public async Task<BaseReturn<UserReservationSummary>> GetLoggedUserReservationSummary()
+        {
+            BaseReturn<UserReservationSummary> baseReturn = new BaseReturn<UserReservationSummary>();
+
+            try
+            {
+                LoggedUser loggedUser = _authApplication.GetLoggedUser();
+                if (loggedUser == null)
+                {
+                    baseReturn.Code = "401";
+                    baseReturn.Message = "User not authorized.";
+                    return baseReturn;
+                }
+
+                // Buscar o usuário para obter o email
+                var user = await _userRepository.GetUserById(loggedUser.id);
+                if (user == null)
+                {
+                    baseReturn.Code = "404";
+                    baseReturn.Message = "User not found.";
+                    return baseReturn;
+                }
+
+                // Buscar o cliente pelo email
+                var customer = await _customerRepository.GetRegistrationByEmail(user.Email);
+                if (customer == null)
+                {
+                    baseReturn.Code = "404";
+                    baseReturn.Message = "Customer not found.";
+                    return baseReturn;
+                }
+
+                var summary = await _reservationRepository.GetUserReservationSummary(customer.IdCustomer);
+
+                baseReturn.Code = "200";
+                baseReturn.Message = "User reservation summary retrieved successfully.";
+                baseReturn.Data = summary;
             }
             catch (Exception ex)
             {

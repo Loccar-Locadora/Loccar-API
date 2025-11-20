@@ -17,6 +17,7 @@ namespace LoccarTests.ParameterizedTests
         private readonly Mock<IVehicleRepository> _mockVehicleRepository;
         private readonly Mock<ICustomerRepository> _mockCustomerRepository;
         private readonly Mock<IAuthApplication> _mockAuthApplication;
+        private readonly Mock<IUserRepository> _mockUserRepository;
         private readonly ReservationApplication _reservationApplication;
 
         public ReservationApplicationParameterizedTests()
@@ -25,11 +26,13 @@ namespace LoccarTests.ParameterizedTests
             _mockVehicleRepository = new Mock<IVehicleRepository>();
             _mockCustomerRepository = new Mock<ICustomerRepository>();
             _mockAuthApplication = new Mock<IAuthApplication>();
+            _mockUserRepository = new Mock<IUserRepository>();
             _reservationApplication = new ReservationApplication(
                 _mockReservationRepository.Object,
                 _mockVehicleRepository.Object,
                 _mockCustomerRepository.Object,
-                _mockAuthApplication.Object);
+                _mockAuthApplication.Object,
+                _mockUserRepository.Object);
         }
 
         public static IEnumerable<object[]> RentalCostCalculationTestData =>

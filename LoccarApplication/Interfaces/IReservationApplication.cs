@@ -25,5 +25,8 @@ namespace LoccarApplication.Interfaces
         Task<BaseReturn<List<Reservation>>> ListAllReservations();
 
         Task<BaseReturn<Reservation>> UpdateReservation(Reservation reservation);
+
+        // Método para buscar resumo de reservas do usuário logado
+        Task<BaseReturn<UserReservationSummary>> GetLoggedUserReservationSummary();
     }
 }

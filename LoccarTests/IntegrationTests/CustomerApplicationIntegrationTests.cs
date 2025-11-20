@@ -4,6 +4,7 @@ using LoccarApplication.Interfaces;
 using LoccarDomain.LoggedUser.Models;
 using LoccarInfra.ORM.model;
 using LoccarInfra.Repositories;
+using LoccarInfra.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
@@ -24,7 +25,8 @@ namespace LoccarTests.IntegrationTests
                 .Options;
 
             _context = new DataBaseContext(options);
-            _customerRepository = new CustomerRepository(_context);
+            var mockUserRepository = new Mock<IUserRepository>();
+            _customerRepository = new CustomerRepository(_context, mockUserRepository.Object);
             _customerApplication = new CustomerApplication(_customerRepository);
         }
 

@@ -22,5 +22,12 @@ namespace LoccarInfra.Repositories.Interfaces
         Task<UserStatisticsData> GetUserStatisticsData();
 
         Task<List<User>> ListAllUsers();
+
+        Task<User?> FindUserByEmail(string email);
+
+        Task<User?> UpdateUser(User user);
+
+        Task<bool> DeleteUser(int userId);
+        Task<User> GetUserByEmail(string email);
     }
 }

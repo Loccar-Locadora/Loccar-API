@@ -26,5 +26,8 @@ namespace LoccarApplication.Interfaces
         Task<BaseReturn<Vehicle>> UpdateVehicle(Vehicle vehicle);
 
         Task<BaseReturn<bool>> DeleteVehicle(int vehicleId);
+
+        // Método para definir status de reserva
+        Task<BaseReturn<bool>> SetVehicleReserved(int vehicleId, bool reserved);
     }
 }

@@ -77,5 +77,21 @@ namespace LoccarWebapi.Controllers
         {
             return await _vehicleApplication.SetVehicleMaintenance(id, inMaintenance);
         }
+
+        /// <summary>
+        /// Define o status de reserva de um veículo
+        /// </summary>
+        /// <param name="id">ID do veículo</param>
+        /// <param name="reserved">Status de reserva (true = reservado, false = disponível)</param>
+        /// <returns>Resultado da operação</returns>
+        /// <response code="200">Status de reserva atualizado com sucesso</response>
+        /// <response code="401">Usuário não autorizado</response>
+        /// <response code="404">Veículo não encontrado</response>
+        /// <response code="500">Erro interno do servidor</response>
+        [HttpPut("reserve/{id}")]
+        public async Task<BaseReturn<bool>> SetVehicleReserved(int id, [FromQuery] bool reserved)
+        {
+            return await _vehicleApplication.SetVehicleReserved(id, reserved);
+        }
     }
 }
