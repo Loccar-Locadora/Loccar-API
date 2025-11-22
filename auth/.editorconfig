@@ -1,0 +1,82 @@
+root = true
+
+[*]
+charset = utf-8
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# Default to LF for cross-platform compatibility
+end_of_line = lf
+
+[*.{cs,csx}]
+indent_size = 4
+# Keep CRLF for C# files on Windows development
+end_of_line = crlf
+dotnet_analyzer_diagnostic.category-style.severity = warning
+dotnet_analyzer_diagnostic.category-maintainability.severity = warning
+
+# C# formatting rules
+dotnet_sort_system_directives_first = true
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+csharp_new_line_between_query_expression_clauses = true
+
+# Indentation preferences
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+csharp_indent_labels = flush_left
+
+# Space preferences
+csharp_space_after_cast = false
+csharp_space_after_keywords_in_control_flow_statements = true
+csharp_space_between_method_declaration_parameter_list_parentheses = false
+csharp_space_between_method_call_parameter_list_parentheses = false
+csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
+csharp_space_between_method_call_name_and_opening_parenthesis = false
+csharp_space_after_comma = true
+csharp_space_after_dot = false
+
+# Suppress non-critical warnings for test projects
+[*Tests*.cs]
+dotnet_diagnostic.CA1515.severity = none
+dotnet_diagnostic.CA2000.severity = suggestion
+dotnet_diagnostic.SA1201.severity = suggestion
+dotnet_diagnostic.CA1707.severity = none
+dotnet_diagnostic.CA1852.severity = none
+
+# Test utility files
+[**/MockHttpClientFactory.cs]
+dotnet_diagnostic.CA2000.severity = none
+
+[**/FakeHttpMessageHandler.cs]  
+dotnet_diagnostic.CA1852.severity = none
+
+# Project files - use CRLF for Windows compatibility
+[*.{csproj,sln,props,targets}]
+end_of_line = crlf
+
+# Configuration files - use LF for cross-platform
+[*.{json,yml,yaml}]
+indent_size = 2
+end_of_line = lf
+
+[*.xml]
+end_of_line = crlf
+
+# Documentation and scripts - use LF
+[*.md]
+trim_trailing_whitespace = false
+end_of_line = lf
+
+[*.{sh,sql}]
+end_of_line = lf
+
+# Windows scripts - use CRLF
+[*.{bat,cmd,ps1}]
+end_of_line = crlf
