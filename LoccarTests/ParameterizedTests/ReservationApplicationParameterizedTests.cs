@@ -88,7 +88,7 @@ namespace LoccarTests.ParameterizedTests
                 new object[] { new List<string> { "EMPLOYEE" }, true },
                 new object[] { new List<string> { "ADMIN" }, true },
                 new object[] { null, false },
-                new object[] { new List<string>(), true }, // Roles vazias sao consideradas autorizadas (nao null)
+                new object[] { new List<string>(), true }, // Empty roles are considered authorized (not null)
             };
 
         [Theory]
@@ -105,7 +105,7 @@ namespace LoccarTests.ParameterizedTests
                 ReturnDate = DateTime.Now.AddDays(5),
             };
 
-            var loggedUser = userRoles != null ? new LoggedUser { Roles = userRoles } : null;
+            var loggedUser = userRoles != null ? new LoggedUser { Roles = userRoles, id = 1 } : null;
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
 
             // Act
@@ -119,14 +119,14 @@ namespace LoccarTests.ParameterizedTests
             }
             else
             {
-                // Se autorizado, pode falhar por outros motivos (404 - veiculo nao encontrado, etc.)
+                // If authorized, it may fail for other reasons (404 - vehicle not found, etc.)
                 result.Code.Should().NotBe("401");
             }
         }
 
         [Theory]
         [InlineData(true, "400", "Vehicle is not available.")]
-        [InlineData(false, "404", "Customer not found.")] // Assumindo que o cliente nao sera encontrado no setup
+        [InlineData(false, "404", "Customer not found.")] // Assuming customer will not be found in setup
         public async Task CreateReservationWithDifferentVehicleStatesReturnsExpectedResult(
             bool vehicleReserved, string expectedCode, string expectedMessage)
         {
@@ -139,8 +139,9 @@ namespace LoccarTests.ParameterizedTests
                 ReturnDate = DateTime.Now.AddDays(5),
             };
 
-            var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" } };
+            var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" }, id = 1 };
             var vehicle = new LoccarInfra.ORM.model.Vehicle { Reserved = vehicleReserved };
+            var user = new LoccarInfra.ORM.model.User { Id = 1, Email = "test@example.com" };
 
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
             _mockVehicleRepository.Setup(x => x.GetVehicleById(reservation.IdVehicle))
@@ -148,7 +149,9 @@ namespace LoccarTests.ParameterizedTests
 
             if (!vehicleReserved)
             {
-                _mockCustomerRepository.Setup(x => x.GetCustomerById(reservation.IdCustomer))
+                _mockUserRepository.Setup(x => x.GetUserById(loggedUser.id))
+                    .ReturnsAsync(user);
+                _mockCustomerRepository.Setup(x => x.GetRegistrationByEmail(user.Email))
                     .ReturnsAsync((LoccarInfra.ORM.model.Customer)null);
             }
 
@@ -308,8 +311,8 @@ namespace LoccarTests.ParameterizedTests
             {
                 new object[] { DateTime.Now, DateTime.Now.AddDays(1), true },
                 new object[] { DateTime.Now, DateTime.Now.AddDays(7), true },
-                new object[] { DateTime.Now, DateTime.Now.AddDays(-1), false }, // Data de retorno no passado
-                new object[] { DateTime.Now.AddDays(1), DateTime.Now, false }, // Data de locacao depois da devolucao
+                new object[] { DateTime.Now, DateTime.Now.AddDays(-1), false }, // Return date in the past
+                new object[] { DateTime.Now.AddDays(1), DateTime.Now, false }, // Rental date after return date
             };
 
         [Theory]
@@ -333,7 +336,7 @@ namespace LoccarTests.ParameterizedTests
             int inputDays, int expectedDays)
         {
             // Arrange & Act
-            int actualDays = inputDays <= 0 ? 1 : inputDays; // Simular logica da aplicacao
+            int actualDays = inputDays <= 0 ? 1 : inputDays; // Simulate application logic
 
             // Assert
             actualDays.Should().Be(expectedDays);

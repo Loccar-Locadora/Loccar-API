@@ -67,7 +67,7 @@ namespace LoccarTests.UnitTests
                 },
             };
 
-            var loggedUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
+            var loggedUser = new LoggedUser { Roles = new List<string> { "CLIENT_ADMIN" } };
             var tbVehicle = new LoccarInfra.ORM.model.Vehicle { IdVehicle = 1 };
             var tbCargoVehicle = new LoccarInfra.ORM.model.CargoVehicle { IdVehicle = 1 };
 
@@ -96,7 +96,7 @@ namespace LoccarTests.UnitTests
                 Model = "Test Model",
                 Type = VehicleType.Passenger,
             };
-            var loggedUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
+            var loggedUser = new LoggedUser { Roles = new List<string> { "CLIENT_ADMIN" } };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
             _mockVehicleRepository.Setup(x => x.RegisterVehicle(It.IsAny<LoccarInfra.ORM.model.Vehicle>()))
                 .ThrowsAsync(new Exception("Database error"));
@@ -170,9 +170,9 @@ namespace LoccarTests.UnitTests
         }
 
         [Theory]
-        [InlineData("ADMIN", true)]
-        [InlineData("EMPLOYEE", true)]
-        [InlineData("COMMON_USER", false)]
+        [InlineData("CLIENT_ADMIN", true)]
+        [InlineData("CLIENT_EMPLOYEE", true)]
+        [InlineData("CLIENT_USER", false)]
         public async Task SetVehicleMaintenanceWithDifferentRolesReturnsExpectedResult(string role, bool shouldSucceed)
         {
             // Arrange
@@ -249,7 +249,7 @@ namespace LoccarTests.UnitTests
         {
             // Arrange
             int vehicleId = 1;
-            var loggedUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
+            var loggedUser = new LoggedUser { Roles = new List<string> { "CLIENT_ADMIN" } };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
             _mockVehicleRepository.Setup(x => x.DeleteVehicle(vehicleId)).ReturnsAsync(true);
 
@@ -272,11 +272,31 @@ namespace LoccarTests.UnitTests
                 Brand = "Toyota",
                 Model = "Corolla",
                 DailyRate = 100.0m,
+                ManufacturingYear = 2022,
+                ModelYear = 2022,
+                Type = VehicleType.Passenger,
+                PassengerVehicle = new PassengerVehicle
+                {
+                    PassengerCapacity = 5,
+                    AirConditioning = true,
+                    PowerSteering = true,
+                },
             };
-            var loggedUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
+            var loggedUser = new LoggedUser { Roles = new List<string> { "CLIENT_ADMIN" } };
+            var tbVehicle = new LoccarInfra.ORM.model.Vehicle
+            {
+                IdVehicle = vehicle.IdVehicle,
+                Brand = vehicle.Brand,
+                Model = vehicle.Model,
+                DailyRate = vehicle.DailyRate,
+                ManufacturingYear = vehicle.ManufacturingYear,
+                ModelYear = vehicle.ModelYear,
+                Reserved = false,
+            };
             var updatedTbVehicle = new LoccarInfra.ORM.model.Vehicle { IdVehicle = vehicle.IdVehicle };
 
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
+            _mockVehicleRepository.Setup(x => x.GetVehicleById(vehicle.IdVehicle)).ReturnsAsync(tbVehicle);
             _mockVehicleRepository.Setup(x => x.UpdateVehicle(It.IsAny<LoccarInfra.ORM.model.Vehicle>()))
                 .ReturnsAsync(updatedTbVehicle);
 

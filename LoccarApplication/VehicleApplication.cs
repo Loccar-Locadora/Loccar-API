@@ -31,7 +31,7 @@ namespace LoccarApplication
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
-                // Corrigindo a lógica de autorização - usuário deve ter role ADMIN ou EMPLOYEE
+                // Fixed authorization logic - user must have ADMIN or EMPLOYEE role
                 if (loggedUser?.Roles == null || 
                     (!loggedUser.Roles.Contains("CLIENT_ADMIN") && !loggedUser.Roles.Contains("CLIENT_EMPLOYEE")))
                 {
@@ -58,7 +58,7 @@ namespace LoccarApplication
 
                 await _vehicleRepository.RegisterVehicle(tbVehicle);
 
-                // Corrigindo a lógica de verificação de tipos de veículo
+                // Fixed vehicle type verification logic
                 Vehicle registeredVehicle = null;
                 switch (vehicle.Type)
                 {
@@ -359,9 +359,9 @@ namespace LoccarApplication
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
-                // Corrigindo para permitir ADMIN e EMPLOYEE
+                // Fixed to allow ADMIN and EMPLOYEE
                 if (loggedUser?.Roles == null || 
-                    (!loggedUser.Roles.Contains("ADMIN") && !loggedUser.Roles.Contains("EMPLOYEE")))
+                    (!loggedUser.Roles.Contains("CLIENT_ADMIN") && !loggedUser.Roles.Contains("CLIENT_EMPLOYEE")))
                 {
                     baseReturn.Code = "401";
                     baseReturn.Message = "User not authorized.";
@@ -385,7 +385,7 @@ namespace LoccarApplication
             return baseReturn;
         }
 
-        // Novos métodos CRUD
+        // New CRUD methods
         public async Task<BaseReturn<Vehicle>> GetVehicleById(int vehicleId)
         {
             BaseReturn<Vehicle> baseReturn = new BaseReturn<Vehicle>();
@@ -604,7 +604,7 @@ namespace LoccarApplication
                     return baseReturn;
                 }
 
-                // Buscar dados em paralelo para melhor performance
+                // Search data in parallel for better performance
                 var vehiclesTask = _vehicleRepository.ListAllVehicles();
                 var totalCountTask = _vehicleRepository.GetTotalVehiclesCount();
                 var availableCountTask = _vehicleRepository.GetAvailableVehiclesCount();
@@ -650,7 +650,7 @@ namespace LoccarApplication
                         FuelTankCapacity = tbVehicle.FuelTankCapacity,
                         Vin = tbVehicle.Vin,
                         Reserved = tbVehicle.Reserved,
-                        // Tipo do veículo adicionado aqui
+                        // Vehicle type added here
                         Type = DetermineVehicleType(tbVehicle),
 
                         // CargoVehicle
@@ -730,7 +730,7 @@ namespace LoccarApplication
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
-                // Corrigindo lógica de autorização
+                // Fixed authorization logic
                 if (loggedUser?.Roles == null || 
                     (!loggedUser.Roles.Contains("CLIENT_ADMIN") && !loggedUser.Roles.Contains("CLIENT_EMPLOYEE")))
                 {
@@ -739,7 +739,7 @@ namespace LoccarApplication
                     return baseReturn;
                 }
 
-                // Buscar o veículo existente para verificar o tipo atual
+                // Search existing vehicle to verify current type
                 var existingVehicle = await _vehicleRepository.GetVehicleById(vehicle.IdVehicle);
                 if (existingVehicle == null)
                 {
@@ -748,10 +748,10 @@ namespace LoccarApplication
                     return baseReturn;
                 }
 
-                // Determinar o tipo atual do veículo
+                // Determine current vehicle type
                 VehicleType currentType = DetermineVehicleType(existingVehicle);
 
-                // Atualizar propriedades básicas do veículo
+                // Update basic vehicle properties
                 LoccarInfra.ORM.model.Vehicle tbVehicle = new LoccarInfra.ORM.model.Vehicle()
                 {
                     IdVehicle = vehicle.IdVehicle,
@@ -778,13 +778,13 @@ namespace LoccarApplication
                     return baseReturn;
                 }
 
-                // Se o tipo do veículo mudou, remover o tipo antigo
+                // If vehicle type changed, remove old type
                 if (currentType != vehicle.Type)
                 {
                     await RemoveCurrentVehicleType(vehicle.IdVehicle, currentType);
                 }
 
-                // Atualizar ou criar o novo tipo específico do veículo
+                // Update or create new specific vehicle type
                 bool typeUpdateSuccess = false;
                 switch (vehicle.Type)
                 {
@@ -845,7 +845,7 @@ namespace LoccarApplication
             return baseReturn;
         }
 
-        private VehicleType DetermineVehicleType(LoccarInfra.ORM.model.Vehicle vehicle)
+        private static VehicleType DetermineVehicleType(LoccarInfra.ORM.model.Vehicle vehicle)
         {
             if (vehicle.CargoVehicle != null)
                 return VehicleType.Cargo;
@@ -856,7 +856,7 @@ namespace LoccarApplication
             if (vehicle.LeisureVehicle != null)
                 return VehicleType.Leisure;
             
-            // Valor padrão se não encontrar nenhum tipo específico
+            // Default value if no specific type found
             return VehicleType.Passenger;
         }
 
@@ -1002,7 +1002,7 @@ namespace LoccarApplication
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
-                // Corrigindo lógica de autorização
+                // Fixed authorization logic
                 if (loggedUser?.Roles == null || 
                     (!loggedUser.Roles.Contains("CLIENT_ADMIN") && !loggedUser.Roles.Contains("CLIENT_EMPLOYEE")))
                 {
@@ -1036,7 +1036,7 @@ namespace LoccarApplication
             {
                 LoggedUser loggedUser = _authApplication.GetLoggedUser();
 
-                // Permitir acesso para usuários autenticados (qualquer role)
+                // Allow access for authenticated users (any role)
                 if (loggedUser?.Roles == null || !loggedUser.Roles.Any())
                 {
                     baseReturn.Code = "401";

@@ -27,9 +27,9 @@ namespace LoccarTests.ParameterizedTests
         public static IEnumerable<object[]> UserRoleTestData =>
             new List<object[]>
             {
-                new object[] { new List<string> { "ADMIN" }, true, "201", "Vehicle registered successfully" },
-                new object[] { new List<string> { "EMPLOYEE" }, true, "201", "Vehicle registered successfully" },
-                new object[] { new List<string> { "COMMON_USER" }, false, "401", "User not authorized." },
+                new object[] { new List<string> { "CLIENT_ADMIN" }, true, "201", "Vehicle registered successfully" },
+                new object[] { new List<string> { "CLIENT_EMPLOYEE" }, true, "201", "Vehicle registered successfully" },
+                new object[] { new List<string> { "CLIENT_USER" }, false, "401", "User not authorized." },
                 new object[] { null, false, "401", "User not authorized." },
                 new object[] { new List<string>(), false, "401", "User not authorized." },
             };
@@ -109,7 +109,7 @@ namespace LoccarTests.ParameterizedTests
                     break;
             }
 
-            var loggedUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
+            var loggedUser = new LoggedUser { Roles = new List<string> { "CLIENT_ADMIN" } };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
 
             var tbVehicle = new LoccarInfra.ORM.model.Vehicle { IdVehicle = 1 };
@@ -163,9 +163,9 @@ namespace LoccarTests.ParameterizedTests
         }
 
         [Theory]
-        [InlineData("ADMIN", true)]
-        [InlineData("EMPLOYEE", true)]
-        [InlineData("COMMON_USER", false)]
+        [InlineData("CLIENT_ADMIN", true)]
+        [InlineData("CLIENT_EMPLOYEE", true)]
+        [InlineData("CLIENT_USER", false)]
         [InlineData("INVALID_ROLE", false)]
         public async Task SetVehicleMaintenanceWithDifferentRolesReturnsExpectedResult(
             string role, bool shouldSucceed)
@@ -294,7 +294,7 @@ namespace LoccarTests.ParameterizedTests
         {
             // Arrange
             var vehicle = new Vehicle { Brand = "Test", Model = "Test" };
-            var loggedUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
+            var loggedUser = new LoggedUser { Roles = new List<string> { "CLIENT_ADMIN" } };
 
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
             _mockVehicleRepository.Setup(x => x.RegisterVehicle(It.IsAny<LoccarInfra.ORM.model.Vehicle>()))

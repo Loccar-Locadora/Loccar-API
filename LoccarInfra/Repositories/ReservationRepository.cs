@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using LoccarDomain.Reservation.Models;
@@ -73,7 +74,7 @@ namespace LoccarInfra.Repositories
             return true;
         }
 
-        // Novos métodos CRUD
+        // New CRUD methods
         public async Task<List<DbReservation>> ListAllReservations()
         {
             return await _context.Reservations
@@ -106,14 +107,14 @@ namespace LoccarInfra.Repositories
             return existingReservation;
         }
 
-        // Métodos de estatísticas
+        // Statistics methods
         public async Task<int> GetActiveReservationsCount()
         {
             return await _context.Reservations
                 .CountAsync(r => r.RentalDate <= DateTime.Now && r.ReturnDate >= DateTime.Now);
         }
 
-        // Métodos de receita
+        // Revenue methods
         public async Task<decimal> GetMonthlyRevenue(int year, int month)
         {
             var reservations = await GetReservationsByMonth(year, month);
@@ -144,20 +145,23 @@ namespace LoccarInfra.Repositories
             return CalculateTotalRevenue(reservations);
         }
 
-        private decimal CalculateTotalRevenue(List<DbReservation> reservations)
+        private static decimal CalculateTotalRevenue(List<DbReservation> reservations)
         {
             decimal totalRevenue = 0;
 
             foreach (var reservation in reservations)
             {
-                // Calcular receita base
+                // Calculate base revenue
                 int days = reservation.RentalDays ?? (reservation.ReturnDate - reservation.RentalDate).Days;
-                if (days <= 0) days = 1;
+                if (days <= 0) 
+                {
+                    days = 1;
+                }
 
                 decimal dailyRate = reservation.DailyRate ?? reservation.IdVehicleNavigation?.DailyRate ?? 0;
                 decimal baseRevenue = days * dailyRate;
 
-                // Adicionar seguros e taxas
+                // Add insurance and taxes
                 decimal insuranceRevenue = (reservation.InsuranceVehicle ?? 0) + (reservation.InsuranceThirdParty ?? 0);
                 decimal taxRevenue = reservation.TaxAmount ?? 0;
 
@@ -176,15 +180,15 @@ namespace LoccarInfra.Repositories
                 .ToListAsync();
 
             var summary = new UserReservationSummary();
+
             foreach (var reservation in reservations)
             {
-                var vehicle = _context.Vehicles.Where(v => v.IdVehicle == reservation.IdVehicle).First();
                 var detail = new UserReservationDetail
                 {
                     Reservationnumber = reservation.Reservationnumber,
                     IdVehicle = reservation.IdVehicle,
-                    VehicleBrand = reservation.IdVehicleNavigation?.Brand ?? "",
-                    VehicleModel = reservation.IdVehicleNavigation?.Model ?? "",
+                    VehicleBrand = reservation.IdVehicleNavigation?.Brand ?? string.Empty,
+                    VehicleModel = reservation.IdVehicleNavigation?.Model ?? string.Empty,
                     RentalDate = reservation.RentalDate,
                     ReturnDate = reservation.ReturnDate,
                     RentalDays = reservation.RentalDays,
@@ -194,31 +198,38 @@ namespace LoccarInfra.Repositories
                     InsuranceThirdParty = reservation.InsuranceThirdParty,
                     TaxAmount = reservation.TaxAmount,
                     DamageDescription = reservation.DamageDescription,
-                    Status = reservation.Status ?? "ACTIVE",
-                    ImgUrl = vehicle?.ImgUrl ?? null
-
+                    Status = reservation.Status ?? "ACTIVE"
                 };
 
-                // Calcular custo total
+                // Calculate total cost
                 int days = reservation.RentalDays ?? (reservation.ReturnDate - reservation.RentalDate).Days;
-                if (days <= 0) days = 1;
+                if (days <= 0) 
+                {
+                    days = 1;
+                }
 
                 decimal dailyRate = reservation.DailyRate ?? reservation.IdVehicleNavigation?.DailyRate ?? 0;
                 decimal totalCost = days * dailyRate;
 
                 if (reservation.InsuranceVehicle.HasValue)
+                {
                     totalCost += reservation.InsuranceVehicle.Value;
+                }
 
                 if (reservation.InsuranceThirdParty.HasValue)
+                {
                     totalCost += reservation.InsuranceThirdParty.Value;
+                }
 
                 if (reservation.TaxAmount.HasValue)
+                {
                     totalCost += reservation.TaxAmount.Value;
+                }
 
                 detail.TotalCost = totalCost;
 
-                // Categorizar por status
-                switch (reservation.Status?.ToUpper())
+                // Categorize by status
+                switch (reservation.Status?.ToUpper(CultureInfo.InvariantCulture))
                 {
                     case "ACTIVE":
                         summary.ActiveReservations.Add(detail);
@@ -233,7 +244,7 @@ namespace LoccarInfra.Repositories
                         summary.CancelledCount++;
                         break;
                     default:
-                        // Se status for null ou não reconhecido, considerar como ativo
+                        // If status is null or unrecognized, consider as active
                         summary.ActiveReservations.Add(detail);
                         summary.ActiveCount++;
                         break;

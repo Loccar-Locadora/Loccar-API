@@ -96,18 +96,25 @@ namespace LoccarTests.UnitTests
         }
 
         [Theory]
+        [InlineData("CLIENT_ADMIN", "CLIENT_ADMIN", true)]
+        [InlineData("CLIENT_EMPLOYEE", "CLIENT_EMPLOYEE", true)]
+        [InlineData("CLIENT_USER", "CLIENT_USER", true)]
         [InlineData("ADMIN", "ADMIN", true)]
-        [InlineData("admin", "ADMIN", true)]
-        [InlineData("Admin", "admin", true)]
-        [InlineData("USER", "ADMIN", false)]
-        [InlineData("", "ADMIN", false)]
+        [InlineData("EMPLOYEE", "EMPLOYEE", true)]
+        [InlineData("COMMON_USER", "COMMON_USER", true)]
+        [InlineData("CLIENT_ADMIN", "ADMIN", false)]
+        [InlineData("CLIENT_ADMIN", "CLIENT_EMPLOYEE", false)]
+        [InlineData("CLIENT_ADMIN", "CLIENT_USER", false)]
+        [InlineData("CLIENT_EMPLOYEE", "CLIENT_ADMIN", false)]
+        [InlineData("CLIENT_USER", "CLIENT_ADMIN", false)]
+        [InlineData("", "CLIENT_ADMIN", false)]
+        [InlineData(null, "CLIENT_ADMIN", false)]
         public void HasRoleReturnsCorrectResult(string userRole, string requiredRole, bool expected)
         {
             // Arrange
-            var loggedUser = new LoggedUser
+            var loggedUser = new LoccarDomain.LoggedUser.Models.LoggedUser
             {
-                Roles = new List<string> { userRole },
-                Authenticated = true
+                Roles = userRole != null ? new List<string> { userRole } : null
             };
 
             // Act
@@ -207,8 +214,8 @@ namespace LoccarTests.UnitTests
         [Theory]
         [InlineData("CLIENT_EMPLOYEE", true)]
         [InlineData("client_employee", true)]
-        [InlineData("ADMIN", false)]
-        [InlineData("USER", false)]
+        [InlineData("CLIENT_ADMIN", false)]
+        [InlineData("CLIENT_USER", false)]
         public void IsEmployeeReturnsCorrectResult(string role, bool expected)
         {
             // Arrange

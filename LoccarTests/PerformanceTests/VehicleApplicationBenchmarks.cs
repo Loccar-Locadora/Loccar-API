@@ -83,7 +83,7 @@ namespace LoccarTests.PerformanceTests
         public async Task RegisterVehicleSingleVehicle()
         {
             // Arrange
-            var adminUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
+            var adminUser = new LoggedUser { Roles = new List<string> { "CLIENT_ADMIN" } };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(adminUser);
 
             var vehicle = new Vehicle

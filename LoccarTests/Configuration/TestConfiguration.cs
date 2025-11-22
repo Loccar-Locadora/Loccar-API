@@ -39,9 +39,9 @@ namespace LoccarTests.Configuration
         public const string EmployeeEmail = "employee@test.com";
         public const string CommonUserEmail = "user@test.com";
 
-        public const string AdminRole = "ADMIN";
-        public const string EmployeeRole = "EMPLOYEE";
-        public const string CommonUserRole = "COMMON_USER";
+        public const string AdminRole = "CLIENT_ADMIN";
+        public const string EmployeeRole = "CLIENT_EMPLOYEE";
+        public const string CommonUserRole = "CLIENT_USER";
 
         public static class TestData
         {

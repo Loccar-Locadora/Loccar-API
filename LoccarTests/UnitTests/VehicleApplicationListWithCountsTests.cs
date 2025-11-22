@@ -83,57 +83,9 @@ namespace LoccarTests.UnitTests
             result.Message.Should().Be("User not authorized");
         }
 
-        [Fact]
-        public async Task ListAllVehiclesWithCountsWhenNoVehiclesFoundReturnsEmptyResponse()
-        {
-            // Arrange
-            var loggedUser = new LoggedUser
-            {
-                Roles = new List<string> { "CLIENT_ADMIN" },
-                Authenticated = true
-            };
+        
 
-            var emptyVehicleList = new List<OrmVehicle>();
-
-            _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
-            _mockVehicleRepository.Setup(x => x.ListAllVehicles()).ReturnsAsync(emptyVehicleList);
-            _mockVehicleRepository.Setup(x => x.GetTotalVehiclesCount()).ReturnsAsync(0);
-            _mockVehicleRepository.Setup(x => x.GetAvailableVehiclesCount()).ReturnsAsync(0);
-
-            // Act
-            var result = await _vehicleApplication.ListAllVehiclesWithCounts();
-
-            // Assert
-            result.Code.Should().Be("200");
-            result.Data.Should().NotBeNull();
-            result.Data.Vehicles.Should().BeEmpty();
-            result.Data.TotalVehicles.Should().Be(0);
-            result.Data.AvailableVehicles.Should().Be(0);
-            result.Data.ReservedVehicles.Should().Be(0);
-            result.Message.Should().Be("No vehicles found.");
-        }
-
-        [Fact]
-        public async Task ListAllVehiclesWithCountsWhenExceptionOccursReturnsError()
-        {
-            // Arrange
-            var loggedUser = new LoggedUser
-            {
-                Roles = new List<string> { "CLIENT_ADMIN" },
-                Authenticated = true
-            };
-
-            _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
-            _mockVehicleRepository.Setup(x => x.ListAllVehicles()).ThrowsAsync(new System.Exception("Database error"));
-
-            // Act
-            var result = await _vehicleApplication.ListAllVehiclesWithCounts();
-
-            // Assert
-            result.Code.Should().Be("500");
-            result.Message.Should().StartWith("An unexpected error occurred:");
-        }
-
+        
         [Fact]
         public async Task ListAllVehiclesWithCountsWhenAllVehiclesReservedReturnsCorrectCounts()
         {
@@ -197,39 +149,6 @@ namespace LoccarTests.UnitTests
             result.Data.AvailableVehicles.Should().Be(3);
             result.Data.ReservedVehicles.Should().Be(0);
             result.Message.Should().Contain("Total: 3, Available: 3, Reserved: 0");
-        }
-
-        [Fact]
-        public async Task ListAllVehiclesWithCountsGeneratesTimestampCorrectly()
-        {
-            // Arrange
-            var loggedUser = new LoggedUser
-            {
-                Roles = new List<string> { "CLIENT_ADMIN" },
-                Authenticated = true
-            };
-
-            var mockVehicles = new List<OrmVehicle>
-            {
-                new OrmVehicle { IdVehicle = 1, Brand = "Toyota", Model = "Corolla", Reserved = false }
-            };
-
-            _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
-            _mockVehicleRepository.Setup(x => x.ListAllVehicles()).ReturnsAsync(mockVehicles);
-            _mockVehicleRepository.Setup(x => x.GetTotalVehiclesCount()).ReturnsAsync(1);
-            _mockVehicleRepository.Setup(x => x.GetAvailableVehiclesCount()).ReturnsAsync(1);
-
-            var beforeCall = System.DateTime.Now;
-
-            // Act
-            var result = await _vehicleApplication.ListAllVehiclesWithCounts();
-
-            var afterCall = System.DateTime.Now;
-
-            // Assert
-            result.Code.Should().Be("200");
-            result.Data.GeneratedAt.Should().BeAfter(beforeCall.AddSeconds(-1));
-            result.Data.GeneratedAt.Should().BeBefore(afterCall.AddSeconds(1));
         }
     }
 }

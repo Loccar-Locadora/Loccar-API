@@ -35,7 +35,7 @@ namespace LoccarTests.IntegrationTests
         public async Task RegisterVehicleWhenValidDataSavesToDatabase()
         {
             // Arrange
-            var loggedUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
+            var loggedUser = new LoggedUser { Roles = new List<string> { "CLIENT_ADMIN" } };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
 
             var vehicle = new LoccarDomain.Vehicle.Models.Vehicle
@@ -94,7 +94,7 @@ namespace LoccarTests.IntegrationTests
                 Brand = "Ford",
                 Model = "Focus",
                 DailyRate = 85.0m,
-                Reserved = true, // Este nao deve aparecer na lista de disponiveis
+                Reserved = true, // This should not appear in available list
             };
 
             _context.Vehicles.AddRange(vehicle1, vehicle2);
@@ -142,9 +142,10 @@ namespace LoccarTests.IntegrationTests
         public async Task UpdateVehicleWhenValidDataUpdatesInDatabase()
         {
             // Arrange
-            var loggedUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
+            var loggedUser = new LoggedUser { Roles = new List<string> { "CLIENT_ADMIN" } };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
 
+            // Create a vehicle with passenger vehicle data
             var vehicle = new LoccarInfra.ORM.model.Vehicle
             {
                 Brand = "Volkswagen",
@@ -153,7 +154,19 @@ namespace LoccarTests.IntegrationTests
                 Reserved = false,
             };
 
+            var passengerVehicle = new LoccarInfra.ORM.model.PassengerVehicle
+            {
+                PassengerCapacity = 4,
+                Tv = false,
+                AirConditioning = true,
+                PowerSteering = true,
+            };
+
             _context.Vehicles.Add(vehicle);
+            await _context.SaveChangesAsync();
+
+            passengerVehicle.IdVehicle = vehicle.IdVehicle;
+            _context.PassengerVehicles.Add(passengerVehicle);
             await _context.SaveChangesAsync();
 
             var updatedVehicle = new LoccarDomain.Vehicle.Models.Vehicle
@@ -163,6 +176,15 @@ namespace LoccarTests.IntegrationTests
                 Model = "Gol Updated",
                 DailyRate = 85.0m,
                 Reserved = false,
+                Type = VehicleType.Passenger,
+                PassengerVehicle = new LoccarDomain.Vehicle.Models.PassengerVehicle
+                {
+                    IdVehicle = vehicle.IdVehicle,
+                    PassengerCapacity = 5,
+                    Tv = true,
+                    AirConditioning = true,
+                    PowerSteering = true,
+                },
             };
 
             // Act
@@ -182,7 +204,7 @@ namespace LoccarTests.IntegrationTests
         public async Task DeleteVehicleWhenVehicleExistsRemovesFromDatabase()
         {
             // Arrange
-            var loggedUser = new LoggedUser { Roles = new List<string> { "ADMIN" } };
+            var loggedUser = new LoggedUser { Roles = new List<string> { "CLIENT_ADMIN" } };
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
 
             var vehicle = new LoccarInfra.ORM.model.Vehicle
@@ -209,9 +231,9 @@ namespace LoccarTests.IntegrationTests
         }
 
         [Theory]
-        [InlineData("ADMIN", true)]
-        [InlineData("EMPLOYEE", true)]
-        [InlineData("COMMON_USER", false)]
+        [InlineData("CLIENT_ADMIN", true)]
+        [InlineData("CLIENT_EMPLOYEE", true)]
+        [InlineData("CLIENT_USER", false)]
         public async Task SetVehicleMaintenanceWithDifferentRolesBehavesCorrectly(string role, bool shouldSucceed)
         {
             // Arrange

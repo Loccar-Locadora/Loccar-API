@@ -70,7 +70,7 @@ namespace LoccarTests.UnitTests
                 RentalDate = DateTime.Now,
                 ReturnDate = DateTime.Now.AddDays(5),
             };
-            var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" } };
+            var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" }, id = 1 };
 
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
             _mockVehicleRepository.Setup(x => x.GetVehicleById(reservation.IdVehicle))
@@ -95,7 +95,7 @@ namespace LoccarTests.UnitTests
                 RentalDate = DateTime.Now,
                 ReturnDate = DateTime.Now.AddDays(5),
             };
-            var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" } };
+            var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" }, id = 1 };
             var vehicle = new LoccarInfra.ORM.model.Vehicle { Reserved = true };
 
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
@@ -121,13 +121,16 @@ namespace LoccarTests.UnitTests
                 RentalDate = DateTime.Now,
                 ReturnDate = DateTime.Now.AddDays(5),
             };
-            var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" } };
+            var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" }, id = 1 };
             var vehicle = new LoccarInfra.ORM.model.Vehicle { Reserved = false };
+            var user = new LoccarInfra.ORM.model.User { Id = 1, Email = "test@example.com" };
 
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
             _mockVehicleRepository.Setup(x => x.GetVehicleById(reservation.IdVehicle))
                 .ReturnsAsync(vehicle);
-            _mockCustomerRepository.Setup(x => x.GetCustomerById(reservation.IdCustomer))
+            _mockUserRepository.Setup(x => x.GetUserById(loggedUser.id))
+                .ReturnsAsync(user);
+            _mockCustomerRepository.Setup(x => x.GetRegistrationByEmail(user.Email))
                 .ReturnsAsync((LoccarInfra.ORM.model.Customer)null);
 
             // Act
@@ -151,20 +154,23 @@ namespace LoccarTests.UnitTests
                 RentalDays = 5,
                 DailyRate = 100.0m,
             };
-            var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" } };
+            var loggedUser = new LoggedUser { Roles = new List<string> { "COMMON_USER" }, id = 1 };
             var vehicle = new LoccarInfra.ORM.model.Vehicle { Reserved = false };
-            var customer = new LoccarInfra.ORM.model.Customer { IdCustomer = reservation.IdCustomer };
+            var user = new LoccarInfra.ORM.model.User { Id = 1, Email = "test@example.com" };
+            var customer = new LoccarInfra.ORM.model.Customer { IdCustomer = 1, Email = "test@example.com" };
             var tbReservation = new LoccarInfra.ORM.model.Reservation
             {
                 Reservationnumber = 123456,
-                IdCustomer = reservation.IdCustomer,
+                IdCustomer = customer.IdCustomer,
                 IdVehicle = reservation.IdVehicle,
             };
 
             _mockAuthApplication.Setup(x => x.GetLoggedUser()).Returns(loggedUser);
             _mockVehicleRepository.Setup(x => x.GetVehicleById(reservation.IdVehicle))
                 .ReturnsAsync(vehicle);
-            _mockCustomerRepository.Setup(x => x.GetCustomerById(reservation.IdCustomer))
+            _mockUserRepository.Setup(x => x.GetUserById(loggedUser.id))
+                .ReturnsAsync(user);
+            _mockCustomerRepository.Setup(x => x.GetRegistrationByEmail(user.Email))
                 .ReturnsAsync(customer);
             _mockReservationRepository.Setup(x => x.CreateReservation(It.IsAny<LoccarInfra.ORM.model.Reservation>()))
                 .ReturnsAsync(tbReservation);
