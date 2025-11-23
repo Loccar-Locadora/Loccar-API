@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\barre\\source\\repos\\Loccar-API\\LoccarDomain\\LoccarDomain.csproj": {}
+    "C:\\Users\\barre\\Source\\Repos\\Loccar-API\\LoccarDomain\\LoccarDomain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\barre\\source\\repos\\Loccar-API\\LoccarDomain\\LoccarDomain.csproj": {
+    "C:\\Users\\barre\\Source\\Repos\\Loccar-API\\LoccarDomain\\LoccarDomain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\barre\\source\\repos\\Loccar-API\\LoccarDomain\\LoccarDomain.csproj",
+        "projectUniqueName": "C:\\Users\\barre\\Source\\Repos\\Loccar-API\\LoccarDomain\\LoccarDomain.csproj",
         "projectName": "LoccarDomain",
-        "projectPath": "C:\\Users\\barre\\source\\repos\\Loccar-API\\LoccarDomain\\LoccarDomain.csproj",
+        "projectPath": "C:\\Users\\barre\\Source\\Repos\\Loccar-API\\LoccarDomain\\LoccarDomain.csproj",
         "packagesPath": "C:\\Users\\barre\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\barre\\source\\repos\\Loccar-API\\LoccarDomain\\obj\\",
         "projectStyle": "PackageReference",

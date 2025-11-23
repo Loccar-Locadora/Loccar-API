@@ -113,11 +113,5 @@ namespace LoccarLocadora.Controllers
         {
             return await _userApplication.GetUserByEmail(email);
         }
-
-        [HttpGet("emai")]
-        public async Task<BaseReturn<Customer>> GetUserById(int id)
-        {
-            return await _userApplication.GetUserById(id);
-        }
     }
 }
